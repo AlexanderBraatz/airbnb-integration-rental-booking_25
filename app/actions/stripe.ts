@@ -16,7 +16,7 @@ export async function fetchClientSecret() {
         // the product you want to sell
         // price: "{{PRICE_ID}}",
         //below is a test product
-        price: "price_1SDncB5sbTP1sos0KMsJ8H6a",
+        price: "price_1SE6VYKYMtYob4lDtPL8HAMV",
         quantity: 1,
       },
     ],
