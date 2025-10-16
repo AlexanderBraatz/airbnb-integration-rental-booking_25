@@ -19,14 +19,14 @@ import { Input } from "@/components/ui/input";
 import { bookingRequestAction } from "../actions/bookingRequestAction";
 
 const formSchema = z.object({
-  name_0552013184: z.string().min(1),
+  guest_email: z.string().min(1),
 });
 
 export default function BookingRequestForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name_0552013184: "",
+      guest_email: "",
     },
   });
 
@@ -53,12 +53,12 @@ export default function BookingRequestForm() {
       >
         <FormField
           control={form.control}
-          name="name_0552013184"
+          name="guest_email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>email</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" type="email" {...field} />
+                <Input placeholder="your email" type="email" {...field} />
               </FormControl>
               <FormDescription>
                 This is your public display name.
