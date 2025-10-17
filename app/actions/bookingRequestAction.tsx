@@ -1,17 +1,10 @@
 "use server";
-import { ulid } from "ulid";
 import { createClient } from "@/utils/supabase/server";
 import { EmailTemplate } from "../../components/email-template";
 import { Resend } from "resend";
 import * as React from "react";
 
 export async function bookingRequestAction(values: { guest_email: string }) {
-  console.log("run on server");
-  console.log(values);
-
-  // const newBookingCode = createUniqueBookingCode();
-
-  //write to database
   const dummyData = {
     booking_code:
       "we are just usnigt h id and obfucating it as a bookng code on the front end ",
@@ -26,9 +19,8 @@ export async function bookingRequestAction(values: { guest_email: string }) {
     guest_phone_number: "+49073939888",
     has_agreed_to_policies: true,
   };
-
+  // write booking request data to database
   const supabase = await createClient();
-
   const { data, error } = await supabase
     .from("Bookings")
     .insert(dummyData)
@@ -38,26 +30,41 @@ export async function bookingRequestAction(values: { guest_email: string }) {
   } else {
     console.log("data", data[0].id);
 
-    const bookingCode = maskIdAsBookingCode(data[0].id);
+    // selection and transformation of Booking data in preparation for sending emails
+    const {
+      check_in_date,
+      check_out_date,
+      number_of_guests,
+      with_dog,
+      guest_email,
+      guest_first_name,
+      guest_last_name,
+      guest_message,
+      guest_phone_number,
+      has_agreed_to_policies,
+      id,
+    } = data[0];
 
-    const resend = new Resend(process.env.RESEND_API_KEY);
+    const bookingCode = maskIdAsBookingCode(id);
+
     const emailProps = {
       Template: EmailTemplate,
-      email_to: "alex_braatz@icloud.com",
+      email_to: "test@icloud.com",
       templateProps: {
-        check_in_date: data[0].check_in_date,
-        check_out_date: data[0].check_out_date,
-        number_of_guests: data[0].number_of_guests,
-        with_dog: data[0].with_dog,
-        guest_email: data[0].guest_email,
-        guest_first_name: data[0].guest_first_name,
-        guest_last_name: data[0].guest_last_name,
-        guest_message: data[0].guest_message ?? "",
-        guest_phone_number: data[0].guest_phone_number ?? "",
-        has_agreed_to_policies: data[0].has_agreed_to_policies ? "yes" : "no",
+        check_in_date,
+        check_out_date,
+        number_of_guests,
+        with_dog: with_dog ? "yes" : "no",
+        guest_email,
+        guest_first_name,
+        guest_last_name,
+        guest_message: guest_message ?? "",
+        guest_phone_number: guest_phone_number ?? "",
+        has_agreed_to_policies: has_agreed_to_policies ? "yes" : "no",
+        bookingCode,
       },
     };
-
+    // sending 1st email to visitor to confirm that their booking request was received
     const { error } = await sendEmail(emailProps);
     if (error) {
       console.log(error);
@@ -74,54 +81,42 @@ export async function bookingRequestAction(values: { guest_email: string }) {
   //TODO:make these inserts with service key and add security to bookings table again.
 }
 
+//
+//
+// -- helper functions -- extract as needed later
+//
+//
+
 function maskIdAsBookingCode(id: number) {
   function toBase36(num: number): string {
     return num.toString(36).toUpperCase();
   }
-
   const masked =
     id ^ Number(process.env.SECRET_MASK_FOR_BOOKING_CODE_OBFUSCATION);
   const bookingCode = `BKG-${toBase36(masked)}`;
   return bookingCode;
 }
 
-interface SendEmailDataType {
-  guest_email: string;
-}
-
 interface EmailTemplateProps {
-  props: {
-    check_in_date: string;
-    check_out_date: string;
-    number_of_guests: number;
-    with_dog: boolean;
-    guest_email: string;
-    guest_first_name: string;
-    guest_last_name: string;
-    guest_message: string;
-    guest_phone_number: string;
-    has_agreed_to_policies: string;
-  };
+  check_in_date: string;
+  check_out_date: string;
+  number_of_guests: number;
+  with_dog: string;
+  guest_email: string;
+  guest_first_name: string;
+  guest_last_name: string;
+  guest_message: string;
+  guest_phone_number: string;
+  has_agreed_to_policies: string;
+  bookingCode: string;
 }
 
 interface sendEmailArgTypes {
   Template: React.FC<Readonly<EmailTemplateProps>>;
   email_to: string;
-  templateProps: {
-    check_in_date: string;
-    check_out_date: string;
-    number_of_guests: number;
-    with_dog: boolean;
-    guest_email: string;
-    guest_first_name: string;
-    guest_last_name: string;
-    guest_message: string;
-    guest_phone_number: string;
-    has_agreed_to_policies: string;
-  };
+  templateProps: Readonly<EmailTemplateProps>; // Ensures email data remains immutable after rendering, avoiding inconsistencies between the email and its source data.
 }
 
-// function sendEmail(Template, data): (Template : React.FC, data : SendEmailDataType) {
 async function sendEmail(args: sendEmailArgTypes) {
   const resend = new Resend(process.env.RESEND_API_KEY);
   try {
@@ -129,7 +124,7 @@ async function sendEmail(args: sendEmailArgTypes) {
       from: "Acme <onboarding@resend.dev>",
       to: args.email_to,
       subject: "Hello world",
-      react: <args.Template props={args.templateProps} />,
+      react: <args.Template {...args.templateProps} />,
     });
   } catch (error) {
     return { error: error };
