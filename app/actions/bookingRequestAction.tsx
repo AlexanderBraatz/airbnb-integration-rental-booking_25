@@ -1,9 +1,12 @@
 "use server";
 import { createClient } from "@/utils/supabase/server";
-import { EmailTemplate } from "../../components/email-template";
+import {
+  EmailTemplateV1,
+  EmailTemplateH1,
+} from "../../components/email-template";
 import { Resend } from "resend";
 import * as React from "react";
-
+const testingEmail = "alex_braatz@icloud.com";
 export async function bookingRequestAction(values: { guest_email: string }) {
   const dummyData = {
     booking_code:
@@ -47,9 +50,9 @@ export async function bookingRequestAction(values: { guest_email: string }) {
 
     const bookingCode = maskIdAsBookingCode(id);
 
-    const emailProps = {
-      Template: EmailTemplate,
-      email_to: "test@icloud.com",
+    const emailPropsGuestBookingRequestConfirmation = {
+      Template: EmailTemplateV1,
+      email_to: testingEmail, // TODO: replace with guest_email
       templateProps: {
         check_in_date,
         check_out_date,
@@ -65,18 +68,41 @@ export async function bookingRequestAction(values: { guest_email: string }) {
       },
     };
     // sending 1st email to visitor to confirm that their booking request was received
-    const { error } = await sendEmail(emailProps);
-    if (error) {
-      console.log(error);
+    // const { error: errorGuestEmail } = await sendEmail(
+    //   emailPropsGuestBookingRequestConfirmation,
+    // );
+    // if (errorGuestEmail) {
+    //   console.log(errorGuestEmail);
+    // }
+
+    // sending 1st email to Host to notify them that a booking request was made
+
+    const emailPropsHostNewBookingRequestNotification = {
+      Template: EmailTemplateH1,
+      email_to: testingEmail, //TODO: replace with host email (hardcode or fetch form host data table)
+      templateProps: {
+        check_in_date,
+        check_out_date,
+        number_of_guests,
+        with_dog: with_dog ? "yes" : "no",
+        guest_email,
+        guest_first_name,
+        guest_last_name,
+        guest_message: guest_message ?? "",
+        guest_phone_number: guest_phone_number ?? "",
+        has_agreed_to_policies: has_agreed_to_policies ? "yes" : "no",
+        bookingCode,
+      },
+    };
+    const { error: errorHostEmail } = await sendEmail(
+      emailPropsHostNewBookingRequestNotification,
+    );
+    if (errorHostEmail) {
+      console.log(errorHostEmail);
     }
-    console.log(bookingCode);
   }
+  //
 
-  //send email template-1-guest
-
-  // resend.send(template, bookingCode, guest_first_name, guest_last_name, all the other sin s list );
-
-  //send email template-1-host
   //respond "all has worked"
   //TODO:make these inserts with service key and add security to bookings table again.
 }
@@ -97,7 +123,7 @@ function maskIdAsBookingCode(id: number) {
   return bookingCode;
 }
 
-interface EmailTemplateProps {
+interface EmailTemplatePropsV1andH1 {
   check_in_date: string;
   check_out_date: string;
   number_of_guests: number;
@@ -112,9 +138,9 @@ interface EmailTemplateProps {
 }
 
 interface sendEmailArgTypes {
-  Template: React.FC<Readonly<EmailTemplateProps>>;
+  Template: React.FC<Readonly<EmailTemplatePropsV1andH1>>;
   email_to: string;
-  templateProps: Readonly<EmailTemplateProps>; // Ensures email data remains immutable after rendering, avoiding inconsistencies between the email and its source data.
+  templateProps: Readonly<EmailTemplatePropsV1andH1>; // Ensures email data remains immutable after rendering, avoiding inconsistencies between the email and its source data.
 }
 
 async function sendEmail(args: sendEmailArgTypes) {
