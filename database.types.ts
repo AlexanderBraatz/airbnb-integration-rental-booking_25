@@ -16,7 +16,6 @@ export type Database = {
     Tables: {
       Bookings: {
         Row: {
-          booking_code: string
           check_in_date: string
           check_out_date: string
           created_at: string
@@ -39,7 +38,6 @@ export type Database = {
           with_dog: boolean
         }
         Insert: {
-          booking_code: string
           check_in_date: string
           check_out_date: string
           created_at?: string
@@ -62,7 +60,6 @@ export type Database = {
           with_dog?: boolean
         }
         Update: {
-          booking_code?: string
           check_in_date?: string
           check_out_date?: string
           created_at?: string

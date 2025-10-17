@@ -6,27 +6,18 @@ import {
 } from "../../components/email-template";
 import { Resend } from "resend";
 import * as React from "react";
+import { createBookingRequestSchema, BookingRequestFormTypes } from "../schema";
 const testingEmail = "alex_braatz@icloud.com";
-export async function bookingRequestAction(values: { guest_email: string }) {
-  const dummyData = {
-    booking_code:
-      "we are just usnigt h id and obfucating it as a bookng code on the front end ",
-    check_in_date: "2025-01-01",
-    check_out_date: "2025-01-08",
-    number_of_guests: 2,
-    with_dog: false,
-    guest_email: values.guest_email,
-    guest_first_name: "Max",
-    guest_last_name: "Test",
-    guest_message: "I am excited to test this",
-    guest_phone_number: "+49073939888",
-    has_agreed_to_policies: true,
-  };
+
+export async function bookingRequestAction(input: BookingRequestFormTypes) {
+  //validate the incoming data
+  const safeInput = createBookingRequestSchema.parse(input);
+
   // write booking request data to database
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("Bookings")
-    .insert(dummyData)
+    .insert(safeInput)
     .select("*");
   if (error) {
     console.log("error", error);
@@ -50,24 +41,24 @@ export async function bookingRequestAction(values: { guest_email: string }) {
 
     const bookingCode = maskIdAsBookingCode(id);
 
-    const emailPropsGuestBookingRequestConfirmation = {
-      Template: EmailTemplateV1,
-      email_to: testingEmail, // TODO: replace with guest_email
-      templateProps: {
-        check_in_date,
-        check_out_date,
-        number_of_guests,
-        with_dog: with_dog ? "yes" : "no",
-        guest_email,
-        guest_first_name,
-        guest_last_name,
-        guest_message: guest_message ?? "",
-        guest_phone_number: guest_phone_number ?? "",
-        has_agreed_to_policies: has_agreed_to_policies ? "yes" : "no",
-        bookingCode,
-      },
-    };
-    // sending 1st email to visitor to confirm that their booking request was received
+    // const emailPropsGuestBookingRequestConfirmation = {
+    //   Template: EmailTemplateV1,
+    //   email_to: testingEmail, // TODO: replace with guest_email
+    //   templateProps: {
+    //     check_in_date,
+    //     check_out_date,
+    //     number_of_guests,
+    //     with_dog: with_dog ? "yes" : "no",
+    //     guest_email,
+    //     guest_first_name,
+    //     guest_last_name,
+    //     guest_message: guest_message ?? "",
+    //     guest_phone_number: guest_phone_number ?? "",
+    //     has_agreed_to_policies: has_agreed_to_policies ? "yes" : "no",
+    //     bookingCode,
+    //   },
+    // };
+    // // sending 1st email to visitor to confirm that their booking request was received
     // const { error: errorGuestEmail } = await sendEmail(
     //   emailPropsGuestBookingRequestConfirmation,
     // );
