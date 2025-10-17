@@ -37,19 +37,21 @@ export default function BookingRequestForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof createBookingRequestSchema>) {
-    try {
-      console.log(values);
-      bookingRequestAction(values);
-      toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>,
-      );
-    } catch (error) {
-      console.error("Form submission error", error);
-      toast.error("Failed to submit the form. Please try again.");
+  async function onSubmit(values: z.infer<typeof createBookingRequestSchema>) {
+    console.log(values);
+    const response = await bookingRequestAction(values);
+    if (response?.error) {
+      console.log(response?.error);
+      toast.error(response?.error);
+      return;
+      //TODO: add better hadling of this error 1. show message in form not just a toast 2. include a error loging system that lets me know if we ahd a production error
+      // this whould be where it would show up if an email failed to send , if resend trows an error, so i could do "please try again in a few minutes or reach out to the host directly to arange a booking"
     }
+    toast(
+      <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+        <code className="text-white">{JSON.stringify(values, null, 2)}</code>
+      </pre>,
+    );
   }
 
   return (
