@@ -127,6 +127,8 @@
   --color-q-orange-extra-light: #e4ee2e;
   --color-q-background: #faf2f0;
   --color-q-blue: #6d7ca7;
+  --color-q-blue-95-transparent: hsl(224, 25%, 54%, 95%);
+  --color-q-blue-75-transparent: hsl(224, 25%, 54%, 75%);
   --color-q-neon-blue: #12a2c9;
   --font-jost: var(--font-jost);
   --font-reem-kufi-fun: var(--font-reem-kufi-fun);
@@ -135,7 +137,16 @@
 @theme {
   --breakpoint-*: initial;
 }
-
+.my-gradient {
+  background: #f6f6f6;
+  background-size: 100% 100%;
+  background-position: 0px 0px;
+  background-image: radial-gradient(
+    66% 55% at 50% 60%,
+    #f6f6f6 30%,
+    #7485b3 90%
+  );
+}
 @custom-variant desktop (@media (max-width: 1353px));
 @custom-variant tablet (@media (max-width: 1087px));
 @custom-variant phone (@media (max-width: 708px));
