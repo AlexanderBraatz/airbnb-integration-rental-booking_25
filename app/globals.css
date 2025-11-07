@@ -124,7 +124,11 @@
 }
 
 @theme {
-  --color-orange-extra-light: #e4ee2e;
+  --color-q-orange-extra-light: #e4ee2e;
+  --color-q-background: #faf2f0;
+  --color-q-blue: #6d7ca7;
+  --font-jost: var(--font-jost);
+  --font-reem-kufi-fun: var(--font-reem-kufi-fun);
 }
 
 @theme {

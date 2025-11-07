@@ -1,5 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Questrial, Inter } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Questrial,
+  Inter,
+  Jost,
+  Reem_Kufi_Fun,
+} from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 
@@ -21,6 +28,14 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
 });
+const jost = Jost({
+  variable: "--font-jost",
+  subsets: ["latin"],
+});
+const reemKufiFun = Reem_Kufi_Fun({
+  variable: "--font-reem-kufi-fun",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -35,7 +50,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${questrialFont.variable} ${inter.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${questrialFont.variable} ${inter.variable} ${jost.variable} ${reemKufiFun.variable} antialiased`}
       >
         {children}
         <Toaster />
