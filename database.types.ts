@@ -83,6 +83,54 @@ export type Database = {
         }
         Relationships: []
       }
+      daily_availability: {
+        Row: {
+          created_at: string
+          day: string
+          id: number
+          is_available: boolean
+          price_in_eur_cents: number
+        }
+        Insert: {
+          created_at?: string
+          day: string
+          id?: number
+          is_available?: boolean
+          price_in_eur_cents?: number
+        }
+        Update: {
+          created_at?: string
+          day?: string
+          id?: number
+          is_available?: boolean
+          price_in_eur_cents?: number
+        }
+        Relationships: []
+      }
+      Days: {
+        Row: {
+          created_at: string
+          day: string
+          id: number
+          is_available: boolean
+          price_in_EUR_Cents: number
+        }
+        Insert: {
+          created_at?: string
+          day?: string
+          id?: number
+          is_available?: boolean
+          price_in_EUR_Cents?: number
+        }
+        Update: {
+          created_at?: string
+          day?: string
+          id?: number
+          is_available?: boolean
+          price_in_EUR_Cents?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

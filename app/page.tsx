@@ -7,7 +7,7 @@ import bed from "@/public/images/balcony-bed.jpeg";
 export default function Home() {
   return (
     <div className="h-screen overflow-x-hidden overflow-y-auto bg-amber-700 perspective-[24px]">
-      <div className="sticky top-0 z-50 h-12 w-full bg-gray-400"></div>
+      <div className="tablet:bg-orange-extra-light sticky top-0 z-50 h-12 w-full bg-amber-700"></div>
       <header className="z-[-1] flex h-full items-center justify-center transform-3d">
         <div className="absolute z-[-1] h-screen w-screen shrink-0 -translate-z-6 scale-[2] bg-gradient-to-b from-blue-500 to-blue-50"></div>
         <Image

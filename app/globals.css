@@ -122,3 +122,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+@theme {
+  --color-orange-extra-light: #e4ee2e;
+}
+
+@theme {
+  --breakpoint-*: initial;
+}
+
+@custom-variant desktop (@media (max-width: 1353px));
+@custom-variant tablet (@media (max-width: 1087px));
+@custom-variant phone (@media (max-width: 708px));

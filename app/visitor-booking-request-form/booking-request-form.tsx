@@ -58,7 +58,7 @@ export default function BookingRequestForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="mx-auto max-w-3xl space-y-8 py-10"
+        className="bg-orange-extra-light mx-auto max-w-3xl space-y-8 py-10"
       >
         <FormField
           control={form.control}
