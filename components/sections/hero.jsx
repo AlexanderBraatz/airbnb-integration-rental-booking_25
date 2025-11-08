@@ -71,7 +71,7 @@ export default function Hero() {
                   </li>
                 </ul>
               </div>
-              <p className="font-jost text-q-wite-almost mt-7 max-w-[496px] text-base">
+              <p className="font-jost text-q-wite-almost mt-7 max-w-[496px] text-base font-medium">
                 Nähe zu den Bergen. Die voll ausgestattete 5-Bett-Wohnung liegt
                 direkt am Wanderweg und ist Kinder freundlich eingerichtet.
                 Buchen Sie jetzt Ihren Urlaub in und genießen Sie eine ruhige

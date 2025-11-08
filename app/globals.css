@@ -124,6 +124,8 @@
 }
 
 @theme {
+  --color-q-text-dark-700: #3d3638;
+  --color-q-background: #faf2f0;
   --color-q-black-for-polaroid: hsla(345, 31%, 10%, 60%);
   --color-q-wite-almost: #f6f6f6;
   --color-q-orange-extra-light: #e4ee2e;
