@@ -5,7 +5,8 @@ import {
   Questrial,
   Inter,
   Jost,
-  Reem_Kufi_Fun,
+  Reem_Kufi,
+  Cedarville_Cursive,
 } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
@@ -32,8 +33,13 @@ const jost = Jost({
   variable: "--font-jost",
   subsets: ["latin"],
 });
-const reemKufiFun = Reem_Kufi_Fun({
-  variable: "--font-reem-kufi-fun",
+const reemKufiFun = Reem_Kufi({
+  variable: "--font-reem-kufi",
+  subsets: ["latin"],
+});
+const cedarvilleCursive = Cedarville_Cursive({
+  weight: "400",
+  variable: "--font-cedarville-cursive",
   subsets: ["latin"],
 });
 
@@ -50,7 +56,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${questrialFont.variable} ${inter.variable} ${jost.variable} ${reemKufiFun.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${questrialFont.variable} ${inter.variable} ${jost.variable} ${reemKufiFun.variable} ${cedarvilleCursive.variable} antialiased`}
       >
         {children}
         <Toaster />

@@ -124,6 +124,8 @@
 }
 
 @theme {
+  --color-q-black-for-polaroid: hsla(345, 31%, 10%, 60%);
+  --color-q-wite-almost: #f6f6f6;
   --color-q-orange-extra-light: #e4ee2e;
   --color-q-background: #faf2f0;
   --color-q-blue: #6d7ca7;
@@ -131,7 +133,8 @@
   --color-q-blue-75-transparent: hsl(224, 25%, 54%, 75%);
   --color-q-neon-blue: #12a2c9;
   --font-jost: var(--font-jost);
-  --font-reem-kufi-fun: var(--font-reem-kufi-fun);
+  --font-reem-kufi: var(--font-reem-kufi);
+  --font-cedarville-cursive: var(--font-cedarville-cursive);
 }
 
 @theme {
@@ -147,6 +150,11 @@
     #7485b3 90%
   );
 }
+
+.nav-height {
+  height: 6rem;
+}
+
 @custom-variant desktop (@media (max-width: 1353px));
 @custom-variant tablet (@media (max-width: 1087px));
 @custom-variant phone (@media (max-width: 708px));
