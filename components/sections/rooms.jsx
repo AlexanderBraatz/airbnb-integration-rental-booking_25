@@ -61,22 +61,22 @@ const content = [
 ];
 
 const Position = {
-  2: "top-0 -right-12 rotate-4 z-10 duration-400 ease-in-out", //base
-  3: "top-4 right-8 -rotate-3 z-20 duration-1000 ease-out", //cnage
-  4: "top-4 right-8 -rotate-3 z-20 duration-1000 ease-out", // buffer
-  5: "top-4 right-8 -rotate-3 z-20 duration-1000 ease-out", // next/base
-  6: "top-0 right-0 rotate-0 z-40 duration-1000 ease-out",
+  0: "top-0 right-0 rotate-0 z-40 duration-1000 ease-out", //top
+  1: "top-0 -right-[500px] rotate-10  z-40  duration-200 ease-out",
+  2: "top-0 -right-[500px] rotate-10  z-10 duration-10 ease-out",
+  3: "top-0 -right-12 rotate-4 z-10 duration-400 ease-in-out", //back
+  4: "top-4 right-8 -rotate-3 z-20 duration-1000 ease-out",
+  5: "top-4 right-8 -rotate-3 z-20 duration-1000 ease-out",
+  6: "top-4 right-8 -rotate-3 z-20 duration-1000 ease-out", // middle
   7: "top-0 right-0 rotate-0 z-40 duration-1000 ease-out",
   8: "top-0 right-0 rotate-0 z-40 duration-1000 ease-out",
-  0: "top-0 -right-[500px] rotate-10  z-40  duration-200 ease-out", // this transition form 0 to 1 takes a second , thats the porblem
-  1: "top-0 -right-[500px] rotate-10  z-10 duration-10 ease-out",
 };
 
 export default function Rooms() {
   const [order, setOrder] = useState({
-    imageOne: 2,
-    imageTwo: 5,
-    imageThree: 8,
+    imageOne: 0, // position images[0]
+    imageTwo: 6, // position images[1]
+    imageThree: 3, // position images[2]
   });
   const handleRightClick = () => {
     console.log("right Click");
@@ -128,13 +128,13 @@ export default function Rooms() {
           <div className="flex flex-col">
             <div onClick={handleRightClick} className="cursor-pointer">
               <div className="relative mb-10 h-[508px] w-[416px]">
-                {room.images[2] === undefined ? (
+                {room.images[0] === undefined ? (
                   <></>
                 ) : (
                   <Image
                     className={`${Position[order.imageOne.toString()]} absolute transform-gpu transition-all`}
                     alt="Polaroid of the Living room"
-                    src={room.images[2]}
+                    src={room.images[0]}
                     width={416}
                     height={508}
                     quality={100}
@@ -152,15 +152,19 @@ export default function Rooms() {
                     quality={100}
                   />
                 )}
+                {room.images[2] === undefined ? (
+                  <></>
+                ) : (
+                  <Image
+                    className={`${Position[order.imageThree.toString()]} absolute transform-gpu transition-all`}
+                    alt="Polaroid of the Living room"
+                    src={room.images[2]}
+                    width={416}
+                    height={508}
+                    quality={100}
+                  />
+                )}
                 {/* <div className="pointer-events-none absolute left-[50%] z-30 h-[600px] w-[600px] translate-x-[-50%] rounded-full bg-black opacity-10 blur-3xl"></div> */}
-                <Image
-                  className={`${Position[order.imageThree.toString()]} absolute transform-gpu transition-all`}
-                  alt="Polaroid of the Living room"
-                  src={room.images[0]}
-                  width={416}
-                  height={508}
-                  quality={100}
-                />
               </div>
             </div>
             <div className="flex w-full justify-center">
@@ -180,7 +184,7 @@ export default function Rooms() {
                   className="flex h-6 w-6 items-center justify-center"
                 >
                   <div
-                    className={`${(order.imageOne - 2) / 3 === index ? "bg-neutral-700" : "bg-neutral-500"} h-3 w-3 rounded-full bg-neutral-500 transition-colors`}
+                    className={`${order.imageOne / 3 === index ? "bg-neutral-700" : "bg-neutral-500"} h-3 w-3 rounded-full bg-neutral-500 transition-colors`}
                   ></div>
                 </div>
               ))}
