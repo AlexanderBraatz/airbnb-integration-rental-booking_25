@@ -4,7 +4,7 @@ import arrow from "@/public/icons/arrow-right-neon-blue.svg";
 import logo from "@/public/icons/logo-fff.svg";
 export default function NavBar() {
   return (
-    <div className="bg-q-blue-95-transparent nav-height fixed z-20 flex w-full items-center justify-between border-b-[1px] border-white px-10 text-neutral-50">
+    <div className="bg-q-blue-95-transparent nav-height fixed z-50 flex w-full items-center justify-between border-b-[1px] border-white px-10 text-neutral-50">
       <Image src={logo} alt="logo" />
 
       <div className="flex items-center gap-10">
