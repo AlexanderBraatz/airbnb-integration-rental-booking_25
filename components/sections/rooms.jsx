@@ -61,52 +61,54 @@ const content = [
 ];
 
 const Position = {
-  2: "top-4 right-8 -rotate-3 z-10 duration-1000",
-  3: "top-0 -right-12 rotate-4 z-20 duration-1000",
-  4: "top-0 right-0 rotate-0 z-40 duration-1000",
-  0: "top-0 -right-[500px] rotate-10  z-40  duration-1000", // this transition form 0 to 1 takes a second , thats the porblem
-  1: "top-0 -right-[500px] rotate-10  z-10 duration-100",
+  2: "top-0 -right-12 rotate-4 z-10 duration-400 ease-in-out", //base
+  3: "top-4 right-8 -rotate-3 z-20 duration-1000 ease-out", //cnage
+  4: "top-4 right-8 -rotate-3 z-20 duration-1000 ease-out", // buffer
+  5: "top-4 right-8 -rotate-3 z-20 duration-1000 ease-out", // next/base
+  6: "top-0 right-0 rotate-0 z-40 duration-1000 ease-out",
+  7: "top-0 right-0 rotate-0 z-40 duration-1000 ease-out",
+  8: "top-0 right-0 rotate-0 z-40 duration-1000 ease-out",
+  0: "top-0 -right-[500px] rotate-10  z-40  duration-200 ease-out", // this transition form 0 to 1 takes a second , thats the porblem
+  1: "top-0 -right-[500px] rotate-10  z-10 duration-10 ease-out",
 };
 
 export default function Rooms() {
   const [order, setOrder] = useState({
-    imageOne: 4,
-    imageTwo: 3,
-    imageThree: 2,
+    imageOne: 2,
+    imageTwo: 5,
+    imageThree: 8,
   });
   const handleRightClick = () => {
     console.log("right Click");
-    // setOrder((prev) => ["outside", "middle", "back"]);
     setOrder((prev) => ({
-      imageOne: (prev.imageOne + 1) % 5,
-      imageTwo: (prev.imageTwo + 1) % 5,
-      imageThree: (prev.imageThree + 1) % 5,
+      imageOne: (prev.imageOne + 1) % 9,
+      imageTwo: (prev.imageTwo + 1) % 9,
+      imageThree: (prev.imageThree + 1) % 9,
     }));
-    console.log("1nd", order);
+
     setTimeout(() => {
       setOrder((prev) => ({
-        imageOne: prev.imageOne === 0 ? 1 : prev.imageOne,
-        imageTwo: prev.imageTwo === 0 ? 1 : prev.imageTwo,
-        imageThree: prev.imageThree === 0 ? 1 : prev.imageThree,
+        imageOne: (prev.imageOne + 1) % 9,
+        imageTwo: (prev.imageTwo + 1) % 9,
+        imageThree: (prev.imageThree + 1) % 9,
       }));
-      console.log("2nd", order);
-      setTimeout(() => {
-        setOrder((prev) => ({
-          imageOne: prev.imageOne === 1 ? 2 : prev.imageOne,
-          imageTwo: prev.imageTwo === 1 ? 2 : prev.imageTwo,
-          imageThree: prev.imageThree === 1 ? 2 : prev.imageThree,
-        }));
-
-        console.log("3nd", order);
-      }, 100);
-    }, 1000);
+      console.log("3nd", order);
+    }, 200);
+    setTimeout(() => {
+      setOrder((prev) => ({
+        imageOne: (prev.imageOne + 1) % 9,
+        imageTwo: (prev.imageTwo + 1) % 9,
+        imageThree: (prev.imageThree + 1) % 9,
+      }));
+      console.log("3nd", order);
+    }, 210);
   };
   const handleLeftClick = () => {
     console.log("right Click");
   };
 
   return (
-    <div className="bg-q-background flex flex-col items-center justify-center">
+    <div className="bg-q-background flex flex-col items-center justify-center overflow-y-hidden">
       <div className="flex gap-10 py-5">
         <div>left adornment</div>
         <h3 className="text-q-text-dark-700 font-reem-kufi text-6xl tracking-[-6%]">
@@ -124,44 +126,46 @@ export default function Rooms() {
           className={`flex w-[1012px] ${room.inReverseOrder ? "flex-row-reverse" : ""} mb-45 justify-between`}
         >
           <div className="flex flex-col">
-            <div className="relative mb-10 h-[508px] w-[416px]">
-              {room.images[2] === undefined ? (
-                <></>
-              ) : (
+            <div onClick={handleRightClick} className="cursor-pointer">
+              <div className="relative mb-10 h-[508px] w-[416px]">
+                {room.images[2] === undefined ? (
+                  <></>
+                ) : (
+                  <Image
+                    className={`${Position[order.imageOne.toString()]} absolute transform-gpu transition-all`}
+                    alt="Polaroid of the Living room"
+                    src={room.images[2]}
+                    width={416}
+                    height={508}
+                    quality={100}
+                  />
+                )}
+                {room.images[1] === undefined ? (
+                  <></>
+                ) : (
+                  <Image
+                    className={`${Position[order.imageTwo.toString()]} absolute transform-gpu transition-all`}
+                    alt="Polaroid of the Living room"
+                    src={room.images[1]}
+                    width={416}
+                    height={508}
+                    quality={100}
+                  />
+                )}
+                {/* <div className="pointer-events-none absolute left-[50%] z-30 h-[600px] w-[600px] translate-x-[-50%] rounded-full bg-black opacity-10 blur-3xl"></div> */}
                 <Image
-                  className={`${Position[order.imageOne.toString()]} absolute transition-all ease-out`}
+                  className={`${Position[order.imageThree.toString()]} absolute transform-gpu transition-all`}
                   alt="Polaroid of the Living room"
-                  src={room.images[2]}
+                  src={room.images[0]}
                   width={416}
                   height={508}
                   quality={100}
                 />
-              )}
-              {room.images[1] === undefined ? (
-                <></>
-              ) : (
-                <Image
-                  className={`${Position[order.imageTwo.toString()]} absolute transition-all ease-out`}
-                  alt="Polaroid of the Living room"
-                  src={room.images[1]}
-                  width={416}
-                  height={508}
-                  quality={100}
-                />
-              )}
-              {/* <div className="pointer-events-none absolute left-[50%] z-30 h-[600px] w-[600px] translate-x-[-50%] rounded-full bg-black opacity-10 blur-3xl"></div> */}
-              <Image
-                className={`${Position[order.imageThree.toString()]} absolute transition-all ease-out`}
-                alt="Polaroid of the Living room"
-                src={room.images[0]}
-                width={416}
-                height={508}
-                quality={100}
-              />
+              </div>
             </div>
             <div className="flex w-full justify-center">
               <button
-                className="flex h-6 w-6 items-center justify-center"
+                className="flex h-6 w-6 cursor-pointer items-center justify-center"
                 onClick={handleLeftClick}
               >
                 <Image
@@ -176,13 +180,13 @@ export default function Rooms() {
                   className="flex h-6 w-6 items-center justify-center"
                 >
                   <div
-                    className={`${index === 0 ? "bg-neutral-700" : "bg-neutral-500"} h-3 w-3 rounded-full bg-neutral-500`}
+                    className={`${(order.imageOne - 2) / 3 === index ? "bg-neutral-700" : "bg-neutral-500"} h-3 w-3 rounded-full bg-neutral-500 transition-colors`}
                   ></div>
                 </div>
               ))}
               <button
                 onClick={handleRightClick}
-                className="flex h-6 w-6 items-center justify-center"
+                className="flex h-6 w-6 cursor-pointer items-center justify-center"
               >
                 <Image
                   alt="arrow right "
