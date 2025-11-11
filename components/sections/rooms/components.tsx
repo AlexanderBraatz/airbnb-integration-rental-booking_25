@@ -1,14 +1,8 @@
 "use client";
 import Image, { StaticImageData } from "next/image";
 import React, { useState } from "react";
-import sheep from "@/public/images/InUse/Polaroid-sheep-no-drop-min.png";
-import balcony from "@/public/images/InUse/Polaroid-balcony-view-no-drop-min.png";
-import balconyDelete from "@/public/images/InUse/Polaroid-balcony-view-no-drop-min-delete.png";
-import mountains from "@/public/images/InUse/Polaroid-mountains-no-drop-min.png";
 import arrowLeft from "@/public/icons/arrow-left.svg";
 import arrowRight from "@/public/icons/arrow-right.svg";
-import adornmentHouse from "@/public/icons/adornment-house.svg";
-import adornmentTaper from "@/public/icons/adornment-taper.svg";
 
 const Position = {
   "0": "top-0 right-0 rotate-0 z-40 duration-1000 ease-out", //top
