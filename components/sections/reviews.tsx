@@ -115,7 +115,7 @@ export default function Reviews() {
 
   return (
     <div className="bg-q-background pb-50">
-      <div className="flex flex-col items-center justify-center pb-20">
+      <div className="flex flex-col items-center justify-center">
         <SectionHeading
           heading="Das&nbsp;&nbsp;sagen&nbsp;&nbsp;unsere&nbsp;&nbsp;Gäste"
           paragraph={
@@ -133,7 +133,7 @@ export default function Reviews() {
         {/* SCROLLER */}
         <div
           ref={scrollerRef}
-          className="scrollbar-hide w-full overflow-x-auto overscroll-contain scroll-smooth"
+          className="scrollbar-hide mb-12 w-full overflow-x-auto overscroll-x-contain scroll-smooth"
           aria-label="Gästebewertungen"
         >
           <div className="ml-25 flex w-fit gap-5">
@@ -143,46 +143,45 @@ export default function Reviews() {
             <div className="w-[calc(100vw-716px)]"></div>
           </div>
         </div>
+      </div>
+      {/* ARROWS + DOTS (styled like your snippet) */}
+      <div className="flex items-center justify-center">
+        <button
+          className="flex h-6 w-6 cursor-pointer items-center justify-center"
+          onClick={handleLeftClick}
+          aria-label="Zum vorherigen Review"
+        >
+          <Image alt="arrow left" src={arrowLeft} />
+        </button>
 
-        {/* ARROWS + DOTS (styled like your snippet) */}
-        <div className="mt-6 flex items-center justify-center gap-1">
-          <button
-            className="flex h-6 w-6 cursor-pointer items-center justify-center"
-            onClick={handleLeftClick}
-            aria-label="Zum vorherigen Review"
-          >
-            <Image alt="arrow left" src={arrowLeft} />
-          </button>
+        {Array.from({ length: TOTAL_DOTS }, (_, i) => {
+          const dotIndex = i + 1;
+          const isActive = activeDot === dotIndex;
+          return (
+            <button
+              key={dotIndex}
+              className="flex h-6 w-6 items-center justify-center"
+              onClick={() => scrollToIndex(dotIndex)}
+              aria-label={`Position ${dotIndex} von ${TOTAL_DOTS}`}
+              aria-current={isActive ? "true" : undefined}
+              type="button"
+            >
+              <div
+                className={`${
+                  isActive ? "bg-neutral-700" : "bg-neutral-500"
+                } h-3 w-3 rounded-full transition-colors`}
+              />
+            </button>
+          );
+        })}
 
-          {Array.from({ length: TOTAL_DOTS }, (_, i) => {
-            const dotIndex = i + 1;
-            const isActive = activeDot === dotIndex;
-            return (
-              <button
-                key={dotIndex}
-                className="flex h-6 w-6 items-center justify-center"
-                onClick={() => scrollToIndex(dotIndex)}
-                aria-label={`Position ${dotIndex} von ${TOTAL_DOTS}`}
-                aria-current={isActive ? "true" : undefined}
-                type="button"
-              >
-                <div
-                  className={`${
-                    isActive ? "bg-neutral-700" : "bg-neutral-500"
-                  } h-3 w-3 rounded-full transition-colors`}
-                />
-              </button>
-            );
-          })}
-
-          <button
-            className="flex h-6 w-6 cursor-pointer items-center justify-center"
-            onClick={handleRightClick}
-            aria-label="Zum nächsten Review"
-          >
-            <Image alt="arrow right" src={arrowRight} />
-          </button>
-        </div>
+        <button
+          className="flex h-6 w-6 cursor-pointer items-center justify-center"
+          onClick={handleRightClick}
+          aria-label="Zum nächsten Review"
+        >
+          <Image alt="arrow right" src={arrowRight} />
+        </button>
       </div>
     </div>
   );
