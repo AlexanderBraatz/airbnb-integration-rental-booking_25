@@ -1,9 +1,12 @@
+"use client";
 import React from "react";
 import SectionHeading from "./componts";
 
 import ReviewAvatar1 from "@/public/images/InUse/Review-avatar-1.jpg";
 import ReviewAvatar2 from "@/public/images/InUse/Review-avatar-2.jpg";
 import star from "@/public/icons/star.svg";
+import arrowLeft from "@/public/icons/arrow-left.svg"; // adjust path if needed
+import arrowRight from "@/public/icons/arrow-right.svg"; // adjust path if needed
 import Image, { StaticImageData } from "next/image";
 
 type Review = {
@@ -14,7 +17,7 @@ type Review = {
   paragraph: string;
 };
 
-const reviews = [
+const reviews: Review[] = [
   {
     pictureSrc: ReviewAvatar1,
     pictureAlt: "Mike",
@@ -55,9 +58,61 @@ const reviews = [
     paragraph:
       "Das Decken von Elenor ist ein Traum. Der perfekte Bergblick von beiden geräumigen Balkonen und innen eine absolute Wohlfühloase. Hohe Decken mit schönen Holzbalken und gemütliche Möbel.",
   },
-] as Review[];
+];
+
+const TOTAL_DOTS = reviews.length;
 
 export default function Reviews() {
+  const scrollerRef = React.useRef<HTMLDivElement | null>(null);
+  const [activeDot, setActiveDot] = React.useState(1);
+
+  const getStep = React.useCallback(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return 516;
+    const first = scroller.querySelector<HTMLElement>('[data-review-card="0"]');
+    const second = scroller.querySelector<HTMLElement>(
+      '[data-review-card="1"]',
+    );
+    if (first && second) return second.offsetLeft - first.offsetLeft;
+    // fallback (card width 496 + gap 20)
+    return 516;
+  }, []);
+
+  // reflect leftmost card -> active dot (1-based)
+  React.useEffect(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    let ticking = false;
+    const step = getStep();
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const idx = Math.floor(scroller.scrollLeft / step) + 1;
+        const clamped = Math.max(1, Math.min(TOTAL_DOTS, idx));
+        setActiveDot(clamped);
+        ticking = false;
+      });
+    };
+
+    scroller.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => scroller.removeEventListener("scroll", onScroll);
+  }, [getStep]);
+
+  const scrollToIndex = (index1Based: number) => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+    const step = getStep();
+    const targetLeft = (Math.max(1, index1Based) - 1) * step;
+    scroller.scrollTo({ left: targetLeft, behavior: "smooth" });
+  };
+
+  const handleLeftClick = () => scrollToIndex(activeDot - 1);
+  const handleRightClick = () => scrollToIndex(activeDot + 1);
+
   return (
     <div className="bg-q-background pb-50">
       <div className="flex flex-col items-center justify-center pb-20">
@@ -71,23 +126,74 @@ export default function Reviews() {
           }
         />
       </div>
+
       <div className="relative w-full pr-25">
-        <div className="my-reviews-gradient absolute right-25 h-[309px] w-80"></div>
-        <div className="scrollbar-hide w-full overflow-x-auto overscroll-x-contain scroll-smooth">
+        <div className="my-reviews-gradient pointer-events-none absolute right-25 h-[309px] w-80"></div>
+
+        {/* SCROLLER */}
+        <div
+          ref={scrollerRef}
+          className="scrollbar-hide w-full overflow-x-auto overscroll-contain scroll-smooth"
+          aria-label="Gästebewertungen"
+        >
           <div className="ml-25 flex w-fit gap-5">
             {reviews.map((review, index) => (
-              <Card key={index} review={review} />
+              <Card key={index} review={review} index={index} />
             ))}
+            <div className="w-[calc(100vw-716px)]"></div>
           </div>
+        </div>
+
+        {/* ARROWS + DOTS (styled like your snippet) */}
+        <div className="mt-6 flex items-center justify-center gap-1">
+          <button
+            className="flex h-6 w-6 cursor-pointer items-center justify-center"
+            onClick={handleLeftClick}
+            aria-label="Zum vorherigen Review"
+          >
+            <Image alt="arrow left" src={arrowLeft} />
+          </button>
+
+          {Array.from({ length: TOTAL_DOTS }, (_, i) => {
+            const dotIndex = i + 1;
+            const isActive = activeDot === dotIndex;
+            return (
+              <button
+                key={dotIndex}
+                className="flex h-6 w-6 items-center justify-center"
+                onClick={() => scrollToIndex(dotIndex)}
+                aria-label={`Position ${dotIndex} von ${TOTAL_DOTS}`}
+                aria-current={isActive ? "true" : undefined}
+                type="button"
+              >
+                <div
+                  className={`${
+                    isActive ? "bg-neutral-700" : "bg-neutral-500"
+                  } h-3 w-3 rounded-full transition-colors`}
+                />
+              </button>
+            );
+          })}
+
+          <button
+            className="flex h-6 w-6 cursor-pointer items-center justify-center"
+            onClick={handleRightClick}
+            aria-label="Zum nächsten Review"
+          >
+            <Image alt="arrow right" src={arrowRight} />
+          </button>
         </div>
       </div>
     </div>
   );
 }
 
-function Card({ review }: { review: Review }) {
+function Card({ review, index }: { review: Review; index: number }) {
   return (
-    <div className="bg-q-review-card-background font-jost border-q-review-card-border flex h-[309px] w-[496px] flex-col gap-3 rounded-xl border px-5 py-6">
+    <div
+      data-review-card={index}
+      className="bg-q-review-card-background font-jost border-q-review-card-border flex h-[309px] w-[496px] flex-col gap-3 rounded-xl border px-5 py-6"
+    >
       <div className="flex items-center gap-3">
         <Image
           height={60}
@@ -103,12 +209,13 @@ function Card({ review }: { review: Review }) {
       </div>
 
       <div className="flex gap-1">
-        <Image src={star} alt={"star"} />
-        <Image src={star} alt={"star"} />
-        <Image src={star} alt={"star"} />
-        <Image src={star} alt={"star"} />
-        <Image src={star} alt={"star"} />
+        <Image src={star} alt="star" />
+        <Image src={star} alt="star" />
+        <Image src={star} alt="star" />
+        <Image src={star} alt="star" />
+        <Image src={star} alt="star" />
       </div>
+
       <p className="text-xl/8 tracking-wider">“{review.paragraph}”</p>
     </div>
   );
