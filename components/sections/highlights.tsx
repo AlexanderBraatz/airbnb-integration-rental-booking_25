@@ -13,6 +13,7 @@ import childfrindly from "@/public/images/InUse/childfrindly-tall.jpg";
 import mountainView from "@/public/images/InUse/mountainView-tall.jpg";
 import quiet from "@/public/images/InUse/quiet-tall.jpg";
 import garage2 from "@/public/images/InUse/garage-tall.jpg";
+import SectionHeading from "./componts";
 
 type Highlight = {
   id: number;
@@ -79,20 +80,16 @@ const highlights: Highlight[] = [
 
 export default function Highlights() {
   const [highlighted, setHighlighted] = useState(0);
+  function handleMouseOver() {
+    setHighlighted((prev) => (prev + 1) % 6);
+  }
   return (
     <div className="bg-q-background flex flex-col items-center justify-center overflow-y-hidden pb-50">
-      <div className="flex gap-10 py-5">
-        <div>left adornment</div>
-        <h3 className="text-q-text-dark-700 font-reem-kufi text-6xl tracking-[-6%]">
-          Genießen Sie Komfort und Gemütlichkeit
-        </h3>
-        <div>left adornment</div>
-      </div>
-      <p className="text-q-text-dark-700 font-jost mb-24 w-[797px] text-center text-xl leading-[30px] tracking-wide">
-        Die Wohnung ist mit Sorgfalt eingerichtet und bietet ihn alles was sie
-        für einen Urlaub brauchen könnten.
-      </p>
-      <div></div>
+      <SectionHeading
+        heading="Genießen&nbsp;&nbsp;Sie&nbsp;&nbsp;Komfort&nbsp;&nbsp;und&nbsp;&nbsp;Gemütlichkeit"
+        paragraph="Die Wohnung ist mit Sorgfalt eingerichtet und bietet ihn alles was sie
+        für einen Urlaub brauchen könnten."
+      />
       <div className="flex w-[1270px] justify-between">
         <div className="grid grid-cols-2 grid-rows-3 gap-5">
           {highlights.map((highlight, index) => (
@@ -105,7 +102,10 @@ export default function Highlights() {
             </div>
           ))}
         </div>
-        <div className="relative h-[587px] w-[367px]">
+        <div
+          className="relative h-[587px] w-[367px]"
+          onMouseOver={handleMouseOver}
+        >
           {highlights.map((highlight, index) => (
             <Image
               key={index}

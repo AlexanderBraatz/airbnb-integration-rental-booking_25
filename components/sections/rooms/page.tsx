@@ -26,6 +26,7 @@ import {
   ThreePolaroidStack,
   TwoPolaroidStack,
 } from "@/components/sections/rooms/components";
+import SectionHeading from "../componts";
 const content = [
   {
     adornmentWithHouse: true,
@@ -41,7 +42,7 @@ const content = [
     heading: "Wohnzimmer",
     paragraph:
       "Der offene, loftähnliche Wohnbereich ist lichtdurchflutet und sonnig. Vom gemütlichen Sofa aus reicht der Blick bis zu den Alpen und zur Zugspitze, während Gleitschirmflieger am Himmel vorbeiziehen. Für Unterhaltung an Regentagen sorgt ein großer TV-Bildschirm.",
-    images: [livvingroom1, livingroom3, livingroom2],
+    images: [livingroom3, livingroom2, livvingroom1],
   },
   {
     adornmentWithHouse: false,
@@ -57,7 +58,7 @@ const content = [
     heading: "Schlafzimmer   Zwei",
     paragraph:
       "Das zweite Schlafzimmer – liebevoll „blaues Zimmer“ genannt – ist ebenso großzügig gestaltet und mit einer gemütlichen Leseecke ausgestattet. Auch hier erwartet euch ein komfortables Kingsize-Bett für erholsame Nächte. Vom Zimmer aus gelangt ihr direkt auf den zweiten Balkon und könnt den Blick ins Freie genießen.",
-    images: [bedblue2, bedblue1, bedblue3],
+    images: [bedblue3, bedblue2, bedblue1],
   },
   {
     adornmentWithHouse: false,
@@ -80,17 +81,11 @@ const content = [
 export default function Rooms() {
   return (
     <div className="bg-q-background flex flex-col items-center justify-center overflow-y-hidden">
-      <div className="flex gap-10 py-5">
-        <div>left adornment</div>
-        <h3 className="text-q-text-dark-700 font-reem-kufi text-6xl tracking-[-6%]">
-          Unsere Zimmer
-        </h3>
-        <div>left adornment</div>
-      </div>
-      <p className="text-q-text-dark-700 font-jost mb-24 w-[797px] text-center text-xl leading-[30px] tracking-wide">
-        Die Wohnung ist mit Sorgfalt eingerichtet und bietet ihn alles was sie
-        für einen Urlaub brauchen könnten.
-      </p>
+      <SectionHeading
+        heading="Unsere&nbsp;&nbsp;Zimmer"
+        paragraph="Die Wohnung ist mit Sorgfalt eingerichtet und bietet ihn alles was sie
+            für einen Urlaub brauchen könnten."
+      />
       {content.map((room, index) => (
         <div
           key={index}
