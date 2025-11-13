@@ -124,6 +124,7 @@
 }
 
 @theme {
+  --color-q-button-red: #bc0c38;
   --color-q-review-card-background: #f3d4b6;
   --color-q-review-card-border: #ccbfb2;
   --color-q-card-background: #ebe3e1;

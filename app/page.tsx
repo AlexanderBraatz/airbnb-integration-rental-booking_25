@@ -4,6 +4,7 @@ import Rooms from "@/components/sections/rooms/page";
 import Highlights from "@/components/sections/highlights";
 import Reviews from "@/components/sections/reviews";
 import Directions from "@/components/sections/directions";
+import BookingRequest from "@/components/sections/booking-request";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <Highlights />
       <Reviews />
       <Directions />
+      <BookingRequest />
     </div>
   );
 }

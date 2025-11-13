@@ -25,7 +25,7 @@ const Position = {
 
 type PostionKey = keyof typeof Position;
 
-type RoomType = {
+export type RoomType = {
   room: {
     adornmentWithHouse: boolean;
     inReverseOrder: boolean;
@@ -296,18 +296,6 @@ export function ThreePolaroidStack({ room }: RoomType) {
   );
 }
 
-const PositionFoeerThree = {
-  "0": "top-0 right-0 rotate-0 z-40 duration-1000 ease-out", //top
-  "1": "top-0 -right-[500px] rotate-10  z-40  duration-200 ease-out",
-  "2": "top-0 -right-[500px] rotate-10  z-10 duration-10 ease-out",
-  "3": "top-0 -right-12 rotate-4 z-10 duration-400 ease-in-out", //back
-  "4": "top-4 right-8 -rotate-3 z-20 duration-1000 ease-out",
-  "5": "top-4 right-8 -rotate-3 z-20 duration-1000 ease-out",
-  "6": "top-4 right-8 -rotate-3 z-20 duration-1000 ease-out", // middle
-  "7": "top-0 right-0 rotate-0 z-40 duration-1000 ease-out",
-  "8": "top-0 right-0 rotate-0 z-40 duration-1000 ease-out",
-} as const;
-
 const PositionForTwo = {
   "0": "top-0 right-0 rotate-0 z-40 duration-1000 ease-out", //top
   "1": "top-0 -right-[500px] rotate-10  z-40  duration-200 ease-out",
@@ -409,6 +397,80 @@ export function TwoPolaroidStack({ room }: RoomType) {
             src={arrowRight}
           />
         </button>
+      </div>
+    </div>
+  );
+}
+
+const PositionForTwoFinal = {
+  "0": "top-0 right-0 rotate-0 z-40 duration-1000 ease-out", //top
+  "1": "top-0 -right-[500px] rotate-10  z-40  duration-200 ease-out",
+  "2": "top-0 -right-[500px] rotate-10  z-10 duration-10 ease-out",
+  "3": "top-0 -right-8 rotate-5 z-10 duration-400 ease-in-out", // middle
+  "4": "top-0 right-0 rotate-0 z-40 duration-1000 ease-out",
+  "5": "top-0 right-0 rotate-0 z-40 duration-1000 ease-out",
+} as const;
+
+type PositionForTwoFinalKey = keyof typeof PositionForTwo;
+
+export function TwoPolaroidStackFinal({ room }: RoomType) {
+  const [order, setOrder] = useState({
+    imageOne: 0, // position images[0]
+    imageTwo: 3, // position images[1]
+  });
+  const handleRightClick = () => {
+    console.log("right Click");
+    setOrder((prev) => ({
+      imageOne: (prev.imageOne + 1) % 6,
+      imageTwo: (prev.imageTwo + 1) % 6,
+    }));
+
+    setTimeout(() => {
+      setOrder((prev) => ({
+        imageOne: (prev.imageOne + 1) % 6,
+        imageTwo: (prev.imageTwo + 1) % 6,
+      }));
+      console.log("3nd", order);
+    }, 200);
+    setTimeout(() => {
+      setOrder((prev) => ({
+        imageOne: (prev.imageOne + 1) % 6,
+        imageTwo: (prev.imageTwo + 1) % 6,
+      }));
+      console.log("3nd", order);
+    }, 210);
+  };
+
+  return (
+    <div className="mx-auto flex w-fit flex-col">
+      <div onClick={handleRightClick} className="cursor-pointer">
+        <div className="relative top-6 mb-10 h-[508px] w-[416px]">
+          {room.images[0] === undefined ? (
+            <></>
+          ) : (
+            <Image
+              className={`${PositionForTwoFinal[order.imageOne.toString() as PositionForTwoFinalKey]} absolute transform-gpu transition-all`}
+              alt="Polaroid of the Living room"
+              src={room.images[0]}
+              width={416}
+              height={508}
+              quality={100}
+            />
+          )}
+          {room.images[1] === undefined ? (
+            <></>
+          ) : (
+            <Image
+              className={`${PositionForTwoFinal[order.imageTwo.toString() as PositionForTwoFinalKey]} absolute transform-gpu transition-all`}
+              alt="Polaroid of the Living room"
+              src={room.images[1]}
+              width={416}
+              height={508}
+              quality={100}
+            />
+          )}
+          {/* <div className="pointer-events-none absolute left-[50%] z-30 h-[600px] w-[600px] translate-x-[-50%] rounded-full bg-black opacity-10 blur-3xl"></div> */}
+        </div>
       </div>
     </div>
   );
