@@ -37,7 +37,7 @@ export default function Hero() {
                       quality={100}
                       height={508}
                       width={416}
-                      className="w-[238px]"
+                      className="w-[238px] invert"
                     />
                     {/* <span className="font-cedarville-cursive text-q-black-for-polaroid text-2xl/8 tracking-widest">
                       wonderfull

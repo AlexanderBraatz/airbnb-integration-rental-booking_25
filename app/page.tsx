@@ -8,7 +8,7 @@ import BookingRequest from "@/components/sections/booking-request";
 
 export default function Home() {
   return (
-    <div className="bg-q-background">
+    <div className="bg-q-background overflow-x-hidden">
       <NavBar />
       <Hero />
       <Rooms />

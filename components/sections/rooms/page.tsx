@@ -80,7 +80,7 @@ const content = [
 
 export default function Rooms() {
   return (
-    <div className="bg-q-background flex flex-col items-center justify-center overflow-y-hidden">
+    <div className="bg-q-background flex flex-col items-center justify-center overflow-x-hidden">
       <SectionHeading
         heading="Unsere&nbsp;&nbsp;Zimmer"
         paragraph="Die Wohnung ist mit Sorgfalt eingerichtet und bietet ihn alles was sie
