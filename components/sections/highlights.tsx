@@ -14,6 +14,8 @@ import mountainView from "@/public/images/InUse/mountainView-tall.jpg";
 import quiet from "@/public/images/InUse/quiet-tall.jpg";
 import garage2 from "@/public/images/InUse/garage-tall.jpg";
 import SectionHeading from "./componts";
+import { useActiveSectionContext } from "@/context/active-section-context";
+import { useSectionInView } from "@/lib/hooks";
 
 type Highlight = {
   id: number;
@@ -79,12 +81,20 @@ const highlights: Highlight[] = [
 ];
 
 export default function Highlights() {
+  const { activeSection, setActiveSection, setTimeOfLastCLick } =
+    useActiveSectionContext();
+  const { ref } = useSectionInView("Ausstattung", 0.5);
+
   const [highlighted, setHighlighted] = useState(0);
   function handleMouseOver() {
     setHighlighted((prev) => (prev + 1) % 6);
   }
   return (
-    <div className="bg-q-background flex flex-col items-center justify-center overflow-y-hidden pb-50">
+    <section
+      ref={ref}
+      id="highlights"
+      className="bg-q-background flex scroll-mt-28 flex-col items-center justify-center overflow-y-hidden pb-50"
+    >
       <SectionHeading
         heading="Genießen&nbsp;&nbsp;Sie&nbsp;&nbsp;Komfort&nbsp;&nbsp;und&nbsp;&nbsp;Gemütlichkeit"
         paragraph="Die Wohnung ist mit Sorgfalt eingerichtet und bietet ihn alles was sie
@@ -118,7 +128,7 @@ export default function Highlights() {
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

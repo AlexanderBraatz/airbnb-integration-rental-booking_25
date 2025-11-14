@@ -10,6 +10,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
+import ActiveSectionContext from "@/context/active-section-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,12 +55,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="!scroll-smooth">
       <body
         className={`bg-q-blue ${geistSans.variable} ${geistMono.variable} ${questrialFont.variable} ${inter.variable} ${jost.variable} ${reemKufiFun.variable} ${cedarvilleCursive.variable} antialiased`}
       >
-        {children}
-        <Toaster />
+        <ActiveSectionContext>
+          {children}
+          <Toaster />
+        </ActiveSectionContext>
       </body>
     </html>
   );

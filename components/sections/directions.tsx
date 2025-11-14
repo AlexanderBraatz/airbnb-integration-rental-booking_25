@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import trainSimple from "@/public/icons/train-simple-bold 1.svg";
@@ -7,10 +8,20 @@ import trainRegional from "@/public/icons/train-regional 1.svg";
 import house from "@/public/icons/house-line-bold 1.svg";
 import google from "@/public/images/InUse/google-delete.jpg";
 import SectionHeading from "./componts";
+import { useActiveSectionContext } from "@/context/active-section-context";
+import { useSectionInView } from "@/lib/hooks";
 
 export default function Directions() {
+  const { activeSection, setActiveSection, setTimeOfLastCLick } =
+    useActiveSectionContext();
+  const { ref } = useSectionInView("Anfahrt", 0.5);
+
   return (
-    <div className="bg-q-background flex flex-col items-center justify-center pb-50">
+    <section
+      ref={ref}
+      id="directions"
+      className="bg-q-background flex scroll-mt-28 flex-col items-center justify-center pb-50"
+    >
       <SectionHeading
         className="[&>p]:w-[630px]"
         heading="Anfahrt"
@@ -99,6 +110,6 @@ export default function Directions() {
           <Image src={google} alt="tbc" fill className="object-cover" />
         </div>
       </div>
-    </div>
+    </section>
   );
 }

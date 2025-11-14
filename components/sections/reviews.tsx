@@ -8,6 +8,8 @@ import star from "@/public/icons/star.svg";
 import arrowLeft from "@/public/icons/arrow-left.svg"; // adjust path if needed
 import arrowRight from "@/public/icons/arrow-right.svg"; // adjust path if needed
 import Image, { StaticImageData } from "next/image";
+import { useActiveSectionContext } from "@/context/active-section-context";
+import { useSectionInView } from "@/lib/hooks";
 
 type Review = {
   pictureSrc: StaticImageData;
@@ -63,6 +65,10 @@ const reviews: Review[] = [
 const TOTAL_DOTS = reviews.length;
 
 export default function Reviews() {
+  const { activeSection, setActiveSection, setTimeOfLastCLick } =
+    useActiveSectionContext();
+  const { ref } = useSectionInView("Bewertungen", 0.5);
+
   const scrollerRef = React.useRef<HTMLDivElement | null>(null);
   const [activeDot, setActiveDot] = React.useState(1);
 
@@ -114,7 +120,11 @@ export default function Reviews() {
   const handleRightClick = () => scrollToIndex(activeDot + 1);
 
   return (
-    <div className="bg-q-background pb-50">
+    <section
+      ref={ref}
+      id="reviews"
+      className="bg-q-background scroll-mt-28 pb-50"
+    >
       <div className="flex flex-col items-center justify-center">
         <SectionHeading
           heading="Das&nbsp;&nbsp;sagen&nbsp;&nbsp;unsere&nbsp;&nbsp;Gäste"
@@ -183,7 +193,7 @@ export default function Reviews() {
           <Image alt="arrow right" src={arrowRight} />
         </button>
       </div>
-    </div>
+    </section>
   );
 }
 

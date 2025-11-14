@@ -27,6 +27,8 @@ import {
   TwoPolaroidStack,
 } from "@/components/sections/rooms/components";
 import SectionHeading from "../componts";
+import { useActiveSectionContext } from "@/context/active-section-context";
+import { useSectionInView } from "@/lib/hooks";
 const content = [
   {
     adornmentWithHouse: true,
@@ -79,8 +81,16 @@ const content = [
 ];
 
 export default function Rooms() {
+  const { activeSection, setActiveSection, setTimeOfLastCLick } =
+    useActiveSectionContext();
+  const { ref } = useSectionInView("Zimmer", 0.1);
+
   return (
-    <div className="bg-q-background flex flex-col items-center justify-center overflow-x-hidden">
+    <section
+      ref={ref}
+      id="rooms"
+      className="bg-q-background flex scroll-mt-28 flex-col items-center justify-center overflow-x-hidden"
+    >
       <SectionHeading
         heading="Unsere&nbsp;&nbsp;Zimmer"
         paragraph="Die Wohnung ist mit Sorgfalt eingerichtet und bietet ihn alles was sie
@@ -116,6 +126,6 @@ export default function Rooms() {
           </div>
         </div>
       ))}
-    </div>
+    </section>
   );
 }

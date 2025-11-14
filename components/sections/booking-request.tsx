@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import SectionHeading from "./componts";
 import arrowWhite from "@/public/icons/arrow-white.svg";
@@ -11,6 +12,8 @@ import hoseOutside from "@/public/images/InUse/Polaroid Frame-livingroom-3-min.p
 import frontDoor from "@/public/images/InUse/Polaroid Frame-livingroom-3-min.png";
 import outsideForntDoor from "@/public/images/InUse/Polaroid-outside-fornt-door.png";
 import outsideView from "@/public/images/InUse/Polaroid-outside-view.png";
+import { useActiveSectionContext } from "@/context/active-section-context";
+import { useSectionInView } from "@/lib/hooks";
 
 const finalDisplay = {
   adornmentWithHouse: false,
@@ -22,8 +25,16 @@ const finalDisplay = {
 };
 
 export default function BookingRequest() {
+  const { activeSection, setActiveSection, setTimeOfLastCLick } =
+    useActiveSectionContext();
+  const { ref } = useSectionInView("Anfragen", 0.5);
+
   return (
-    <div className="bg-q-background font-jost flex flex-col items-center justify-center pb-50">
+    <section
+      ref={ref}
+      id="bookingRequest"
+      className="bg-q-background font-jost flex scroll-mt-28 flex-col items-center justify-center pb-50"
+    >
       <SectionHeading
         className="!mb-0 [&>p]:hidden"
         heading="Buchungsanfrage"
@@ -83,6 +94,6 @@ export default function BookingRequest() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
