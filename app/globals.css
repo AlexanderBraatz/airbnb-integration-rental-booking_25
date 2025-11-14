@@ -168,7 +168,10 @@
 }
 
 .nav-height {
-  height: 6rem;
+  height: 5rem;
+}
+.nav-height-small {
+  height: 3rem;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */

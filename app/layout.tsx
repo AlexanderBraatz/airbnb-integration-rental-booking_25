@@ -56,7 +56,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${questrialFont.variable} ${inter.variable} ${jost.variable} ${reemKufiFun.variable} ${cedarvilleCursive.variable} antialiased`}
+        className={`bg-q-blue ${geistSans.variable} ${geistMono.variable} ${questrialFont.variable} ${inter.variable} ${jost.variable} ${reemKufiFun.variable} ${cedarvilleCursive.variable} antialiased`}
       >
         {children}
         <Toaster />
