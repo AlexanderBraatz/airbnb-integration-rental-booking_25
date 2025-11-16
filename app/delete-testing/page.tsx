@@ -3,7 +3,7 @@ import { motion, MotionValue, useScroll, useTransform } from "framer-motion";
 import mountainsLayer from "@/public/images/InUse/mountains-cropped-layer-min.png";
 
 import Image from "next/image";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 
 type CardT = { heading: string; color: string };
 

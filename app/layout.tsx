@@ -1,7 +1,3 @@
-// "use client";
-
-// import { useEffect } from "react";
-// import Lenis from "lenis";
 import { ReactLenis } from "@/lib/lenisutil";
 import type { Metadata } from "next";
 import {
@@ -61,16 +57,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="">
-      <ReactLenis root>
-        <body
-          className={`bg-q-blue ${geistSans.variable} ${geistMono.variable} ${questrialFont.variable} ${inter.variable} ${jost.variable} ${reemKufiFun.variable} ${cedarvilleCursive.variable} antialiased`}
-        >
-          <ActiveSectionContext>
-            {children}
-            <Toaster />
-          </ActiveSectionContext>
-        </body>
-      </ReactLenis>
+      {/* <ReactLenis root> */}
+      <body
+        className={`bg-q-blue ${geistSans.variable} ${geistMono.variable} ${questrialFont.variable} ${inter.variable} ${jost.variable} ${reemKufiFun.variable} ${cedarvilleCursive.variable} antialiased`}
+      >
+        <ActiveSectionContext>
+          {children}
+          <Toaster />
+        </ActiveSectionContext>
+      </body>
+      {/* </ReactLenis> */}
     </html>
   );
 }
