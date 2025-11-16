@@ -8,7 +8,7 @@ import BookingRequest from "@/components/sections/booking-request";
 
 export default function Home() {
   return (
-    <div className="bg-q-blue overflow-x-hidden">
+    <main className="bg-q-blue relative overflow-x-hidden">
       <NavBar />
       <Hero />
       <Rooms />
@@ -16,6 +16,6 @@ export default function Home() {
       <Reviews />
       <Directions />
       <BookingRequest />
-    </div>
+    </main>
   );
 }

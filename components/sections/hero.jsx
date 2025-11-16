@@ -8,9 +8,9 @@ import Image from "next/image";
 export default function Hero() {
   return (
     <>
-      <div className="relative h-screen min-h-[900px]">
+      <section className="relative h-[calc(100vh-50)] min-h-[860px]">
         {/* hero background */}
-        <div className="my-gradient pointer-events-none absolute left-[50%] h-screen min-w-[1728px] translate-x-[-50%]"></div>
+        <div className="my-gradient pointer-events-none absolute left-[50%] h-[calc(100vh-50)] min-w-[1728px] translate-x-[-50%]"></div>
         <Image
           src={mountainsLayer}
           width={1728}
@@ -21,7 +21,7 @@ export default function Hero() {
         />
         <div className="bg-q-blue-75-transparent pointer-events-none absolute inset-0"></div>
         {/* hero content */}
-        <div className="absolute left-[50%] z-10 mt-18 w-[1270px] translate-x-[-50%]">
+        <div className="absolute left-[50%] z-10 mt-12 w-[1270px] translate-x-[-50%]">
           <div id="navbar spacer" className="nav-height"></div>
           <div className="flex">
             <h1 className="font-reem-kufi w-max-[500px] relative -left-1 text-[10rem]/40 font-bold tracking-[-6%] text-white">
@@ -37,7 +37,7 @@ export default function Hero() {
                       quality={100}
                       height={508}
                       width={416}
-                      className="w-[238px] invert"
+                      className="w-[238px]"
                     />
                     {/* <span className="font-cedarville-cursive text-q-black-for-polaroid text-2xl/8 tracking-widest">
                       wonderfull
@@ -103,7 +103,7 @@ export default function Hero() {
             </h2>
           </div>
         </div>
-      </div>
+      </section>
     </>
   );
 }
