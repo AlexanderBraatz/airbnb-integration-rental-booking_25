@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import balcony from "@/public/images/InUse/Polaroid-balcony-view-no-drop-min.png";
 import adornmentHouse from "@/public/icons/adornment-house.svg";
 import adornmentTaper from "@/public/icons/adornment-taper.svg";
@@ -29,6 +29,8 @@ import {
 import SectionHeading from "../componts";
 import { useActiveSectionContext } from "@/context/active-section-context";
 import { useSectionInView } from "@/lib/hooks";
+import { motion, MotionValue, useScroll, useTransform } from "framer-motion";
+
 const content = [
   {
     adornmentWithHouse: true,
@@ -81,51 +83,74 @@ const content = [
 ];
 
 export default function Rooms() {
+  const heading = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: heading,
+    offset: ["start end", "start start"],
+  });
+
+  const roomScale = useTransform(scrollYProgress, [0, 0.2, 1], [1, 1, 1]);
+  const paddingTop = useTransform(scrollYProgress, [0, 0.6, 1], [0, 40, 40]);
   const { activeSection, setActiveSection, setTimeOfLastCLick } =
     useActiveSectionContext();
   const { ref } = useSectionInView("Zimmer", 0.1);
 
   return (
-    <section
+    <motion.section
+      style={{ scale: roomScale }}
       ref={ref}
       id="rooms"
-      className="bg-q-background flex scroll-mt-28 flex-col items-center justify-center overflow-x-hidden"
+      className="bg-q-background relative -top-12 z-50 flex scroll-mt-28 flex-col items-center justify-center rounded-3xl"
     >
-      <SectionHeading
-        heading="Unsere&nbsp;&nbsp;Zimmer"
-        paragraph="Die Wohnung ist mit Sorgfalt eingerichtet und bietet ihn alles was sie
+      <motion.div style={{ paddingTop: paddingTop }} ref={heading}>
+        <SectionHeading
+          heading="Unsere&nbsp;&nbsp;Zimmer"
+          paragraph="Die Wohnung ist mit Sorgfalt eingerichtet und bietet ihn alles was sie
             für einen Urlaub brauchen könnten."
-      />
-      {content.map((room, index) => (
-        <div
-          key={index}
-          className={`flex w-[1012px] ${room.inReverseOrder ? "flex-row-reverse" : ""} mb-45 justify-between`}
-        >
-          {room.images.length === 4 ? <FourPolaroidStack room={room} /> : <></>}
-          {room.images.length === 3 ? (
-            <ThreePolaroidStack room={room} />
-          ) : (
-            <></>
-          )}
-          {room.images.length === 2 ? <TwoPolaroidStack room={room} /> : <></>}
-          {/* each room should at least have 2 images */}
-          <div className="flex flex-col">
-            <div className="mb-16">
-              <Image
-                alt="adornment"
-                // className="bg-neutral-400"
-                src={room.adornmentWithHouse ? adornmentHouse : adornmentTaper}
-              />
+        />
+      </motion.div>
+      <div className="flex w-full flex-col items-center justify-start overflow-x-hidden">
+        {content.map((room, index) => (
+          <div
+            key={index}
+            className={`flex w-[1012px] ${room.inReverseOrder ? "flex-row-reverse" : ""} mb-45 justify-between`}
+          >
+            {room.images.length === 4 ? (
+              <FourPolaroidStack room={room} />
+            ) : (
+              <></>
+            )}
+            {room.images.length === 3 ? (
+              <ThreePolaroidStack room={room} />
+            ) : (
+              <></>
+            )}
+            {room.images.length === 2 ? (
+              <TwoPolaroidStack room={room} />
+            ) : (
+              <></>
+            )}
+            {/* each room should at least have 2 images */}
+            <div className="flex flex-col">
+              <div className="mb-16">
+                <Image
+                  alt="adornment"
+                  // className="bg-neutral-400"
+                  src={
+                    room.adornmentWithHouse ? adornmentHouse : adornmentTaper
+                  }
+                />
+              </div>
+              <h4 className="font-reem-kufi text-q-text-dark-700 mb-8 text-5xl/12 tracking-[-3px]">
+                {room.heading}
+              </h4>
+              <p className="font-jost text-q-text-dark-700 max-w-[498px] text-xl/10">
+                {room.paragraph}
+              </p>
             </div>
-            <h4 className="font-reem-kufi text-q-text-dark-700 mb-8 text-5xl/12 tracking-[-3px]">
-              {room.heading}
-            </h4>
-            <p className="font-jost text-q-text-dark-700 max-w-[498px] text-xl/10">
-              {room.paragraph}
-            </p>
           </div>
-        </div>
-      ))}
-    </section>
+        ))}
+      </div>
+    </motion.section>
   );
 }
