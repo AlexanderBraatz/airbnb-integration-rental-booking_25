@@ -1,6 +1,6 @@
 "use client";
-import Image from "next/image";
-import React, { useState } from "react";
+import Image, { StaticImageData } from "next/image";
+import React, { useCallback, useRef, useState } from "react";
 import balcony from "@/public/images/InUse/Polaroid-balcony-view-no-drop-min.png";
 import adornmentHouse from "@/public/icons/adornment-house.svg";
 import adornmentTaper from "@/public/icons/adornment-taper.svg";
@@ -29,7 +29,17 @@ import {
 import SectionHeading from "../componts";
 import { useActiveSectionContext } from "@/context/active-section-context";
 import { useSectionInView } from "@/lib/hooks";
-const content = [
+import { MotionValue, useScroll, useTransform, motion } from "framer-motion";
+
+type roomType = {
+  adornmentWithHouse: boolean;
+  inReverseOrder: boolean;
+  heading: string;
+  paragraph: string;
+  images: StaticImageData[];
+};
+
+const content: roomType[] = [
   {
     adornmentWithHouse: true,
     inReverseOrder: false,
@@ -83,23 +93,114 @@ const content = [
 export default function Rooms() {
   const { activeSection, setActiveSection, setTimeOfLastCLick } =
     useActiveSectionContext();
-  const { ref } = useSectionInView("Zimmer", 0.1);
+  const { ref: sectionInViewRef } = useSectionInView("Zimmer", 0.1);
+
+  const bigRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: bigRef,
+    offset: ["start start", "end end"],
+  });
+
+  // merged ref
+  // const combinedRef = useCallback(
+  //   (node: HTMLElement | null) => {
+  //     // pass to useSectionInView’s ref (can be callback ref)
+  //     sectionInViewRef(node);
+  //     // store in your own ref
+  //     bigRef.current = node;
+  //   },
+  //   [sectionInViewRef],
+  // );
 
   return (
     <section
-      ref={ref}
+      ref={sectionInViewRef}
       id="rooms"
-      className="bg-q-background flex scroll-mt-28 flex-col items-center justify-center overflow-x-hidden"
+      className="bg-q-background flex scroll-mt-28 flex-col items-center justify-center overflow-x-clip pb-80"
     >
       <SectionHeading
+        className="bg-q-background sticky top-12 z-100"
         heading="Unsere&nbsp;&nbsp;Zimmer"
         paragraph="Die Wohnung ist mit Sorgfalt eingerichtet und bietet ihn alles was sie
             für einen Urlaub brauchen könnten."
       />
-      {content.map((room, index) => (
+      <div ref={bigRef}>
+        {content.map((room, index) => {
+          const targetSize = 1 - (content.length - index - 1) * 0.05;
+          const targetTop = (content.length - index) * -25;
+
+          return (
+            <Card
+              key={index}
+              room={room}
+              index={index}
+              outerScroll={scrollYProgress}
+              range={[index * 0.1666, 1]}
+              targetSize={targetSize}
+              targetTop={targetTop}
+            />
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function Card({
+  room,
+  index,
+  outerScroll,
+  range,
+  targetSize,
+  targetTop,
+}: {
+  room: roomType;
+  index: number;
+  outerScroll: MotionValue<number>;
+  range: number[];
+  targetSize: number;
+  targetTop: number;
+}) {
+  // const ref = useRef(null);
+  // const { scrollYProgress } = useScroll({
+  //   target: ref,
+  //   offset: ["start end", "end end"],
+  // });
+
+  // const scale = useTransform(scrollYProgress, [0, 1], [2, 1]);
+  const scalecard = useTransform(outerScroll, range, [1, targetSize]);
+  const targetY = targetTop + 250;
+  const topCard = useTransform(outerScroll, range, [250, targetY]);
+  //   const scalecard = useTransform(outerScroll, [0, 1], [1, 0.8]);
+
+  const cardBgDic = {
+    "0": "bg-q-background-1",
+    "1": "bg-q-background-2",
+    "2": "bg-q-background-3",
+    "3": "bg-q-background-4",
+    "4": "bg-q-background-5",
+    "5": "bg-q-background-6",
+  };
+  type cardBgDicKey = keyof typeof cardBgDic;
+  const topDicFrimIndex = {
+    // "0": "top-[calc(280px_+_25px)]",
+    "0": "top-[25px]",
+    "1": "top-[50px]",
+    "2": "top-[75px]",
+    "3": "top-[100px]",
+    "4": "top-[125px]",
+    "5": "top-[150px]",
+  };
+  type topDicFrimIndexKey = keyof typeof topDicFrimIndex;
+
+  return (
+    <div className={`sticky top-0 flex h-fit items-center justify-start py-10`}>
+      <motion.div
+        style={{ scale: scalecard, top: topCard }}
+        className={`${cardBgDic[index.toString() as cardBgDicKey]} relative rounded-3xl px-20 py-10`}
+      >
         <div
-          key={index}
-          className={`flex w-[1012px] ${room.inReverseOrder ? "flex-row-reverse" : ""} mb-45 justify-between`}
+          className={`flex w-[1012px] ${room.inReverseOrder ? "flex-row-reverse" : ""} justify-between`}
         >
           {room.images.length === 4 ? <FourPolaroidStack room={room} /> : <></>}
           {room.images.length === 3 ? (
@@ -125,7 +226,7 @@ export default function Rooms() {
             </p>
           </div>
         </div>
-      ))}
-    </section>
+      </motion.div>
+    </div>
   );
 }

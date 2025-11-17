@@ -132,6 +132,12 @@
   --color-q-text-dark-700: #3d3638;
   --color-q-text-dark-darkest: #231f20;
   --color-q-background: #faf2f0;
+  --color-q-background-1: #f5ebe9;
+  --color-q-background-2: #f5dbd5;
+  --color-q-background-3: #f5d4cb;
+  --color-q-background-4: #f2ccc2;
+  --color-q-background-5: #edc4b9;
+  --color-q-background-6: #e5b8ac;
   --color-q-black-for-polaroid: hsla(345, 31%, 10%, 60%);
   --color-q-wite-almost: #f6f6f6;
   --color-q-orange-extra-light: #e4ee2e;
@@ -147,6 +153,10 @@
 
 @theme {
   --breakpoint-*: initial;
+}
+
+* {
+  border: 1 solid black;
 }
 .my-gradient {
   background: #f6f6f6;

@@ -14,7 +14,8 @@ export default function NavBar() {
   const [isScrolled, setIsScrolled] = React.useState(false);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    setIsScrolled(latest > 50 && latest > Math.abs(scrollY.getPrevious() ?? 0));
+    // setIsScrolled(latest > 50 && latest > Math.abs(scrollY.getPrevious() ?? 0));
+    setIsScrolled(latest > 50);
   });
 
   //section navigation logic
