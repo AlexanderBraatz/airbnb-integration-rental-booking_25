@@ -34,11 +34,13 @@ export default function NavBar() {
       }`}
       layout
     >
-      <Image
-        src={logo}
-        alt="logo"
-        className={`w-fit py-1 transition-all duration-300 ${isScrolled ? "h-10" : "h-10"}`}
-      />
+      <Link href="/" className="">
+        <Image
+          src={logo}
+          alt="logo"
+          className={`w-fit py-1 transition-all duration-300 ${isScrolled ? "h-10" : "h-10"}`}
+        />
+      </Link>
 
       <div className="flex items-center gap-10">
         <ul className="font-reem-kufi flex gap-7 text-2xl/7 tracking-tighter">
