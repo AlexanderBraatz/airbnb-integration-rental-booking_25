@@ -116,15 +116,16 @@ export default function Rooms() {
     <section
       ref={sectionInViewRef}
       id="rooms"
-      className="bg-q-background flex scroll-mt-28 flex-col items-center justify-center overflow-x-clip pb-80"
+      className="bg-q-background flex scroll-mt-0 flex-col items-center justify-center overflow-x-clip pb-0"
     >
-      <SectionHeading
-        className="bg-q-background sticky top-12 z-100"
-        heading="Unsere&nbsp;&nbsp;Zimmer"
-        paragraph="Die Wohnung ist mit Sorgfalt eingerichtet und bietet ihn alles was sie
+      <div ref={bigRef} className="flex flex-col items-center">
+        <SectionHeading
+          className="bg-q-background sticky top-12 z-50 !mb-211 [&>p]:hidden"
+          heading="Unsere&nbsp;&nbsp;Zimmer"
+          paragraph="Die Wohnung ist mit Sorgfalt eingerichtet und bietet ihn alles was sie
             für einen Urlaub brauchen könnten."
-      />
-      <div ref={bigRef}>
+        />
+        <div className="-mb-350"></div>
         {content.map((room, index) => {
           const targetSize = 1 - (content.length - index - 1) * 0.05;
           const targetTop = (content.length - index) * -25;
@@ -174,12 +175,12 @@ function Card({
   //   const scalecard = useTransform(outerScroll, [0, 1], [1, 0.8]);
 
   const cardBgDic = {
-    "0": "bg-q-background-1",
-    "1": "bg-q-background-2",
-    "2": "bg-q-background-3",
-    "3": "bg-q-background-4",
-    "4": "bg-q-background-5",
-    "5": "bg-q-background-6",
+    "0": "bg-q-background-b-1",
+    "1": "bg-q-background-b-2",
+    "2": "bg-q-background-b-3",
+    "3": "bg-q-background-b-4",
+    "4": "bg-q-background-b-5",
+    "5": "bg-q-background-b-6",
   };
   type cardBgDicKey = keyof typeof cardBgDic;
   const topDicFrimIndex = {
@@ -194,10 +195,12 @@ function Card({
   type topDicFrimIndexKey = keyof typeof topDicFrimIndex;
 
   return (
-    <div className={`sticky top-0 flex h-fit items-center justify-start py-10`}>
+    <div
+      className={`sticky top-0 my-100 flex h-[600px] items-center justify-start`}
+    >
       <motion.div
         style={{ scale: scalecard, top: topCard }}
-        className={`${cardBgDic[index.toString() as cardBgDicKey]} relative rounded-3xl px-20 py-10`}
+        className={`${cardBgDic[index.toString() as cardBgDicKey]} relative rounded-2xl px-20 py-10`}
       >
         <div
           className={`flex w-[1012px] ${room.inReverseOrder ? "flex-row-reverse" : ""} justify-between`}
@@ -218,10 +221,10 @@ function Card({
                 src={room.adornmentWithHouse ? adornmentHouse : adornmentTaper}
               />
             </div>
-            <h4 className="font-reem-kufi text-q-text-dark-700 mb-8 text-5xl/12 tracking-[-3px]">
+            <h4 className="font-reem-kufi text-q-text-dark-darkest mb-8 text-5xl/12 tracking-[-3px]">
               {room.heading}
             </h4>
-            <p className="font-jost text-q-text-dark-700 max-w-[498px] text-xl/10">
+            <p className="font-jost text-q-text-dark-darkest max-w-[498px] text-xl/10">
               {room.paragraph}
             </p>
           </div>

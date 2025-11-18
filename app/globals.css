@@ -138,6 +138,30 @@
   --color-q-background-4: #f2ccc2;
   --color-q-background-5: #edc4b9;
   --color-q-background-6: #e5b8ac;
+  --color-q-background-b-1: #f5eae7;
+  --color-q-background-b-2: #f5ddd6;
+  --color-q-background-b-3: #f4d3c9;
+  --color-q-background-b-4: #f2ccbb;
+  --color-q-background-b-5: #f0c4ad;
+  --color-q-background-b-6: #efbea0;
+  --color-q-background-c-1: #f9c575;
+  --color-q-background-c-2: #f2aa77;
+  --color-q-background-c-3: #ecce8f;
+  --color-q-background-c-4: #a9c6d4;
+  --color-q-background-c-5: #d3d3d3;
+  --color-q-background-c-6: #e4ab94;
+  --color-q-background-d-1: #d7e2e8;
+  --color-q-background-d-2: #e9cbb6;
+  --color-q-background-d-3: #ece3d2;
+  --color-q-background-d-4: #cbd2d5;
+  --color-q-background-d-5: #e3cec5;
+  --color-q-background-d-6: #ebd9cb;
+  --color-q-background-e-1: #d8e2e7;
+  --color-q-background-e-2: #dbdad8;
+  --color-q-background-e-3: #dfd1c5;
+  --color-q-background-e-4: #e4c7b2;
+  --color-q-background-e-5: #e7bfa2;
+  --color-q-background-e-6: #ecb58f;
   --color-q-black-for-polaroid: hsla(345, 31%, 10%, 60%);
   --color-q-wite-almost: #f6f6f6;
   --color-q-orange-extra-light: #e4ee2e;
@@ -154,10 +178,10 @@
 @theme {
   --breakpoint-*: initial;
 }
-
+/* 
 * {
   border: 1 solid black;
-}
+} */
 .my-gradient {
   background: #f6f6f6;
   background-size: 100% 100%;

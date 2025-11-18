@@ -29,7 +29,7 @@ export default function NavBar() {
 
   return (
     <motion.div
-      className={`bg-q-blue-95-transparent fixed z-50 flex w-full items-center justify-between border-b-[1px] border-white px-10 text-neutral-50 transition-all duration-300 ease-in-out ${
+      className={`bg-q-blue-95-transparent fixed z-60 flex w-full items-center justify-between border-b-[1px] border-white px-10 text-neutral-50 transition-all duration-300 ease-in-out ${
         isScrolled ? "nav-height-small" : "nav-height"
       }`}
       layout
