@@ -1,4 +1,10 @@
 "use client";
+
+// to position the sticky animation i am using the top prop to determine where it will stick during the scroll
+// i use the padding-y-axis on the cards for the "time " between cards appearing
+// i am using the y offset on the cards to make them stack, so that the top card always sticks at the same position
+// i use a negative margin to pull the cards up , counter balancing the large top and y values they need for the scroll animation
+
 import Image, { StaticImageData } from "next/image";
 import React, { useCallback, useRef, useState } from "react";
 import balcony from "@/public/images/InUse/Polaroid-balcony-view-no-drop-min.png";
