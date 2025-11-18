@@ -72,6 +72,11 @@ export default function Reviews() {
   const scrollerRef = React.useRef<HTMLDivElement | null>(null);
   const [activeDot, setActiveDot] = React.useState(1);
 
+  // refs for dragging
+  const isDraggingRef = React.useRef(false);
+  const startXRef = React.useRef(0);
+  const scrollLeftRef = React.useRef(0);
+
   const getStep = React.useCallback(() => {
     const scroller = scrollerRef.current;
     if (!scroller) return 516;
@@ -119,6 +124,70 @@ export default function Reviews() {
   const handleLeftClick = () => scrollToIndex(activeDot - 1);
   const handleRightClick = () => scrollToIndex(activeDot + 1);
 
+  // MOUSE DRAG HANDLERS
+  const handleMouseDown: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    e.preventDefault();
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    isDraggingRef.current = true;
+    startXRef.current = e.pageX - scroller.offsetLeft;
+    scrollLeftRef.current = scroller.scrollLeft;
+
+    // optional: visual feedback
+    scroller.style.cursor = "grabbing";
+  };
+
+  const endMouseDrag = () => {
+    const scroller = scrollerRef.current;
+    isDraggingRef.current = false;
+    if (scroller) {
+      scroller.style.cursor = "grab";
+    }
+  };
+
+  const handleMouseMove: React.MouseEventHandler<HTMLDivElement> = (e) => {
+    e.preventDefault();
+    if (!isDraggingRef.current) return;
+
+    e.preventDefault();
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    const x = e.pageX - scroller.offsetLeft;
+    const walk = x - startXRef.current; // distance moved
+    scroller.scrollLeft = scrollLeftRef.current - walk;
+  };
+
+  // TOUCH DRAG HANDLERS
+  const handleTouchStart: React.TouchEventHandler<HTMLDivElement> = (e) => {
+    e.preventDefault();
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    isDraggingRef.current = true;
+    const touch = e.touches[0];
+    startXRef.current = touch.pageX - scroller.offsetLeft;
+    scrollLeftRef.current = scroller.scrollLeft;
+  };
+
+  const handleTouchMove: React.TouchEventHandler<HTMLDivElement> = (e) => {
+    e.preventDefault();
+    if (!isDraggingRef.current) return;
+
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    const touch = e.touches[0];
+    const x = touch.pageX - scroller.offsetLeft;
+    const walk = x - startXRef.current;
+    scroller.scrollLeft = scrollLeftRef.current - walk;
+  };
+
+  const handleTouchEnd: React.TouchEventHandler<HTMLDivElement> = () => {
+    isDraggingRef.current = false;
+  };
+
   return (
     <section
       ref={ref}
@@ -143,8 +212,15 @@ export default function Reviews() {
         {/* SCROLLER */}
         <div
           ref={scrollerRef}
-          className="scrollbar-hide mb-12 w-full overflow-x-auto overscroll-x-contain scroll-smooth"
+          className="scrollbar-hide mb-12 w-full cursor-grab overflow-x-auto overscroll-x-contain scroll-smooth"
           aria-label="Gästebewertungen"
+          onMouseDown={handleMouseDown}
+          onMouseUp={endMouseDrag}
+          onMouseLeave={endMouseDrag}
+          onMouseMove={handleMouseMove}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           <div className="ml-25 flex w-fit gap-5">
             {reviews.map((review, index) => (
@@ -154,7 +230,8 @@ export default function Reviews() {
           </div>
         </div>
       </div>
-      {/* ARROWS + DOTS (styled like your snippet) */}
+
+      {/* ARROWS + DOTS */}
       <div className="flex items-center justify-center">
         <button
           className="flex h-6 w-6 cursor-pointer items-center justify-center"
