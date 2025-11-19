@@ -35,11 +35,11 @@ export default function NavBar() {
       }`}
       layout
     >
-      <Link href="/" className="">
+      <Link href="/" className="hover:[&>img]:scale-105">
         <Image
           src={logo}
           alt="logo"
-          className={`w-fit py-1 transition-all duration-300 ${isScrolled ? "h-10" : "h-10"}`}
+          className={`relative -left-6 w-fit py-1 transition-all duration-300 ${isScrolled ? "-left-12 h-10" : "-left-6 h-12"}`}
         />
       </Link>
 
@@ -49,7 +49,7 @@ export default function NavBar() {
             <Link
               href={link.hash}
               key={link.hash}
-              className="w-fit cursor-pointer"
+              className="w-fit cursor-pointer hover:[&>div]:w-full"
               onClick={() => {
                 setActiveSection(link.name);
                 setTimeOfLastCLick(Date.now());
@@ -65,7 +65,7 @@ export default function NavBar() {
         <div>
           <Link
             href={headerSections[headerSections.length - 1].hash}
-            className={`hover:bg-q-button-red active:bg-q-button-red-darker flex items-center gap-4 rounded-full border bg-neutral-50 py-4.5 pr-8 pl-12 transition-all duration-300 ease-in-out hover:border-neutral-50 hover:[&>span]:text-white hover:[&>svg]:stroke-white ${isScrolled ? "h-10" : "h-14"}`}
+            className={`hover:bg-q-button-red active:bg-q-button-red-darker flex items-center gap-4 rounded-full border bg-neutral-50 py-0 pr-8 pl-12 transition-all duration-300 ease-in-out hover:border-neutral-50 hover:[&>span]:text-white hover:[&>svg]:stroke-white ${isScrolled ? "h-9" : "h-14"}`}
           >
             <span className="font-jost text-q-neon-blue text text-xl/5 font-bold">
               ANFRAGEN
