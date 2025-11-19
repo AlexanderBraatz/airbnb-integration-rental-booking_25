@@ -72,7 +72,10 @@ export default function NavBar() {
             </span>
             {/* <Image className="" src={arrow} alt="arrow" /> */}
             {/* <arrow /> */}
-            <ArrowSvgComp className="stroke-q-neon-blue" />
+            <ArrowSvgComp
+              stroke="stroke-q-neon-blue"
+              className="stroke-q-neon-blue"
+            />
           </Link>
         </div>
       </div>
