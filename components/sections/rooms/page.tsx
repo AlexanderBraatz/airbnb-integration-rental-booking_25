@@ -91,7 +91,7 @@ const content: roomType[] = [
     inReverseOrder: true,
     heading: "Offene  Küche",
     paragraph:
-      "Viel Platz zum Wohlfühlen: Das Bad ist großzügig gestaltet und mit Badewanne, Dusche und Doppelwaschtisch ausgestattet Nach einer langen Wanderung oder einem Skitag lädt es zum Entspannen und Auftanken ein.",
+      "Viel Platz zum Wohlfühlen: Das Bad ist großzügig gestaltet und mit Badewanne, Dusche und Doppelwaschtisch ausgestattet Nach einer langen Wanderung oder einem Skitag lädt es zum Entspannen und Auftanken ein. Auch hier erwartet euch ein komfortables Kingsize-Bett für erholsame Nächte.",
     images: [kitchen1, kitchen2, kitchen3],
   },
 ];

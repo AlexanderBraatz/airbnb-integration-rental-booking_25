@@ -6,6 +6,7 @@ import cableCar from "@/public/icons/cable-car-bold 1.svg";
 import bus from "@/public/icons/bus-bold 1.svg";
 import trainRegional from "@/public/icons/train-regional 1.svg";
 import house from "@/public/icons/house-line-bold 1.svg";
+import CornersOut from "@/public/icons/corners-out.svg";
 import google from "@/public/images/InUse/google-delete.jpg";
 import SectionHeading from "./componts";
 import { useActiveSectionContext } from "@/context/active-section-context";
@@ -106,10 +107,34 @@ export default function Directions() {
             </div>
           </div>
         </div>
-        <div className="relative h-[482x] w-[883px] overflow-hidden bg-amber-600">
-          <Image src={google} alt="tbc" fill className="object-cover" />
+        <div className="relative h-[482x] w-[883px] overflow-hidden">
+          {/* <Image src={google} alt="tbc" fill className="object-cover" /> */}
+          <a
+            target="_blank"
+            href={"https://maps.app.goo.gl/E81voU52oESvuebN7"}
+            className="absolute top-5 right-5 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white"
+          >
+            <Image src={CornersOut} alt="tbc" className="absolute h-6 w-6" />
+          </a>
+          <EmbededGoogleMap />
         </div>
       </div>
     </section>
+  );
+}
+
+function EmbededGoogleMap() {
+  return (
+    <div className="relative -left-80">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d26927.759204163267!2d11.055253734431027!3d47.482564335267774!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479d0137999cdd07%3A0xc1a19e115c1297f3!2sBrandstra%C3%9Fe%2032%2C%2082467%20Garmisch-Partenkirchen%2C%20Germany!5e0!3m2!1sen!2suk!4v1763552250724!5m2!1sen!2suk"
+        width="1283"
+        height="482"
+        style={{ border: 0 }}
+        allowFullScreen={false}
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
   );
 }
