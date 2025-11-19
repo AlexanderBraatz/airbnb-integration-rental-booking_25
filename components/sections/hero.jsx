@@ -86,15 +86,15 @@ export default function Hero() {
             <div className="flex items-end gap-5 pb-4">
               <Link
                 href="#bookingRequest"
-                className="flex h-14 w-[238px] items-center justify-center rounded-full bg-neutral-50 py-4.5"
+                className="hover:bg-q-button-red active:bg-q-button-red-darker flex h-14 w-[238px] items-center justify-center rounded-full border bg-neutral-50 py-4.5 transition-colors duration-300 ease-in-out hover:border-neutral-50 hover:[&>span]:text-white"
               >
-                <span className="font-jost text-q-neon-blue text text-xl/5 font-bold">
+                <span className="font-jost text-q-neon-blue text hover:[&>span]text-white text-xl/5 font-bold">
                   ANFRAGEN
                 </span>
               </Link>
               <Link
                 href="#reviews"
-                className="flex h-14 w-[238px] items-center justify-center rounded-full border border-neutral-50 py-4.5"
+                className="hover:bg-q-button-red active:bg-q-button-red-darker flex h-14 w-[238px] items-center justify-center rounded-full border border-neutral-50 py-4.5 transition-colors duration-300 ease-in-out"
               >
                 <span className="font-jost text text-xl/5 font-bold text-neutral-50">
                   BEWERTUNGEN

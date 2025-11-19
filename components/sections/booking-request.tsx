@@ -33,7 +33,7 @@ export default function BookingRequest() {
     <section
       ref={ref}
       id="bookingRequest"
-      className="bg-q-background font-jost flex scroll-mt-28 flex-col items-center justify-center pb-50"
+      className="bg-q-background font-jost flex scroll-mt-28 flex-col items-center justify-center overflow-x-clip pb-50"
     >
       <SectionHeading
         className="!mb-0 [&>p]:hidden"
@@ -79,8 +79,8 @@ export default function BookingRequest() {
               <input className="border-q-text-dark-darkest block h-30 w-full border bg-white" />
             </div>
             <div className="col-start-2 col-end-3">
-              <button className="bg-q-button-red border-q-text-dark-darkest h-[56px] w-[238px] rounded-full border">
-                <div className="flex items-center justify-center gap-9">
+              <button className="bg-q-button-red active:bg-q-button-red-darker border-q-text-dark-darkest h-[56px] w-[238px] rounded-full border transition-colors duration-300 ease-in-out">
+                <div className="flex items-center justify-center gap-4">
                   <span className="text-xl/5 font-bold text-white">
                     ANFRAGEN
                   </span>

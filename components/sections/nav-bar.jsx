@@ -7,6 +7,7 @@ import logo from "@/public/icons/logo-fff.svg";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useActiveSectionContext } from "@/context/active-section-context";
 import Link from "next/link";
+import ArrowSvgComp from "@/public/icons/arrow-compont";
 
 export default function NavBar() {
   // shrink header on scroll logic
@@ -64,12 +65,14 @@ export default function NavBar() {
         <div>
           <Link
             href={headerSections[headerSections.length - 1].hash}
-            className={`flex items-center gap-4 rounded-full bg-neutral-50 py-4.5 pr-8 pl-12 transition-all duration-300 ease-in-out ${isScrolled ? "h-10" : "h-14"}`}
+            className={`hover:bg-q-button-red active:bg-q-button-red-darker flex items-center gap-4 rounded-full border bg-neutral-50 py-4.5 pr-8 pl-12 transition-all duration-300 ease-in-out hover:border-neutral-50 hover:[&>span]:text-white hover:[&>svg]:stroke-white ${isScrolled ? "h-10" : "h-14"}`}
           >
             <span className="font-jost text-q-neon-blue text text-xl/5 font-bold">
               ANFRAGEN
             </span>
-            <Image src={arrow} alt="arrow" />
+            {/* <Image className="" src={arrow} alt="arrow" /> */}
+            {/* <arrow /> */}
+            <ArrowSvgComp className="stroke-q-neon-blue" />
           </Link>
         </div>
       </div>
