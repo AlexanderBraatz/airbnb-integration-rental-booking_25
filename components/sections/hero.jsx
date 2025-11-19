@@ -9,9 +9,10 @@ import Link from "next/link";
 export default function Hero() {
   return (
     <>
-      <section className="relative h-[calc(100vh-50)] min-h-[860px] overflow-x-clip">
+      <section className="relative h-[calc(100vh-50px)] min-h-[860px] overflow-x-clip">
         {/* hero background */}
-        <div className="my-gradient pointer-events-none absolute left-[50%] h-[calc(100vh-50)] min-w-[1728px] translate-x-[-50%]"></div>
+        <div className="my-gradient pointer-events-none absolute left-[50%] h-[calc(100vh-50px)] min-w-[1728px] translate-x-[-50%]"></div>
+
         <Image
           src={mountainsLayer}
           width={1728}
