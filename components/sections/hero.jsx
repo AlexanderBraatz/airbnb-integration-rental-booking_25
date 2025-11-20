@@ -41,6 +41,9 @@ export default function Hero() {
                       width={416}
                       className="w-[238px]"
                     />
+                    <span className="font-cedarville-cursive text-q-black-for-polaroid tracking-wideseet absolute right-4.5 bottom-2.5 -rotate-4 text-2xl/8">
+                      Natur
+                    </span>
                     {/* <span className="font-cedarville-cursive text-q-black-for-polaroid text-2xl/8 tracking-widest">
                       wonderfull
                     </span> */}
@@ -54,8 +57,8 @@ export default function Hero() {
                       width={416}
                       className="w-[238px]"
                     />
-                    <span className="font-cedarville-cursive text-q-black-for-polaroid absolute right-4 bottom-2 -rotate-2 text-2xl/8 tracking-widest">
-                      ein Traum
+                    <span className="font-cedarville-cursive text-q-black-for-polaroid tracking-wideee absolute right-4.5 bottom-3 -rotate-2 text-2xl/8">
+                      Traumaussicht
                     </span>
                   </li>
                   <li className="relative w-[238px]">
@@ -67,8 +70,8 @@ export default function Hero() {
                       width={416}
                       className="w-[238px]"
                     />
-                    <span className="font-cedarville-cursive text-q-black-for-polaroid absolute right-4 bottom-2 -rotate-2 text-2xl/8 tracking-widest">
-                      wohlgefühl
+                    <span className="font-cedarville-cursive text-q-black-for-polaroid tracking-wideseet absolute right-4.5 bottom-3 -rotate-2 text-2xl/8">
+                      Wohlgefühl
                     </span>
                   </li>
                 </ul>
