@@ -105,6 +105,7 @@ export default function Highlights() {
   }
 
   const isDesktopSM = useMediaQuery("(max-width: 1360px)");
+  const isMobile = useMediaQuery("(max-width: 708px)");
 
   function safeSetHighlighted(value: number | ((prev: number) => number)) {
     if (isDesktopSM) return;
@@ -115,7 +116,11 @@ export default function Highlights() {
       setHighlighted(value);
     }
   }
-
+  const responsiveHeading = isDesktopSM
+    ? isMobile
+      ? "Ausstattung\n&\u00A0\u00A0Highlights"
+      : "Ausstattung\u00A0\u00A0&\u00A0\u00A0Highlights"
+    : "Genießen\u00A0\u00A0Sie\u00A0\u00A0Komfort\u00A0\u00A0und\u00A0\u00A0Gemütlichkeit";
   return (
     <section
       ref={ref}
@@ -123,14 +128,17 @@ export default function Highlights() {
       className="bg-q-background flex scroll-mt-28 flex-col items-center justify-center overflow-y-hidden pb-50"
     >
       <SectionHeading
-        heading="Genießen&nbsp;&nbsp;Sie&nbsp;&nbsp;Komfort&nbsp;&nbsp;und&nbsp;&nbsp;Gemütlichkeit"
+        heading={responsiveHeading}
         paragraph="Die Wohnung ist mit Sorgfalt eingerichtet und bietet ihn alles was sie
         für einen Urlaub brauchen könnten."
       />
-      <div className="desktopSM:justify-center flex w-[1270px] justify-between">
-        <div className="desktopSM:grid-cols-3 desktopSM:grid-rows-2 grid grid-cols-2 grid-rows-3 gap-5">
+      <div className="desktopSM:justify-center mobile:w-full flex w-[1270px] justify-between">
+        <div className="desktopSM:grid-cols-3 desktopSM:grid-rows-2 tablet:grid-cols-2 tablet:grid-rows-3 mobile:w-full mobile:grid-cols-[repeat(auto-fit,minmax(0,400px))] mobile:grid-rows-6 mobile:px-4 grid grid-cols-2 grid-rows-3 justify-center gap-5">
           {highlights.map((highlight, index) => (
-            <div key={index} className="flex items-center justify-center">
+            <div
+              key={index}
+              className="mobile:w-full flex items-center justify-center"
+            >
               <Card
                 highlight={highlight}
                 setHighlighted={safeSetHighlighted}
@@ -172,8 +180,8 @@ function Card({
     setHighlighted(highlight.id);
   }
   return (
-    <div>
-      <div className="desktopSM:block hidden h-[200px] w-[319px]">
+    <div className="mobile:w-full">
+      <div className="desktopSM:block mobile:w-full hidden h-[200px] w-[319px]">
         <Image
           src={highlight.srcLandscape}
           alt={highlight.alt}
@@ -184,7 +192,7 @@ function Card({
       </div>
       <div
         onMouseOver={handleMouseOver}
-        className={`${highlighted ? "desktopSM:bg-q-card-background bg-q-card-background-highlight" : "bg-q-card-background"} desktopSM:w-[319px] desktopSM:h-[140px] h-[182px] w-[367px] cursor-default p-5 transition-all duration-300 ease-in-out`}
+        className={`${highlighted ? "desktopSM:bg-q-card-background bg-q-card-background-highlight" : "bg-q-card-background"} desktopSM:w-[319px] desktopSM:h-[140px] mobile:w-full h-[182px] w-[367px] cursor-default p-5 transition-all duration-300 ease-in-out`}
       >
         <div className="desktopSM:mb-2.5 desktopSM:flex-row desktopSM:items-center desktopSM:gap-2 flex flex-col gap-3">
           <div

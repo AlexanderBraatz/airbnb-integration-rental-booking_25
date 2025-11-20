@@ -2,6 +2,7 @@ import React, { ReactNode } from "react";
 
 import mountainsLeft from "@/public/images/InUse/adornment-mountains-left.svg";
 import mountainsRight from "@/public/images/InUse/adornment-mountains-right.svg";
+import adornmentWithHouse from "@/public/icons/adornment-mobile-with-house.svg";
 import Image from "next/image";
 
 export default function SectionHeading({
@@ -15,10 +16,10 @@ export default function SectionHeading({
 }) {
   return (
     <div
-      className={` ${className} mb-24 flex w-full flex-col items-center justify-center`}
+      className={` ${className} mobile:mb-20 mb-24 flex w-full flex-col items-center justify-center`}
     >
-      <div className="flex w-full items-center gap-10 px-25 pb-5">
-        <div className="flex h-12 grow items-end">
+      <div className="desktopSM:px-5 mobile:px-4 flex w-full items-center gap-10 px-25 pb-5">
+        <div className="mobile:hidden flex h-12 grow items-end">
           <div className="relative left-2 w-full">
             <div className="flex h-6 w-full items-end">
               <TrailLeftStreachy />
@@ -26,10 +27,17 @@ export default function SectionHeading({
           </div>
           <Image className="" src={mountainsLeft} alt="icon" />
         </div>
-        <h3 className="text-q-text-dark-700 font-reem-kufi text-6xl/22 tracking-[-6%]">
-          {heading}
-        </h3>
-        <div className="flex h-12 grow items-end">
+        <div className="mobile:w-full flex flex-col items-start">
+          <Image
+            className="mobile:block hidden w-full"
+            src={adornmentWithHouse}
+            alt="icon"
+          />
+          <h3 className="text-q-text-dark-700 font-reem-kufi mobile:text-[40px]/15 mobile:w-90 text-6xl/22 tracking-[-6%]">
+            {heading}
+          </h3>
+        </div>
+        <div className="mobile:hidden flex h-12 grow items-end">
           <Image src={mountainsRight} alt="icon" />
           <div className="relative right-2 w-full">
             <div className="flex h-6 w-full items-end">
@@ -38,7 +46,7 @@ export default function SectionHeading({
           </div>
         </div>
       </div>
-      <p className="text-q-text-dark-700 font-jost w-[797px] text-center text-xl leading-[30px] tracking-wide">
+      <p className="text-q-text-dark-700 mobile:text-base/6 mobile:text-left font-jost mobile:mx-4 mx-5 max-w-[797px] text-center text-xl leading-[30px] tracking-wide">
         {paragraph}
       </p>
     </div>
