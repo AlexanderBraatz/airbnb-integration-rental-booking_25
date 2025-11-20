@@ -219,6 +219,6 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
-@custom-variant desktop (@media (max-width: 1353px));
+@custom-variant desktopSM (@media (max-width: 1360px));
 @custom-variant tablet (@media (max-width: 1087px));
 @custom-variant phone (@media (max-width: 708px));
