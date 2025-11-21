@@ -125,7 +125,7 @@ export default function Highlights() {
     <section
       ref={ref}
       id="highlights"
-      className="bg-q-background flex scroll-mt-28 flex-col items-center justify-center overflow-y-hidden pb-50"
+      className="bg-q-background flex scroll-mt-28 flex-col items-center justify-center overflow-x-hidden pb-50"
     >
       <SectionHeading
         heading={responsiveHeading}
