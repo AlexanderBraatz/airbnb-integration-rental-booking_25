@@ -16,7 +16,7 @@ export default function SectionHeading({
 }) {
   return (
     <div
-      className={` ${className} mobile:mb-20 mb-24 flex w-full flex-col items-center justify-center`}
+      className={` ${className} mobile:mb-20 mobile:items-start mb-24 flex w-full flex-col items-center justify-center`}
     >
       <div className="desktopSM:px-5 mobile:px-4 flex w-full items-center gap-10 px-25 pb-5">
         <div className="mobile:hidden flex h-12 grow items-end">

@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import React from "react";
-import arrow from "@/public/icons/arrow-right-neon-blue.svg";
 import logo from "@/public/icons/logo-fff.svg";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useActiveSectionContext } from "@/context/active-section-context";
