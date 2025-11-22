@@ -2,6 +2,7 @@ import React from "react";
 import view from "@/public/images/InUse/Polaroid-mountains-no-drop-min.png";
 import balcony from "@/public/images/InUse/Polaroid-balcony-view-no-drop-min.png";
 import sheep from "@/public/images/InUse/Polaroid-sheep-no-drop-min.png";
+import outside from "@/public/images/InUse/Polaroid-outside-view-no-text.png";
 import mountainsLayer from "@/public/images/InUse/mountains-cropped-layer-min.png";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,9 +10,9 @@ import Link from "next/link";
 export default function Hero() {
   return (
     <>
-      <section className="relative h-[calc(100vh-50px)] min-h-[860px] overflow-x-clip">
+      <section className="mobile:min-h-[111px] mobile:h-[700px] relative h-[calc(100vh-50px)] min-h-[860px] overflow-x-clip">
         {/* hero background */}
-        <div className="my-gradient pointer-events-none absolute left-[50%] h-[calc(100vh-50px)] min-w-[1728px] translate-x-[-50%]"></div>
+        <div className="my-gradient mobile:min-h-[111px] mobile:h-[700px] pointer-events-none absolute left-[50%] h-[calc(100vh-50px)] min-w-[1728px] translate-x-[-50%]"></div>
 
         <Image
           src={mountainsLayer}
@@ -23,11 +24,11 @@ export default function Hero() {
         />
         <div className="bg-q-blue-75-transparent pointer-events-none absolute inset-0"></div>
         {/* hero content */}
-        <div className="desktopSM:w-screen desktopSM:px-10 tablet:px-5 absolute left-[50%] z-10 mt-12 w-[1270px] translate-x-[-50%]">
+        <div className="desktopSM:w-screen desktopSM:px-10 tablet:px-5 mobile:px-2 absolute left-[50%] z-10 mt-12 w-[1270px] translate-x-[-50%]">
           <div id="navbar spacer" className="nav-height tablet:!h-4"></div>
           {/* spacer is not workign as intented but his hack works for now */}
           <div className="tablet:flex-col tablet:justify-start flex justify-between">
-            <h1 className="font-reem-kufi tablet:mb-5 tablet:text-[64px]/19 relative -left-1 w-[500px] text-[10rem]/40 font-bold tracking-[-6%] text-wrap text-white">
+            <h1 className="font-reem-kufi tablet:mb-5 mobile:text-[40px]/12 tablet:text-[64px]/19 relative -left-1 w-[500px] text-[10rem]/40 font-bold tracking-[-6%] text-wrap text-white">
               <span className="tablet:block hidden">
                 Sieben&nbsp;&nbsp;Gipfel&nbsp;&nbsp;Blick
               </span>
@@ -38,9 +39,22 @@ export default function Hero() {
               <span className="tablet:block hidden">Aussicht</span>
             </h1>
             <div>
-              <div className="flex">
-                <ul className="flex gap-5">
-                  <li className="relative w-[238px]">
+              <div className="scrollbar-hide tablet:w-screen tablet:pl-5 tablet:-left-5 relative flex overflow-x-scroll scroll-smooth">
+                <ul className="tablet:w-[754px] flex gap-5">
+                  <li className="mobile:block relative hidden w-[238px]">
+                    <Image
+                      src={outside}
+                      alt="view of the building from the outside"
+                      quality={100}
+                      height={508}
+                      width={416}
+                      className="w-[238px]"
+                    />
+                    <span className="font-cedarville-cursive text-q-black-for-polaroid tracking-wideee absolute right-4.5 bottom-3 -rotate-2 text-2xl/8">
+                      Hereinspaziert
+                    </span>
+                  </li>
+                  <li className="mobile:hidden relative w-[238px]">
                     <Image
                       src={sheep}
                       alt="sheep"
@@ -52,11 +66,8 @@ export default function Hero() {
                     <span className="font-cedarville-cursive text-q-black-for-polaroid tracking-wideseet absolute right-4.5 bottom-2.5 -rotate-4 text-2xl/8">
                       Natur
                     </span>
-                    {/* <span className="font-cedarville-cursive text-q-black-for-polaroid text-2xl/8 tracking-widest">
-                      wonderfull
-                    </span> */}
                   </li>
-                  <li className="relative w-[238px]">
+                  <li className="mobile:hidden relative w-[238px]">
                     <Image
                       src={view}
                       alt="sheep"
@@ -93,7 +104,7 @@ export default function Hero() {
             </div>
           </div>
         </div>
-        <div className="desktopSM:w-screen desktopSM:px-10 tablet:px-5 absolute bottom-0 left-[50%] z-10 mt-18 w-[1270px] translate-x-[-50%]">
+        <div className="desktopSM:w-screen mobile:hidden desktopSM:px-10 tablet:px-5 absolute bottom-0 left-[50%] z-10 mt-18 w-[1270px] translate-x-[-50%]">
           <div className="flex justify-between">
             <div className="flex items-end gap-5 pb-4">
               <Link
