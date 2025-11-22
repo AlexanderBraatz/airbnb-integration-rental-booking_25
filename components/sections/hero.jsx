@@ -23,11 +23,19 @@ export default function Hero() {
         />
         <div className="bg-q-blue-75-transparent pointer-events-none absolute inset-0"></div>
         {/* hero content */}
-        <div className="absolute left-[50%] z-10 mt-12 w-[1270px] translate-x-[-50%]">
-          <div id="navbar spacer" className="nav-height"></div>
-          <div className="flex">
-            <h1 className="font-reem-kufi w-max-[500px] relative -left-1 text-[10rem]/40 font-bold tracking-[-6%] text-white">
-              Sieben Gipfel Blick
+        <div className="desktopSM:w-screen desktopSM:px-10 tablet:px-5 absolute left-[50%] z-10 mt-12 w-[1270px] translate-x-[-50%]">
+          <div id="navbar spacer" className="nav-height tablet:!h-4"></div>
+          {/* spacer is not workign as intented but his hack works for now */}
+          <div className="tablet:flex-col tablet:justify-start flex justify-between">
+            <h1 className="font-reem-kufi tablet:mb-5 tablet:text-[64px]/19 relative -left-1 w-[500px] text-[10rem]/40 font-bold tracking-[-6%] text-wrap text-white">
+              <span className="tablet:block hidden">
+                Sieben&nbsp;&nbsp;Gipfel&nbsp;&nbsp;Blick
+              </span>
+              <span className="tablet:hidden block">Sieben Gipfel Blick</span>
+              <span className="tablet:block hidden">
+                Ihr&nbsp;&nbsp;Urlaub&nbsp;&nbsp;mit&nbsp;&nbsp;
+              </span>
+              <span className="tablet:block hidden">Aussicht</span>
             </h1>
             <div>
               <div className="flex">
@@ -61,7 +69,7 @@ export default function Hero() {
                       Traumaussicht
                     </span>
                   </li>
-                  <li className="relative w-[238px]">
+                  <li className="desktopSM:hidden tablet:block relative w-[238px]">
                     <Image
                       src={balcony}
                       alt="sheep"
@@ -85,7 +93,7 @@ export default function Hero() {
             </div>
           </div>
         </div>
-        <div className="absolute bottom-0 left-[50%] z-10 mt-18 w-[1270px] translate-x-[-50%]">
+        <div className="desktopSM:w-screen desktopSM:px-10 tablet:px-5 absolute bottom-0 left-[50%] z-10 mt-18 w-[1270px] translate-x-[-50%]">
           <div className="flex justify-between">
             <div className="flex items-end gap-5 pb-4">
               <Link
@@ -105,7 +113,7 @@ export default function Hero() {
                 </span>
               </Link>
             </div>
-            <h2 className="font-reem-kufi w-max-[650px] text-q-wite-almost text-right text-[8rem]/32 font-bold tracking-[-6%]">
+            <h2 className="font-reem-kufi w-max-[650px] tablet:hidden text-q-wite-almost desktopSM:text-[96px]/24 block text-right text-[8rem]/32 font-bold tracking-[-6%]">
               <span>Ihr</span>
               <br />
               <span>Urlaub</span>
