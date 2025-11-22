@@ -10,6 +10,12 @@ export default function Home() {
   return (
     <main className="bg-q-blue relative">
       <NavBar />
+      {/* <div className="scrollbar-hide h-100 w-300 overflow-x-scroll bg-green-400">
+        <div className="flex w-405 gap-5">
+          <div className="h-100 w-200 bg-green-600"></div>
+          <div className="h-100 w-200 bg-red-600"></div>
+        </div>
+      </div> */}
       <Hero />
       <Rooms />
       <Highlights />

@@ -10,6 +10,7 @@ import arrowRight from "@/public/icons/arrow-right.svg"; // adjust path if neede
 import Image, { StaticImageData } from "next/image";
 import { useActiveSectionContext } from "@/context/active-section-context";
 import { useSectionInView } from "@/lib/hooks";
+import useMediaQuery from "@/lib/utils/matchMedia";
 
 type Review = {
   pictureSrc: StaticImageData;
@@ -188,6 +189,12 @@ export default function Reviews() {
     isDraggingRef.current = false;
   };
 
+  const isMobile = useMediaQuery("(max-width: 708px)");
+
+  const responsiveHeading = isMobile
+    ? "Das\u00A0\u00A0sagen\nunsere\u00A0\u00A0Gäste"
+    : "Das\u00A0\u00A0sagen\u00A0\u00A0unsere\u00A0\u00A0Gäste";
+
   return (
     <section
       ref={ref}
@@ -196,7 +203,7 @@ export default function Reviews() {
     >
       <div className="flex flex-col items-center justify-center">
         <SectionHeading
-          heading="Das&nbsp;&nbsp;sagen&nbsp;&nbsp;unsere&nbsp;&nbsp;Gäste"
+          heading={responsiveHeading}
           paragraph={
             <>
               Gesamtbewertung <strong>5.0</strong> von 5, basierend auf{" "}

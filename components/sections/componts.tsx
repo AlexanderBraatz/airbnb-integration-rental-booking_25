@@ -29,11 +29,11 @@ export default function SectionHeading({
         </div>
         <div className="mobile:w-full flex flex-col items-start">
           <Image
-            className="mobile:block hidden w-full"
+            className="mobile:block mb-2 hidden w-full"
             src={adornmentWithHouse}
             alt="icon"
           />
-          <h3 className="text-q-text-dark-700 font-reem-kufi mobile:text-[40px]/15 mobile:w-90 text-6xl/22 tracking-[-6%]">
+          <h3 className="text-q-text-dark-700 font-reem-kufi mobile:text-[40px]/15 mobile:w-full text-6xl/22 tracking-[-6%]">
             {heading}
           </h3>
         </div>
@@ -46,9 +46,9 @@ export default function SectionHeading({
           </div>
         </div>
       </div>
-      <p className="text-q-text-dark-700 mobile:text-base/6 mobile:text-left font-jost mobile:mx-4 mx-5 max-w-[797px] text-center text-xl leading-[30px] tracking-wide">
+      {/* <p className="text-q-text-dark-700 mobile:text-base/6 mobile:text-left font-jost mobile:mx-0 mobile:px-4 mx-5 max-w-[797px] text-center text-xl leading-[30px] tracking-wide">
         {paragraph}
-      </p>
+      </p> */}
     </div>
   );
 }

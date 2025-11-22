@@ -36,6 +36,7 @@ import SectionHeading from "../componts";
 import { useActiveSectionContext } from "@/context/active-section-context";
 import { useSectionInView } from "@/lib/hooks";
 import { MotionValue, useScroll, useTransform, motion } from "framer-motion";
+import useMediaQuery from "@/lib/utils/matchMedia";
 
 type roomType = {
   adornmentWithHouse: boolean;
@@ -122,16 +123,16 @@ export default function Rooms() {
     <section
       ref={sectionInViewRef}
       id="rooms"
-      className="bg-q-background flex scroll-mt-0 flex-col items-center justify-center overflow-x-clip pb-0"
+      className="bg-q-background tablet:items-start flex scroll-mt-0 flex-col items-center justify-center overflow-x-clip pb-0"
     >
       <div ref={bigRef} className="flex flex-col items-center">
         <SectionHeading
-          className="bg-q-background sticky top-12 z-50 !mb-211 [&>p]:hidden"
+          className="bg-q-background mobile:!mb-10 tablet:!mb-24 sticky top-12 z-50 !mb-211 [&>p]:hidden"
           heading="Unsere&nbsp;&nbsp;Zimmer"
           paragraph="Die Wohnung ist mit Sorgfalt eingerichtet und bietet ihn alles was sie
             für einen Urlaub brauchen könnten."
         />
-        <div className="-mb-350"></div>
+        <div className="tablet:mb-0 -mb-350"></div>
         {content.map((room, index) => {
           const targetSize = 1 - (content.length - index - 1) * 0.05;
           const targetTop = (content.length - index) * -25;
@@ -184,9 +185,9 @@ function Card({
     "0": "bg-q-background-b-1",
     "1": "bg-q-background-b-2",
     "2": "bg-q-background-b-3",
-    "3": "bg-q-background-b-4",
-    "4": "bg-q-background-b-5",
-    "5": "bg-q-background-b-6",
+    "3": "bg-q-background-b-2",
+    "4": "bg-q-background-b-3",
+    "5": "bg-q-background-b-4",
   };
   type cardBgDicKey = keyof typeof cardBgDic;
   const topDicFrimIndex = {
@@ -201,41 +202,81 @@ function Card({
   type topDicFrimIndexKey = keyof typeof topDicFrimIndex;
 
   return (
-    <div
-      className={`sticky top-0 my-100 flex h-[600px] items-center justify-start`}
-    >
-      <motion.div
-        style={{ scale: scalecard, top: topCard }}
-        className={`${cardBgDic[index.toString() as cardBgDicKey]} relative rounded-2xl px-20 py-10`}
-      >
-        <div
-          className={`flex w-[1012px] ${room.inReverseOrder ? "flex-row-reverse" : ""} justify-between`}
-        >
-          {room.images.length === 4 ? <FourPolaroidStack room={room} /> : <></>}
-          {room.images.length === 3 ? (
-            <ThreePolaroidStack room={room} />
-          ) : (
-            <></>
-          )}
-          {room.images.length === 2 ? <TwoPolaroidStack room={room} /> : <></>}
-          {/* each room should at least have 2 images */}
-          <div className="flex flex-col">
-            <div className="mb-16">
-              <Image
-                alt="adornment"
-                // className="bg-neutral-400"
-                src={room.adornmentWithHouse ? adornmentHouse : adornmentTaper}
-              />
+    <>
+      <div className="tablet:block mb-20 hidden w-full">
+        <div className="flex flex-col">
+          <div className="mobile:px-4 mobile:w-full mobile:min-w-1 flex w-[calc(60vw_+_20px)] min-w-[580px] flex-col px-5">
+            <div className="mb-5">
+              <Image alt="adornment" src={adornmentTaper} className="w-full" />
             </div>
-            <h4 className="font-reem-kufi text-q-text-dark-darkest mb-8 text-5xl/12 tracking-[-3px]">
+            <h4 className="font-reem-kufi text-q-text-dark-darkest mb-5 text-3xl/7.5 tracking-[-3px]">
               {room.heading}
             </h4>
-            <p className="font-jost text-q-text-dark-darkest max-w-[498px] text-xl/10">
+            <p className="font-jost text-q-text-dark-darkest mb-7 text-base/6">
               {room.paragraph}
             </p>
           </div>
+          {/* snap-x snap-mandatory */}
+          <div className="scrollbar-hide mobile:pl-4 mb-12 w-screen overflow-x-scroll scroll-smooth pl-5">
+            <div className="mobile:gap-3 flex w-fit gap-5 pr-5">
+              {room.images.map((imageSrc, index) => (
+                <div
+                  key={index}
+                  className="mobile:w-[85vw] mobile:max-w-[350px] w-[30vw] min-w-[280px]"
+                >
+                  <Image src={imageSrc} alt="" />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      </motion.div>
-    </div>
+      </div>
+      <div
+        className={`tablet:hidden sticky top-0 my-100 flex h-[600px] items-center justify-start`}
+      >
+        <motion.div
+          style={{ scale: scalecard, top: topCard }}
+          className={`${cardBgDic[index.toString() as cardBgDicKey]} relative rounded-2xl px-20 py-10`}
+        >
+          <div
+            className={`flex w-[1012px] ${room.inReverseOrder ? "flex-row-reverse" : ""} justify-between`}
+          >
+            {room.images.length === 4 ? (
+              <FourPolaroidStack room={room} />
+            ) : (
+              <></>
+            )}
+            {room.images.length === 3 ? (
+              <ThreePolaroidStack room={room} />
+            ) : (
+              <></>
+            )}
+            {room.images.length === 2 ? (
+              <TwoPolaroidStack room={room} />
+            ) : (
+              <></>
+            )}
+            {/* each room should at least have 2 images */}
+            <div className="flex flex-col">
+              <div className="mb-16">
+                <Image
+                  alt="adornment"
+                  // className="bg-neutral-400"
+                  src={
+                    room.adornmentWithHouse ? adornmentHouse : adornmentTaper
+                  }
+                />
+              </div>
+              <h4 className="font-reem-kufi text-q-text-dark-darkest mb-8 text-5xl/12 tracking-[-3px]">
+                {room.heading}
+              </h4>
+              <p className="font-jost text-q-text-dark-darkest max-w-[498px] text-xl/10">
+                {room.paragraph}
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      </div>{" "}
+    </>
   );
 }

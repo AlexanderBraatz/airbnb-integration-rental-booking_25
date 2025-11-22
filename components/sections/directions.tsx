@@ -24,7 +24,7 @@ export default function Directions() {
       className="bg-q-background flex scroll-mt-28 flex-col items-center justify-center pb-50"
     >
       <SectionHeading
-        className="[&>p]:w-[630px]"
+        className="tablet:[&>p]:w-full [&>p]:w-[630px]"
         heading="Anfahrt"
         paragraph="Der 7-Gipfelblick liegt am Stadtrand von Garmisch-Partenkirchen, in ruhiger Lage. Ein Spaziergang an der Loisach entlang führt ins Stadtzentrum."
       />
