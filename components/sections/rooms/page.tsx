@@ -123,11 +123,11 @@ export default function Rooms() {
     <section
       ref={sectionInViewRef}
       id="rooms"
-      className="bg-q-background tablet:items-start flex scroll-mt-0 flex-col items-center justify-center overflow-x-clip pb-0"
+      className="bg-q-background tablet:items-start mobile:pb-30 flex scroll-mt-0 flex-col items-center justify-center overflow-x-clip pb-0"
     >
       <div ref={bigRef} className="flex flex-col items-center">
         <SectionHeading
-          className="bg-q-background mobile:!mb-10 tablet:pt-4 tablet:!mb-24 mobile:static sticky top-12 z-50 !mb-211 pt-1 [&>p]:hidden"
+          className="bg-q-background mobile:!mb-10 tablet:pt-4 tablet:!mb-24 tablet:static sticky top-12 z-50 !mb-211 pt-1 [&>p]:hidden"
           heading="Unsere&nbsp;&nbsp;Zimmer"
           paragraph="Die Wohnung ist mit Sorgfalt eingerichtet und bietet ihn alles was sie
             für einen Urlaub brauchen könnten."
@@ -203,7 +203,7 @@ function Card({
 
   return (
     <>
-      <div className="tablet:block mb-20 hidden w-full">
+      <div className="tablet:block mb-10 hidden w-full py-5">
         <div className="flex flex-col">
           <div className="mobile:px-4 mobile:w-full mobile:min-w-1 flex w-[calc(60vw_+_20px)] min-w-[580px] flex-col px-5">
             <div className="mb-5">
@@ -217,7 +217,7 @@ function Card({
             </p>
           </div>
           {/* snap-x snap-mandatory */}
-          <div className="scrollbar-hide mobile:pl-4 mb-12 w-screen overflow-x-scroll scroll-smooth pl-5">
+          <div className="scrollbar-hide mobile:pl-4 mb-10 w-screen overflow-x-scroll scroll-smooth pl-5">
             <div className="mobile:gap-3 flex w-fit gap-5 pr-5">
               {room.images.map((imageSrc, index) => (
                 <div

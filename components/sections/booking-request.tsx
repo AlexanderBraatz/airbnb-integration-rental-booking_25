@@ -42,14 +42,14 @@ export default function BookingRequest() {
       />
 
       <div className="bg-q-background tablet:px-10 mobile:px-4 mobile:w-full mx-auto mb-5 flex max-w-[1190px] flex-col gap-5">
-        <div className="bg-q-review-card-background tablet:w-[576px] tablet:h-fit mobile:w-full mobile:text-left h-20 max-w-[1092px] px-6.5 py-6.5 text-center">
+        <div className="bg-q-review-card-background tablet:w-[576px] tablet:h-fit mobile:w-full mobile:text-left mobile:px-3 h-20 max-w-[1092px] px-6.5 py-6.5 text-center">
           <p className="text-q-text-dark-darkest mobile:text-base/6 text-xl/7 tracking-wide">
             Wir Freuen uns schon auf ihren Besuch,Wir antworten innerhalb von 24
             Stunden.
           </p>
         </div>
         <div className="flex">
-          <div className="bg-q-card-background gap-grow mobile:w-full tablet:w-full mx-auto grid w-[576px] grid-cols-[repeat(auto-fit,minmax(238px,1fr))] gap-5 px-10 pt-5 pb-10">
+          <div className="bg-q-card-background mobile:w-full tablet:w-full mobile:px-3 mx-auto grid w-[576px] grid-cols-[repeat(auto-fit,minmax(238px,1fr))] gap-5 px-10 pt-5 pb-10">
             <div>
               <label className="text-xl/7 font-semibold">Name</label>
               <input className="border-q-text-dark-darkest block h-10 w-full border bg-white" />
