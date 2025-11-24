@@ -24,10 +24,10 @@ export default function Hero() {
         />
         <div className="bg-q-blue-75-transparent pointer-events-none absolute inset-0"></div>
         {/* hero content */}
-        <div className="desktopSM:w-screen desktopSM:px-10 tablet:px-5 mobile:px-2 absolute left-[50%] z-10 mt-12 w-[1270px] translate-x-[-50%]">
-          <div id="navbar spacer" className="nav-height tablet:!h-4"></div>
-          {/* spacer is not workign as intented but his hack works for now */}
-          <div className="tablet:flex-col tablet:justify-start flex justify-between">
+        <div className="desktopSM:w-full desktopSM:px-10 tablet:px-5 mobile:px-4 relative left-[50%] z-10 mt-0 w-[1270px] translate-x-[-50%]">
+          {/* spacer is using the same width of the nav bar  */}
+          <div id="navbar spacer" className="tablet:h-[3rem] h-[5rem]"></div>
+          <div className="tablet:flex-col tablet:justify-start mt-5 flex justify-between">
             <h1 className="font-reem-kufi tablet:mb-5 mobile:text-[40px]/12 tablet:text-[64px]/19 relative -left-1 w-[500px] text-[10rem]/40 font-bold tracking-[-6%] text-wrap text-white">
               <span className="tablet:block hidden">
                 Sieben&nbsp;&nbsp;Gipfel&nbsp;&nbsp;Blick
@@ -39,7 +39,7 @@ export default function Hero() {
               <span className="tablet:block hidden">Aussicht</span>
             </h1>
             <div>
-              <div className="scrollbar-hide tablet:w-screen tablet:pl-5 tablet:-left-5 relative flex overflow-x-scroll scroll-smooth">
+              <div className="scrollbar-hide tablet:w-[103vw] tablet:pl-5 tablet:-left-5 relative flex overflow-x-scroll scroll-smooth">
                 <ul className="tablet:w-[754px] flex gap-5">
                   <li className="mobile:block relative hidden w-[238px]">
                     <Image

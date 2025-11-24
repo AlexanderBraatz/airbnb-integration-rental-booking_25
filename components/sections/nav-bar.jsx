@@ -28,7 +28,7 @@ export default function NavBar() {
   } = useActiveSectionContext();
   return (
     <motion.div
-      className={`bg-q-blue-95-transparent mobile:px-3 tablet:px-5 fixed z-60 flex w-full items-center justify-between border-b-[1px] border-white px-10 text-neutral-50 transition-all duration-300 ease-in-out ${
+      className={`bg-q-blue-95-transparent mobile:px-3 tablet:px-5 fixed top-0 z-60 flex w-full items-center justify-between border-b-[1px] border-white px-10 text-neutral-50 transition-all duration-300 ease-in-out ${
         isScrolled ? "nav-height-small" : "nav-height tablet:!nav-height-small"
       }`}
       layout
