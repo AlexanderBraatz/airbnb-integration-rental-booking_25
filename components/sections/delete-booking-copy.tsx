@@ -49,7 +49,7 @@ export default function BookingRequest() {
           </p>
         </div>
         <div className="flex">
-          <div className="bg-q-card-background gap-grow mobile:w-full tablet:w-full mx-auto grid w-[576px] grid-cols-[repeat(auto-fit,minmax(238px,1fr))] gap-5 px-10 pt-5 pb-10">
+          <div className="bg-q-card-background mobile:p-5 mobile:w-full mobile:grid-cols-1 mx-auto grid w-[576px] grid-cols-[repeat(auto-fit,minmax(238px,1fr))] gap-5 px-10 pt-5 pb-10">
             <div>
               <label className="text-xl/7 font-semibold">Name</label>
               <input className="border-q-text-dark-darkest block h-10 w-full border bg-white" />
@@ -74,11 +74,11 @@ export default function BookingRequest() {
               <label className="text-xl/7 font-semibold">Hund</label>
               <input className="border-q-text-dark-darkest block h-10 w-full border bg-white" />
             </div>
-            <div className="col-start-1 -col-end-1">
+            <div className="mobile:col-span-1 col-span-2">
               <label className="text-xl/7 font-semibold">Nachricht</label>
               <input className="border-q-text-dark-darkest block h-30 w-full border bg-white" />
             </div>
-            <div className="-col-start-2 -col-end-1">
+            <div className="mobile:col-start-0 mobile:col-end-1 col-start-2 col-end-3">
               <button className="bg-q-button-red active:bg-q-button-red-darker border-q-text-dark-darkest h-[56px] w-full rounded-full border transition-colors duration-300 ease-in-out">
                 <div className="flex items-center justify-center gap-4">
                   <span className="text-xl/5 font-bold text-white">
@@ -89,7 +89,7 @@ export default function BookingRequest() {
               </button>
             </div>
           </div>
-          <div className="tablet:hidden w-[505px]">
+          <div className="tablet:hidden w-[505px] bg-black">
             <TwoPolaroidStackFinal room={finalDisplay} />
           </div>
         </div>
