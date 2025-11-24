@@ -46,9 +46,9 @@ export default function SectionHeading({
           </div>
         </div>
       </div>
-      {/* <p className="text-q-text-dark-700 mobile:text-base/6 mobile:text-left font-jost mobile:mx-0 mobile:px-4 mx-5 max-w-[797px] text-center text-xl leading-[30px] tracking-wide">
+      <p className="text-q-text-dark-700 mobile:text-base/6 mobile:text-left font-jost mobile:mx-0 mobile:px-4 mx-5 max-w-[797px] text-center text-xl leading-[30px] tracking-wide">
         {paragraph}
-      </p> */}
+      </p>
     </div>
   );
 }

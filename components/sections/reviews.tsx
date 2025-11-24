@@ -213,8 +213,8 @@ export default function Reviews() {
         />
       </div>
 
-      <div className="relative w-full pr-25">
-        <div className="my-reviews-gradient pointer-events-none absolute right-25 h-[309px] w-80"></div>
+      <div className="tablet:pr-10 mobile:pr-0 relative w-full pr-25">
+        <div className="my-reviews-gradient tablet:right-10 mobile:right-0 mobile:h-full mobile:w-20 pointer-events-none absolute right-25 h-[309px] w-80"></div>
 
         {/* SCROLLER */}
         <div
@@ -229,7 +229,7 @@ export default function Reviews() {
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          <div className="ml-25 flex w-fit gap-5">
+          <div className="tablet:ml-10 mobile:ml-5 mobile:gap-3 ml-25 flex w-fit items-stretch gap-5">
             {reviews.map((review, index) => (
               <Card key={index} review={review} index={index} />
             ))}
@@ -285,18 +285,20 @@ function Card({ review, index }: { review: Review; index: number }) {
   return (
     <div
       data-review-card={index}
-      className="bg-q-review-card-background font-jost border-q-review-card-border flex h-[309px] w-[496px] flex-col gap-3 rounded-xl border px-5 py-6"
+      className="bg-q-review-card-background font-jost border-q-review-card-border mobile:px-3 mobile:py-3 mobile:pb-5 mobile:w-[80vw] flex w-[496px] flex-col gap-3 rounded-xl border px-5 py-6"
     >
       <div className="flex items-center gap-3">
         <Image
           height={60}
           width={60}
-          className="rounded-full"
+          className="mobile:h-12 mobile:w-12 rounded-full"
           src={review.pictureSrc}
           alt={review.pictureAlt}
         />
         <div>
-          <h5 className="text-2xl/8 font-semibold">{review.name}</h5>
+          <h5 className="mobile:text-xl/8 text-2xl/8 font-semibold">
+            {review.name}
+          </h5>
           <p className="text-base/6">{review.reviewAt}</p>
         </div>
       </div>
@@ -309,7 +311,9 @@ function Card({ review, index }: { review: Review; index: number }) {
         <Image src={star} alt="star" />
       </div>
 
-      <p className="text-xl/8 tracking-wider">“{review.paragraph}”</p>
+      <p className="mobile:text-base/6 text-xl/8 tracking-wider italic">
+        “{review.paragraph}”
+      </p>
     </div>
   );
 }
