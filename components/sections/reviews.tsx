@@ -73,11 +73,6 @@ export default function Reviews() {
   const scrollerRef = React.useRef<HTMLDivElement | null>(null);
   const [activeDot, setActiveDot] = React.useState(1);
 
-  // refs for dragging
-  const isDraggingRef = React.useRef(false);
-  const startXRef = React.useRef(0);
-  const scrollLeftRef = React.useRef(0);
-
   const getStep = React.useCallback(() => {
     const scroller = scrollerRef.current;
     if (!scroller) return 516;
@@ -102,7 +97,8 @@ export default function Reviews() {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(() => {
-        const idx = Math.floor(scroller.scrollLeft / step) + 1;
+        // the 200 is a quick fix which works in testing on all screens
+        const idx = Math.floor((scroller.scrollLeft + 200) / step) + 1;
         const clamped = Math.max(1, Math.min(TOTAL_DOTS, idx));
         setActiveDot(clamped);
         ticking = false;
@@ -124,70 +120,6 @@ export default function Reviews() {
 
   const handleLeftClick = () => scrollToIndex(activeDot - 1);
   const handleRightClick = () => scrollToIndex(activeDot + 1);
-
-  // MOUSE DRAG HANDLERS
-  const handleMouseDown: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    e.preventDefault();
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-
-    isDraggingRef.current = true;
-    startXRef.current = e.pageX - scroller.offsetLeft;
-    scrollLeftRef.current = scroller.scrollLeft;
-
-    // optional: visual feedback
-    scroller.style.cursor = "grabbing";
-  };
-
-  const endMouseDrag = () => {
-    const scroller = scrollerRef.current;
-    isDraggingRef.current = false;
-    if (scroller) {
-      scroller.style.cursor = "grab";
-    }
-  };
-
-  const handleMouseMove: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    e.preventDefault();
-    if (!isDraggingRef.current) return;
-
-    e.preventDefault();
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-
-    const x = e.pageX - scroller.offsetLeft;
-    const walk = x - startXRef.current; // distance moved
-    scroller.scrollLeft = scrollLeftRef.current - walk;
-  };
-
-  // TOUCH DRAG HANDLERS
-  const handleTouchStart: React.TouchEventHandler<HTMLDivElement> = (e) => {
-    e.preventDefault();
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-
-    isDraggingRef.current = true;
-    const touch = e.touches[0];
-    startXRef.current = touch.pageX - scroller.offsetLeft;
-    scrollLeftRef.current = scroller.scrollLeft;
-  };
-
-  const handleTouchMove: React.TouchEventHandler<HTMLDivElement> = (e) => {
-    e.preventDefault();
-    if (!isDraggingRef.current) return;
-
-    const scroller = scrollerRef.current;
-    if (!scroller) return;
-
-    const touch = e.touches[0];
-    const x = touch.pageX - scroller.offsetLeft;
-    const walk = x - startXRef.current;
-    scroller.scrollLeft = scrollLeftRef.current - walk;
-  };
-
-  const handleTouchEnd: React.TouchEventHandler<HTMLDivElement> = () => {
-    isDraggingRef.current = false;
-  };
 
   const isMobile = useMediaQuery("(max-width: 708px)");
 
@@ -219,15 +151,8 @@ export default function Reviews() {
         {/* SCROLLER */}
         <div
           ref={scrollerRef}
-          className="scrollbar-hide mb-12 w-full cursor-grab overflow-x-auto overscroll-x-contain scroll-smooth"
+          className="scrollbar-hide mb-12 w-full snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth"
           aria-label="Gästebewertungen"
-          onMouseDown={handleMouseDown}
-          onMouseUp={endMouseDrag}
-          onMouseLeave={endMouseDrag}
-          onMouseMove={handleMouseMove}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
         >
           <div className="tablet:ml-10 mobile:ml-5 mobile:gap-3 ml-25 flex w-fit items-stretch gap-5">
             {reviews.map((review, index) => (
@@ -285,7 +210,7 @@ function Card({ review, index }: { review: Review; index: number }) {
   return (
     <div
       data-review-card={index}
-      className="bg-q-review-card-background font-jost border-q-review-card-border mobile:px-3 mobile:py-3 mobile:pb-5 mobile:w-[80vw] flex w-[496px] flex-col gap-3 rounded-xl border px-5 py-6"
+      className="bg-q-review-card-background font-jost border-q-review-card-border mobile:px-3 mobile:py-3 mobile:pb-5 mobile:w-[80vw] flex w-[496px] shrink-0 flex-col gap-3 rounded-xl border px-5 py-6"
     >
       <div className="flex items-center gap-3">
         <Image
