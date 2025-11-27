@@ -232,11 +232,11 @@ function Card({
         </div>
       </div>
       <div
-        className={`tablet:hidden sticky top-0 my-100 flex h-[600px] items-center justify-start`}
+        className={`tablet:hidden pointer-events-none sticky top-0 my-100 flex h-[600px] items-center justify-start`}
       >
         <motion.div
           style={{ scale: scalecard, top: topCard }}
-          className={`${cardBgDic[index.toString() as cardBgDicKey]} relative rounded-2xl px-20 py-10`}
+          className={`${cardBgDic[index.toString() as cardBgDicKey]} pointer-events-auto relative rounded-2xl px-20 py-10`}
         >
           <div
             className={`flex w-[1012px] ${room.inReverseOrder ? "flex-row-reverse" : ""} justify-between`}
