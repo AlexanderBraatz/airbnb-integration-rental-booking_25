@@ -185,9 +185,9 @@ function Card({
     "0": "bg-q-background-b-1",
     "1": "bg-q-background-b-2",
     "2": "bg-q-background-b-3",
-    "3": "bg-q-background-b-2",
+    "3": "bg-q-background-b-4",
     "4": "bg-q-background-b-3",
-    "5": "bg-q-background-b-4",
+    "5": "bg-q-background-b-2",
   };
   type cardBgDicKey = keyof typeof cardBgDic;
   const topDicFrimIndex = {
