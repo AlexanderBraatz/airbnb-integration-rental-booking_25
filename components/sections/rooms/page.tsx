@@ -66,7 +66,7 @@ const content: roomType[] = [
   {
     adornmentWithHouse: false,
     inReverseOrder: false,
-    heading: "Schlafzimmer   Eins",
+    heading: "Schlafzimmer\u00A0\u00A0Eins",
     paragraph:
       "Das größere der beiden Schlafzimmer bietet viel Raum zum Entspannen und Zurückziehen. Ein komfortables Kingsize-Bett mit 220 cm Länge sorgt für erholsamen Schlaf, und vom Zimmer aus führt der Zugang direkt auf den zweiten Balkon – ideal für einen ruhigen Start in den Tag.",
     images: [bedyellow1, bedyellow2],
@@ -74,7 +74,7 @@ const content: roomType[] = [
   {
     adornmentWithHouse: false,
     inReverseOrder: true,
-    heading: "Schlafzimmer   Zwei",
+    heading: "Schlafzimmer\u00A0\u00A0Zwei",
     paragraph:
       "Das zweite Schlafzimmer – liebevoll „blaues Zimmer“ genannt – ist ebenso großzügig gestaltet und mit einer gemütlichen Leseecke ausgestattet. Auch hier erwartet euch ein komfortables Kingsize-Bett für erholsame Nächte. Vom Zimmer aus gelangt ihr direkt auf den zweiten Balkon und könnt den Blick ins Freie genießen.",
     images: [bedblue3, bedblue2, bedblue1],
@@ -82,7 +82,7 @@ const content: roomType[] = [
   {
     adornmentWithHouse: false,
     inReverseOrder: false,
-    heading: "Zwei   großzügige   Balkons",
+    heading: "Zwei\u00A0\u00A0großzügige\u00A0\u00A0Balkons",
     paragraph:
       "Zeit zum Entspannen und Auftanken – ob beim Frühstück, Mittag- oder Abendessen - auf dem sonnigen Süd- oder dem gemütlichen Westbalkon im Deckchair, hier kommt ihr auf jeden Fall zur Ruhe. Das Daybed ist ein idealer Ort für ein Nickerchen oder eine Lesepause. Auch im Winter…",
     images: [balcony3, balcony1, balcony2, balcony4],
@@ -90,7 +90,7 @@ const content: roomType[] = [
   {
     adornmentWithHouse: false,
     inReverseOrder: true,
-    heading: "Offene  Küche",
+    heading: "Offene\u00A0\u00A0Küche",
     paragraph:
       "Viel Platz zum Wohlfühlen: Das Bad ist großzügig gestaltet und mit Badewanne, Dusche und Doppelwaschtisch ausgestattet Nach einer langen Wanderung oder einem Skitag lädt es zum Entspannen und Auftanken ein. Auch hier erwartet euch ein komfortables Kingsize-Bett für erholsame Nächte.",
     images: [kitchen1, kitchen2, kitchen3],

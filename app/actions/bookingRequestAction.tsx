@@ -7,7 +7,8 @@ import {
 import { Resend } from "resend";
 import * as React from "react";
 import { createBookingRequestSchema, BookingRequestFormTypes } from "../schema";
-const testingEmail = "alex_braatz@icloud.com";
+const testingEmailHost = "alex_braatz@icloud.com";
+const testingEmailGuest = "alex_braatz@icloud.com";
 
 export async function bookingRequestAction(
   input: BookingRequestFormTypes,
@@ -46,7 +47,7 @@ export async function bookingRequestAction(
 
       // const emailPropsGuestBookingRequestConfirmation = {
       //   Template: EmailTemplateV1,
-      //   email_to: testingEmail, // TODO: replace with guest_email
+      //   email_to: testingEmailHost, // TODO: replace with guest_email
       //   templateProps: {
       //     check_in_date,
       //     check_out_date,
@@ -73,7 +74,7 @@ export async function bookingRequestAction(
 
       const emailPropsHostNewBookingRequestNotification = {
         Template: EmailTemplateH1,
-        email_to: testingEmail, //TODO: replace with host email (hardcode or fetch form host data table)
+        email_to: testingEmailHost, //TODO: replace with host email (hardcode or fetch form host data table)
         templateProps: {
           check_in_date,
           check_out_date,
@@ -93,6 +94,29 @@ export async function bookingRequestAction(
       );
       if (errorHostEmail) {
         console.log(errorHostEmail);
+      }
+      const emailPropsVisitorNotificationThatTheirEnquiryWasReceived = {
+        Template: EmailTemplateV1,
+        email_to: testingEmailGuest, //TODO: replace with host email (hardcode or fetch form host data table)
+        templateProps: {
+          check_in_date,
+          check_out_date,
+          number_of_guests,
+          with_dog: with_dog ? "yes" : "no",
+          guest_email,
+          guest_first_name,
+          guest_last_name,
+          guest_message: guest_message ?? "",
+          guest_phone_number: guest_phone_number ?? "",
+          has_agreed_to_policies: has_agreed_to_policies ? "yes" : "no",
+          bookingCode,
+        },
+      };
+      const { error: errorGuestEmail } = await sendEmail(
+        emailPropsVisitorNotificationThatTheirEnquiryWasReceived,
+      );
+      if (errorGuestEmail) {
+        console.log(errorGuestEmail);
       }
     }
     //
