@@ -1,8 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import { useParams } from "next/navigation";
+import { redirect, RedirectType, useParams } from "next/navigation";
 import { handleAcceptAction } from "@/app/actions/admindashboardActions";
 import { Tables } from "@/database.types";
+import { Button } from "@/components/ui/button";
 type BookingRow = Tables<"Bookings">;
 
 export default function BookingAcceptanceForm({
@@ -93,6 +94,9 @@ export default function BookingAcceptanceForm({
           </a>
         </ul>
       </ul>
+      <Button onClick={() => redirect(`./`, RedirectType.push)}>
+        Back to Bookings
+      </Button>
     </>
   );
 }

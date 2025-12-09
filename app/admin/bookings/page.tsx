@@ -3,19 +3,6 @@ import { columns } from "./columns";
 import { DataTable } from "./data-table";
 import { Database } from "@/database.types";
 
-// async function getData(): Promise<Database["public"]["Tables"]["Bookings"]["Row"][]> {
-//   // Fetch data from your API here.
-//   const response = await getAllBookings();
-//   if (response && response.data) {
-//     return response.data;
-//   }
-//   return [
-//     {
-//       fail: "fail",
-//     },
-//   ];
-// }
-
 export default async function DemoPage() {
   const response = await getAllBookings();
   if (response && response.data) {
