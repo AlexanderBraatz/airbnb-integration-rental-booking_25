@@ -274,7 +274,7 @@ export default function BookingGuestDetailsForm() {
             {form.formState.errors.name_9347403794?.message}
           </FieldError>
         </Field>
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Save</Button>
       </form>
     </Form>
   );

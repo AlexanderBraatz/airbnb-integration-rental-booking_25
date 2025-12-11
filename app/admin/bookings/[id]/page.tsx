@@ -2,7 +2,7 @@ import React from "react";
 import BookingAcceptanceForm from "./bookingAcceptanceForm";
 import { getBookingFromIdAction } from "@/app/actions/admindashboardActions";
 import MyForm from "./fixedDatePickerField";
-import BookingGuestDetailsForm from "./booking-guest-details-form";
+import BookingGuestDetails from "./booking-guest-details";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const response = await getBookingFromIdAction(Number(params.id));
@@ -10,7 +10,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   if (response && response.data) {
     return (
       <>
-        <BookingGuestDetailsForm />
+        <BookingGuestDetails bookingData={response.data} />
         <BookingAcceptanceForm bookingData={response.data} />
       </>
     );
