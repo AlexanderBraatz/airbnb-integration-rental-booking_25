@@ -78,13 +78,14 @@ export const columns: ColumnDef<BookingRow>[] = [
     header: "Offer Price (euro)",
   },
   {
-    accessorKey: "price_snapshot_guest_payed_in_EURcents",
-    header: "Payed Price (euro)",
-  },
-  {
     accessorKey: "sent_email_2_payment_link_guest",
     header: "Payment link sent to Guest",
   },
+  {
+    accessorKey: "price_snapshot_guest_payed_in_EURcents",
+    header: "Payed Price (euro)",
+  },
+
   {
     accessorKey: "sent_email_3_paymend_confimed_guest",
     header: "Payment confirmation email sent to Guest",

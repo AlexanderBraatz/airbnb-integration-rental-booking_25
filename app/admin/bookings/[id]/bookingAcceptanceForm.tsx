@@ -67,24 +67,29 @@ export default function BookingAcceptanceForm({
          */}
         <form>
           <label htmlFor="price">Price:</label>
-          <input
+          {/* <input
             type="text"
             id="price"
             value={price}
             onChange={(e) => setPrice(Number(e.target.value))}
-          />
+          /> */}
         </form>
         {!error ? <h1>all good</h1> : <h1>{error}</h1>}
         <ul>
           <li>
-            <button onClick={handleAccept}>accept</button>
+            <Button className="cursor-pointer" onClick={handleAccept}>
+              accept
+            </Button>
           </li>
-          <li>delete</li>
+          <li>
+            {" "}
+            <Button className="cursor-pointer">Delete</Button>
+          </li>
           <p>
             If you would like to decline this booking you can click the button
             blow
           </p>
-          <button>Decline</button>
+          <Button className="cursor-pointer">Decline</Button>
           <p>
             if you want to email them directly you can get intuch witht them
             here:
@@ -94,7 +99,10 @@ export default function BookingAcceptanceForm({
           </a>
         </ul>
       </ul>
-      <Button onClick={() => redirect(`./`, RedirectType.push)}>
+      <Button
+        className="cursor-pointer"
+        onClick={() => redirect(`./`, RedirectType.push)}
+      >
         Back to Bookings
       </Button>
     </>
