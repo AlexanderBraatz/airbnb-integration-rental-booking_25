@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/select";
 import { Form } from "@/components/ui/form";
 import { BookingRow } from "../columns";
+import { handleUpdateBookingAction } from "@/app/actions/admindashboardActions";
 
 const formSchema = z.object({
   guest_first_name: z.string().min(1),
@@ -44,7 +45,7 @@ const formSchema = z.object({
   number_of_guests: z.string(),
   with_dog: z.boolean(),
 });
-type FormValues = z.infer<typeof formSchema>;
+export type FormValues = z.infer<typeof formSchema>;
 
 export default function BookingGuestDetailsForm({
   bookingData,
@@ -52,6 +53,7 @@ export default function BookingGuestDetailsForm({
   bookingData: BookingRow;
 }) {
   const {
+    id,
     check_in_date,
     check_out_date,
     guest_email,
@@ -82,24 +84,29 @@ export default function BookingGuestDetailsForm({
     return Number.isNaN(new Date(date).getTime()) ? undefined : new Date(date);
   }
 
-  function onSubmit(values: FormValues) {
-    try {
-      console.log(values);
+  const handleUpdateBooking = async (values: FormValues) => {
+    const result = await handleUpdateBookingAction(id, values);
+
+    if (result?.data) {
       toast(
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
+          <code className="text-white">
+            {JSON.stringify(result.data, null, 2)}
+          </code>
         </pre>,
       );
-    } catch (error) {
-      console.error("Form submission error", error);
+    }
+
+    if (result?.error) {
+      console.error("Form submission error", result.error);
       toast.error("Failed to submit the form. Please try again.");
     }
-  }
+  };
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(handleUpdateBooking)}
         className="mx-auto max-w-3xl space-y-8 py-10"
       >
         <Field>
@@ -275,16 +282,29 @@ export default function BookingGuestDetailsForm({
         </Field>
         <Field>
           <FieldLabel htmlFor="number_of_guests">Number of Guests</FieldLabel>
-          <Select {...form.register("number_of_guests")}>
-            <SelectTrigger id="number_of_guests">
-              <SelectValue placeholder="Select an option" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="option1">Option 1</SelectItem>
-              <SelectItem value="option2">Option 2</SelectItem>
-              <SelectItem value="option3">Option 3</SelectItem>
-            </SelectContent>
-          </Select>
+          <Controller
+            control={form.control}
+            name="number_of_guests"
+            render={({ field }) => (
+              <Select
+                value={field.value}
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+              >
+                <SelectTrigger id="number_of_guests">
+                  <SelectValue placeholder="Select an option" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">1</SelectItem>
+                  <SelectItem value="2">2</SelectItem>
+                  <SelectItem value="3">3</SelectItem>
+                  <SelectItem value="4">4</SelectItem>
+                  <SelectItem value="5">5</SelectItem>
+                  <SelectItem value="6">6</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
+          />
 
           <FieldError>
             {form.formState.errors.number_of_guests?.message}
@@ -296,7 +316,17 @@ export default function BookingGuestDetailsForm({
               With Dog
             </FieldLabel>
           </div>
-          <Switch id="with_dog" {...form.register("with_dog")} />
+          <Controller
+            control={form.control}
+            name="with_dog"
+            render={({ field }) => (
+              <Switch
+                id="with_dog"
+                onCheckedChange={field.onChange}
+                checked={field.value}
+              />
+            )}
+          />
           <FieldError>{form.formState.errors.with_dog?.message}</FieldError>
         </Field>
         <Button type="submit">Save</Button>
