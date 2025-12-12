@@ -32,26 +32,53 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Form } from "@/components/ui/form";
+import { BookingRow } from "../columns";
 
 const formSchema = z.object({
-  name_4305567813: z.string().min(1),
-  name_1687434113: z.string().min(1),
-  name_4356889723: z.string().min(1),
-  name_4074309247: z.string(),
-  name_0212122001: z.date(),
-  name_8125477495: z.date(),
-  name_5564968156: z.string(),
+  guest_first_name: z.string().min(1),
+  guest_last_name: z.string().min(1),
+  guest_email: z.string().min(1),
+  guest_phone_number: z.string(),
+  check_in_date: z.date(),
+  check_out_date: z.date(),
+  number_of_guests: z.string(),
   name_9347403794: z.boolean(),
 });
 type FormValues = z.infer<typeof formSchema>;
-export default function BookingGuestDetailsForm() {
+
+export default function BookingGuestDetailsForm({
+  bookingData,
+}: {
+  bookingData: BookingRow;
+}) {
+  const {
+    check_in_date,
+    check_out_date,
+    guest_email,
+    guest_first_name,
+    guest_last_name,
+    guest_phone_number,
+    number_of_guests,
+  } = bookingData;
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name_0212122001: undefined,
-      name_8125477495: undefined,
+      guest_email,
+      guest_first_name,
+      guest_last_name,
+      //   guest_message,
+      guest_phone_number: guest_phone_number ?? "",
+      //   has_agreed_to_policies,
+      //   id,
+      number_of_guests: String(number_of_guests),
+      check_in_date: checkedDate(check_in_date),
+      check_out_date: checkedDate(check_out_date),
     },
   });
+  //  checkedDate sets the field to undefined if no Date was provided
+  function checkedDate(date: string) {
+    return Number.isNaN(new Date(date).getTime()) ? undefined : new Date(date);
+  }
 
   function onSubmit(values: FormValues) {
     try {
@@ -74,73 +101,71 @@ export default function BookingGuestDetailsForm() {
         className="mx-auto max-w-3xl space-y-8 py-10"
       >
         <Field>
-          <FieldLabel htmlFor="name_4305567813">First Name</FieldLabel>
+          <FieldLabel htmlFor="guest_first_name">First Name</FieldLabel>
           <Input
-            id="name_4305567813"
+            id="guest_first_name"
             placeholder=""
-            {...form.register("name_4305567813")}
+            {...form.register("guest_first_name")}
           />
 
           <FieldError>
-            {form.formState.errors.name_4305567813?.message}
+            {form.formState.errors.guest_first_name?.message}
           </FieldError>
         </Field>
 
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-4">
             <Field>
-              <FieldLabel htmlFor="name_1687434113">Last Name</FieldLabel>
+              <FieldLabel htmlFor="guest_last_name">Last Name</FieldLabel>
               <Input
-                id="name_1687434113"
+                id="guest_last_name"
                 placeholder="shadcn"
-                {...form.register("name_1687434113")}
+                {...form.register("guest_last_name")}
               />
 
               <FieldError>
-                {form.formState.errors.name_1687434113?.message}
+                {form.formState.errors.guest_last_name?.message}
               </FieldError>
             </Field>
           </div>
         </div>
         <Field>
-          <FieldLabel htmlFor="name_4356889723">Email</FieldLabel>
+          <FieldLabel htmlFor="guest_email">Email</FieldLabel>
           <Input
-            id="name_4356889723"
+            id="guest_email"
             placeholder="shadcn"
-            {...form.register("name_4356889723")}
+            {...form.register("guest_email")}
           />
 
-          <FieldError>
-            {form.formState.errors.name_4356889723?.message}
-          </FieldError>
+          <FieldError>{form.formState.errors.guest_email?.message}</FieldError>
         </Field>
         <Field>
-          <FieldLabel htmlFor="name_4074309247">Phone number</FieldLabel>
+          <FieldLabel htmlFor="guest_phone_number">Phone number</FieldLabel>
           <Input
-            id="name_4074309247"
+            id="guest_phone_number"
             placeholder="Placeholder"
-            {...form.register("name_4074309247")}
+            {...form.register("guest_phone_number")}
           />
           <FieldDescription>Enter your phone number.</FieldDescription>
           <FieldError>
-            {form.formState.errors.name_4074309247?.message}
+            {form.formState.errors.guest_phone_number?.message}
           </FieldError>
         </Field>
         <Field>
-          <FieldLabel htmlFor="name_0212122001">Check In Date</FieldLabel>
+          <FieldLabel htmlFor="check_in_date">Check In Date</FieldLabel>
           <Controller
             control={form.control}
-            name="name_0212122001"
+            name="check_in_date"
             render={({ field }) => (
               <Field>
-                <FieldLabel htmlFor="name_0212122001">Date of birth</FieldLabel>
+                <FieldLabel htmlFor="check_in_date">Date of birth</FieldLabel>
 
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       type="button"
                       variant="outline"
-                      id="name_0212122001"
+                      id="check_in_date"
                       className="w-48 justify-between font-normal"
                     >
                       {field.value
@@ -174,7 +199,7 @@ export default function BookingGuestDetailsForm() {
                 </FieldDescription>
 
                 <FieldError>
-                  {form.formState.errors.name_0212122001?.message}
+                  {form.formState.errors.check_in_date?.message}
                 </FieldError>
               </Field>
             )}
@@ -183,24 +208,24 @@ export default function BookingGuestDetailsForm() {
             Your date of birth is used to calculate your age.
           </FieldDescription>
           <FieldError>
-            {form.formState.errors.name_0212122001?.message}
+            {form.formState.errors.check_in_date?.message}
           </FieldError>
         </Field>
         <Field>
-          <FieldLabel htmlFor="name_8125477495">Checkout Date</FieldLabel>
+          <FieldLabel htmlFor="check_out_date">Checkout Date</FieldLabel>
           <Controller
             control={form.control}
-            name="name_8125477495"
+            name="check_out_date"
             render={({ field }) => (
               <Field>
-                <FieldLabel htmlFor="name_8125477495">Date of birth</FieldLabel>
+                <FieldLabel htmlFor="check_out_date">Date of birth</FieldLabel>
 
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       type="button"
                       variant="outline"
-                      id="name_8125477495"
+                      id="check_out_date"
                       className="w-48 justify-between font-normal"
                     >
                       {field.value
@@ -234,7 +259,7 @@ export default function BookingGuestDetailsForm() {
                 </FieldDescription>
 
                 <FieldError>
-                  {form.formState.errors.name_8125477495?.message}
+                  {form.formState.errors.check_out_date?.message}
                 </FieldError>
               </Field>
             )}
@@ -243,13 +268,13 @@ export default function BookingGuestDetailsForm() {
             Your date of birth is used to calculate your age.
           </FieldDescription>
           <FieldError>
-            {form.formState.errors.name_8125477495?.message}
+            {form.formState.errors.check_out_date?.message}
           </FieldError>
         </Field>
         <Field>
-          <FieldLabel htmlFor="name_5564968156">Number of Guests</FieldLabel>
-          <Select {...form.register("name_5564968156")}>
-            <SelectTrigger id="name_5564968156">
+          <FieldLabel htmlFor="number_of_guests">Number of Guests</FieldLabel>
+          <Select {...form.register("number_of_guests")}>
+            <SelectTrigger id="number_of_guests">
               <SelectValue placeholder="Select an option" />
             </SelectTrigger>
             <SelectContent>
@@ -260,7 +285,7 @@ export default function BookingGuestDetailsForm() {
           </Select>
 
           <FieldError>
-            {form.formState.errors.name_5564968156?.message}
+            {form.formState.errors.number_of_guests?.message}
           </FieldError>
         </Field>
         <Field className="flex flex-row items-center justify-between rounded-lg border p-4">

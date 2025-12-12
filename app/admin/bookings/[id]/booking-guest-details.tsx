@@ -14,7 +14,7 @@ export default function BookingGuestDetails({
   return (
     <>
       {showForm ? (
-        <BookingGuestDetailsForm />
+        <BookingGuestDetailsForm bookingData={bookingData} />
       ) : (
         <>
           <BookingGuestDetailsReadOnly bookingData={bookingData} />

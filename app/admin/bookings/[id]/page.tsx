@@ -5,7 +5,8 @@ import MyForm from "./fixedDatePickerField";
 import BookingGuestDetails from "./booking-guest-details";
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const response = await getBookingFromIdAction(Number(params.id));
+  const { id } = await params;
+  const response = await getBookingFromIdAction(Number(id));
 
   if (response && response.data) {
     return (
