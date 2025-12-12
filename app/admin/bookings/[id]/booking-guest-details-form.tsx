@@ -42,7 +42,7 @@ const formSchema = z.object({
   check_in_date: z.date(),
   check_out_date: z.date(),
   number_of_guests: z.string(),
-  name_9347403794: z.boolean(),
+  with_dog: z.boolean(),
 });
 type FormValues = z.infer<typeof formSchema>;
 
@@ -59,6 +59,7 @@ export default function BookingGuestDetailsForm({
     guest_last_name,
     guest_phone_number,
     number_of_guests,
+    with_dog,
   } = bookingData;
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -73,6 +74,7 @@ export default function BookingGuestDetailsForm({
       number_of_guests: String(number_of_guests),
       check_in_date: checkedDate(check_in_date),
       check_out_date: checkedDate(check_out_date),
+      with_dog,
     },
   });
   //  checkedDate sets the field to undefined if no Date was provided
@@ -290,14 +292,12 @@ export default function BookingGuestDetailsForm({
         </Field>
         <Field className="flex flex-row items-center justify-between rounded-lg border p-4">
           <div className="space-y-0.5">
-            <FieldLabel htmlFor="name_9347403794" className="text-base">
+            <FieldLabel htmlFor="with_dog" className="text-base">
               With Dog
             </FieldLabel>
           </div>
-          <Switch id="name_9347403794" {...form.register("name_9347403794")} />
-          <FieldError>
-            {form.formState.errors.name_9347403794?.message}
-          </FieldError>
+          <Switch id="with_dog" {...form.register("with_dog")} />
+          <FieldError>{form.formState.errors.with_dog?.message}</FieldError>
         </Field>
         <Button type="submit">Save</Button>
       </form>
