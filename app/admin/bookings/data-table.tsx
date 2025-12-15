@@ -15,7 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { redirect, RedirectType } from "next/navigation";
+import { redirect } from "next/navigation";
 import { BookingRow } from "./columns";
 
 interface DataTableProps<TData, TValue> {
@@ -62,9 +62,7 @@ export function DataTable<TData extends BookingRow, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  onClick={() =>
-                    redirect(`bookings/${row.original.id}`, RedirectType.push)
-                  }
+                  onClick={() => redirect(`bookings/${row.original.id}`)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
