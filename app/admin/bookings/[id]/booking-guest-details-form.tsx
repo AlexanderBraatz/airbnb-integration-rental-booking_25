@@ -48,8 +48,10 @@ const formSchema = z.object({
 export type FormValues = z.infer<typeof formSchema>;
 
 export default function BookingGuestDetailsForm({
+  setShowForm,
   bookingData,
 }: {
+  setShowForm: (x: boolean) => void;
   bookingData: BookingRow;
 }) {
   const {
@@ -95,6 +97,7 @@ export default function BookingGuestDetailsForm({
           </code>
         </pre>,
       );
+      setShowForm(false);
     }
 
     if (result?.error) {

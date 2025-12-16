@@ -3,7 +3,7 @@ import BookingAcceptanceForm from "./bookingAcceptanceForm";
 import { getBookingFromIdAction } from "@/app/actions/admindashboardActions";
 import MyForm from "./fixedDatePickerField";
 import BookingGuestDetails from "./booking-guest-details";
-import PriceForm from "./price-form";
+import PriceForm from "./PriceForm";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = await params;

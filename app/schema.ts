@@ -33,3 +33,14 @@ export interface BookingRequestFormTypes {
   guest_phone_number: string;
   has_agreed_to_policies: boolean;
 }
+
+export const discountSchema = z.object({
+  discountValuePercentageFormValue: z
+    .int()
+    .gte(0, "Discount must be a possessive amount")
+    .lt(100, "Discount cant be 100% or greater"),
+});
+
+export interface DiscountFormTypes {
+  discountValuePercentageFormValue: number;
+}

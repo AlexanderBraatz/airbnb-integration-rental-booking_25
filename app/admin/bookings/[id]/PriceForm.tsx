@@ -1,9 +1,7 @@
 "use server";
 import type { BookingRow } from "@/my-database.types";
-
 import React from "react";
 import PriceFormClientSide from "./price-form-client-side";
-import { financial } from "@/lib/utils";
 
 export default async function PriceForm({
   bookingData,
@@ -34,7 +32,6 @@ export default async function PriceForm({
   };
 
   //state
-
   //calculation
   const nighsTotalPriceEuros = financial(
     (numOfNights * pricePerNightCents) / 100,
@@ -50,6 +47,11 @@ export default async function PriceForm({
   const priceForCleaningEuros = financial(priceForCleaningCents / 100);
   const priceForDogEuros = financial(priceForDogCents / 100);
   const suggestedPriceEuros = financial(suggestedPriceCents / 100);
+
+  //helper
+  function financial(x: number): string {
+    return Number.parseFloat(x.toString()).toFixed(2);
+  }
 
   const priceFormClientSideProps = {
     numOfNights,

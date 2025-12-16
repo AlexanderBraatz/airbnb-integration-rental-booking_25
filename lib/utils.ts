@@ -14,3 +14,8 @@ export async function getAllPricingData() {
     .order("day");
   return data;
 }
+
+//helper
+export function financial(x: number): string {
+  return Number.parseFloat(x.toString()).toFixed(2);
+}

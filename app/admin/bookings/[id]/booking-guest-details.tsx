@@ -14,7 +14,10 @@ export default function BookingGuestDetails({
   return (
     <>
       {showForm ? (
-        <BookingGuestDetailsForm bookingData={bookingData} />
+        <BookingGuestDetailsForm
+          setShowForm={setShowForm}
+          bookingData={bookingData}
+        />
       ) : (
         <>
           <BookingGuestDetailsReadOnly bookingData={bookingData} />
