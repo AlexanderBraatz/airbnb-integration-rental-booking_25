@@ -1,9 +1,8 @@
 import React from "react";
 import BookingAcceptanceForm from "./bookingAcceptanceForm";
 import { getBookingFromIdAction } from "@/app/actions/admindashboardActions";
-import MyForm from "./fixedDatePickerField";
 import BookingGuestDetails from "./booking-guest-details";
-import PriceForm from "./PriceForm";
+import PriceForm from "./price-form";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = await params;

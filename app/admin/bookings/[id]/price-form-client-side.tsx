@@ -19,6 +19,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 type PriceFormClientSideProps = {
+  guest_email: string;
   numOfNights: number;
   nighsTotalPriceEuros: string;
   with_dog: boolean;
@@ -33,6 +34,7 @@ export default function PriceFormClientSide({
   priceFormClientSideProps: PriceFormClientSideProps;
 }) {
   const {
+    guest_email,
     numOfNights,
     nighsTotalPriceEuros,
     with_dog,
@@ -43,7 +45,6 @@ export default function PriceFormClientSide({
   } = priceFormClientSideProps;
 
   const [hasDiscountApplied, setHasDiscountApplied] = useState(false);
-  const [discountValuePercentage, setDiscount] = useState(0);
 
   // jsut send price or discounted Price as accepted price ( maybe add has discout flag later)
   //also server action of handleAcceptAndSend()
@@ -54,7 +55,11 @@ export default function PriceFormClientSide({
   // }
   function handleAcceptAndSend() {
     //call action
-    console.log("accepted Price", "has Discount?");
+    console.log("has Discount?", hasDiscountApplied);
+    console.log(
+      "accepted Price",
+      hasDiscountApplied ? DiscountedPriceCents : suggestedPriceCents,
+    );
   }
   //form stuff
 
@@ -67,10 +72,11 @@ export default function PriceFormClientSide({
   function onSubmit(values: DiscountFormTypes) {
     console.log(values);
   }
-  const DiscountedPriceCents =
+  const DiscountedPriceCents = Math.round(
     (suggestedPriceCents *
       (100 - form.watch("discountValuePercentageFormValue"))) /
-    100;
+      100,
+  );
   const discountedPriceEuros = financial(DiscountedPriceCents / 100);
 
   return (
@@ -152,6 +158,7 @@ export default function PriceFormClientSide({
       ) : (
         <></>
       )}
+      <p>{`An email will be sent to ${guest_email}`}</p>
       <Button onClick={handleAcceptAndSend}>Accept and send</Button>
     </div>
   );

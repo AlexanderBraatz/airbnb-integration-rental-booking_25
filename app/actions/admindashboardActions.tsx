@@ -2,6 +2,7 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { FormValues } from "../admin/bookings/[id]/booking-guest-details-form";
+import { revalidatePath } from "next/cache";
 
 export async function handleUpdateBookingAction(
   id: number,
@@ -63,6 +64,7 @@ export async function handleUpdateBookingAction(
   }
 
   // 3) Success
+  revalidatePath("/");
   return {
     data,
     error: null,
