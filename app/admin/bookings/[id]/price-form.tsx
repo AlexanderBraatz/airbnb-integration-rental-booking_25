@@ -52,6 +52,7 @@ export default async function PriceForm({
   const suggestedPriceEuros = financial(suggestedPriceCents / 100);
 
   const priceFormClientSideProps = {
+    id: bookingData.id,
     guest_email: bookingData.guest_email,
     numOfNights,
     nighsTotalPriceEuros,
@@ -62,11 +63,6 @@ export default async function PriceForm({
     suggestedPriceCents,
   };
 
-  //   type PriceFormClientSideProps = typeof priceFormClientSideProps;
-  console.log("SERVER priceFormClientSideProps:", priceFormClientSideProps);
-  console.log("x");
-  console.log("x");
-  console.log("x");
   return (
     <>
       <PriceFormClientSide

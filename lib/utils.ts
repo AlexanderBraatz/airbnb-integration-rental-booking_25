@@ -19,3 +19,13 @@ export async function getAllPricingData() {
 export function financial(x: number): string {
   return Number.parseFloat(x.toString()).toFixed(2);
 }
+
+export function maskIdAsBookingCode(id: number) {
+  function toBase36(num: number): string {
+    return num.toString(36).toUpperCase();
+  }
+  const masked =
+    id ^ Number(process.env.SECRET_MASK_FOR_BOOKING_CODE_OBFUSCATION);
+  const bookingCode = `BKG-${toBase36(masked)}`;
+  return bookingCode;
+}

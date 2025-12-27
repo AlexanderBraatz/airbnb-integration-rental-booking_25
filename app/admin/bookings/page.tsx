@@ -14,7 +14,10 @@ export default async function DemoPage() {
   }
   return (
     <div className="container mx-auto py-10">
-      <p>AN Error has occured </p>
+      <p>
+        An Error has occurred, you are probably not cone ted ot the
+        internet{" "}
+      </p>
       <p>{response.error}</p>
     </div>
   );

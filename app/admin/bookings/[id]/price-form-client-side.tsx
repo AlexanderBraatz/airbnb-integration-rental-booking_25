@@ -17,8 +17,10 @@ import { financial } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { acceptPriceAndSendEmailsAction } from "@/app/actions/admindashboardActions";
 
 type PriceFormClientSideProps = {
+  id: number;
   guest_email: string;
   numOfNights: number;
   nighsTotalPriceEuros: string;
@@ -34,6 +36,7 @@ export default function PriceFormClientSide({
   priceFormClientSideProps: PriceFormClientSideProps;
 }) {
   const {
+    id,
     guest_email,
     numOfNights,
     nighsTotalPriceEuros,
@@ -53,13 +56,20 @@ export default function PriceFormClientSide({
   // update databse
   // send emials
   // }
-  function handleAcceptAndSend() {
+  async function handleAcceptAndSend() {
     //call action
+    const { data, error } = await acceptPriceAndSendEmailsAction({
+      id,
+      hasDiscountApplied,
+      DiscountedPriceCents,
+      suggestedPriceCents,
+    });
     console.log("has Discount?", hasDiscountApplied);
     console.log(
       "accepted Price",
       hasDiscountApplied ? DiscountedPriceCents : suggestedPriceCents,
     );
+    console.log(data, error);
   }
   //form stuff
 

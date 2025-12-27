@@ -7,6 +7,7 @@ import {
 import { Resend } from "resend";
 import * as React from "react";
 import { createBookingRequestSchema, BookingRequestFormTypes } from "../schema";
+import { maskIdAsBookingCode } from "@/lib/utils";
 const testingEmailHost = "alex_braatz@icloud.com";
 const testingEmailGuest = "alex_braatz@icloud.com";
 
@@ -89,9 +90,10 @@ export async function bookingRequestAction(
           bookingCode,
         },
       };
-      const { error: errorHostEmail } = await sendEmail(
-        emailPropsHostNewBookingRequestNotification,
-      );
+      const { error: errorHostEmail } =
+        await sendEmail<EmailTemplatePropsV1andH1>(
+          emailPropsHostNewBookingRequestNotification,
+        );
       if (errorHostEmail) {
         console.log(errorHostEmail);
       }
@@ -131,22 +133,6 @@ export async function bookingRequestAction(
   //TODO:make these inserts with service key and add security to bookings table again.
 }
 
-//
-//
-// -- helper functions -- extract as needed later
-//
-//
-
-function maskIdAsBookingCode(id: number) {
-  function toBase36(num: number): string {
-    return num.toString(36).toUpperCase();
-  }
-  const masked =
-    id ^ Number(process.env.SECRET_MASK_FOR_BOOKING_CODE_OBFUSCATION);
-  const bookingCode = `BKG-${toBase36(masked)}`;
-  return bookingCode;
-}
-
 interface EmailTemplatePropsV1andH1 {
   check_in_date: string;
   check_out_date: string;
@@ -160,14 +146,28 @@ interface EmailTemplatePropsV1andH1 {
   has_agreed_to_policies: string;
   bookingCode: string;
 }
-
-interface sendEmailArgTypes {
-  Template: React.FC<Readonly<EmailTemplatePropsV1andH1>>;
-  email_to: string;
-  templateProps: Readonly<EmailTemplatePropsV1andH1>; // Ensures email data remains immutable after rendering, avoiding inconsistencies between the email and its source data.
+interface EmailTemplatePropsV2andH2 {
+  check_in_date: string;
+  check_out_date: string;
+  number_of_guests: number;
+  with_dog: string;
+  guest_email: string;
+  guest_first_name: string;
+  guest_last_name: string;
+  guest_message: string;
+  guest_phone_number: string;
+  has_agreed_to_policies: string;
+  bookingCode: string;
+  price_snapshot_host_accepted_in_EURcents: string;
 }
 
-async function sendEmail(args: sendEmailArgTypes) {
+export interface SendEmailArgTypes<EmailTemplateProps> {
+  Template: React.FC<Readonly<EmailTemplateProps>>;
+  email_to: string;
+  templateProps: Readonly<EmailTemplateProps>; // Ensures email data remains immutable after rendering, avoiding inconsistencies between the email and its source data.
+}
+
+export async function sendEmail<EmailT>(args: SendEmailArgTypes<EmailT>) {
   const resend = new Resend(process.env.RESEND_API_KEY);
   try {
     const { data, error } = await resend.emails.send({
