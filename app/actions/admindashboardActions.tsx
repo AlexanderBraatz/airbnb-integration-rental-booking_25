@@ -23,7 +23,7 @@ export async function acceptPriceAndSendEmailsAction({
 }) {
   console.log(hasDiscountApplied, DiscountedPriceCents, suggestedPriceCents);
   const supabase = await createClient();
-
+  // 1 update Database
   const { data, error } = await supabase
     .from("Bookings")
     .update({
@@ -113,6 +113,16 @@ export async function acceptPriceAndSendEmailsAction({
   const { error: errorHostEmail } = await sendEmail<EmailTemplatePropsV2andH2>(
     emailPropsHostPriceIsAccepted,
   );
+  // const { error: errorHostEmail } = (
+  //   await sendEmail
+  // )<EmailTemplatePropsV2andH2>(emailPropsHostPriceIsAccepted);
+  if (errorHostEmail) {
+    console.log(errorHostEmail);
+  }
+
+  // send Visistor email with payment link
+  const { error: errorVisitorEmail } =
+    await sendEmail<EmailTemplatePropsV2andH2>(emailPropsHostPriceIsAccepted);
   // const { error: errorHostEmail } = (
   //   await sendEmail
   // )<EmailTemplatePropsV2andH2>(emailPropsHostPriceIsAccepted);

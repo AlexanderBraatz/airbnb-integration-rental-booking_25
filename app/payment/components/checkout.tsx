@@ -14,11 +14,13 @@ const stripePromise = loadStripe(
 );
 
 export default function Checkout() {
+  const orderId = 2;
   return (
     <div id="checkout">
       <EmbeddedCheckoutProvider
         stripe={stripePromise}
-        options={{ fetchClientSecret }}
+        // options={() => returnFetchClientSecret(id)}
+        options={{ fetchClientSecret: () => fetchClientSecret(orderId) }}
       >
         <EmbeddedCheckout />
       </EmbeddedCheckoutProvider>
