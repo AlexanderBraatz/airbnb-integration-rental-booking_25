@@ -18,6 +18,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { acceptPriceAndSendEmailsAction } from "@/app/actions/admindashboardActions";
+import { redirect } from "next/navigation";
+import { Spinner } from "@/components/ui/spinner";
 
 type PriceFormClientSideProps = {
   id: number;
@@ -48,6 +50,7 @@ export default function PriceFormClientSide({
   } = priceFormClientSideProps;
 
   const [hasDiscountApplied, setHasDiscountApplied] = useState(false);
+  const [successfullySubmitted, setSuccessfullySubmitted] = useState(false);
 
   // jsut send price or discounted Price as accepted price ( maybe add has discout flag later)
   //also server action of handleAcceptAndSend()
@@ -64,12 +67,16 @@ export default function PriceFormClientSide({
       DiscountedPriceCents,
       suggestedPriceCents,
     });
-    console.log("has Discount?", hasDiscountApplied);
-    console.log(
-      "accepted Price",
-      hasDiscountApplied ? DiscountedPriceCents : suggestedPriceCents,
-    );
-    console.log(data, error);
+    // console.log("has Discount?", hasDiscountApplied);
+    // console.log(
+    //   "accepted Price",
+    //   hasDiscountApplied ? DiscountedPriceCents : suggestedPriceCents,
+    // );
+    // console.log(data, error);
+    if (!error) {
+      setSuccessfullySubmitted(true);
+      setTimeout(() => redirect("/admin/bookings"), 8000);
+    }
   }
   //form stuff
 
@@ -91,85 +98,107 @@ export default function PriceFormClientSide({
 
   return (
     <div className="bg-amber-100">
-      <h1>Price:</h1>
-      <p>
-        Based on your preferences your automatic price suggestion is as follows
-      </p>
-      <h1>Price Claculation</h1>
-      <div className="grid grid-cols-[200px_400px] gap-4">
-        <p>{`${numOfNights}x Nights : `}</p>
-        <p>{`€${nighsTotalPriceEuros}`}</p>
-        {with_dog ? (
-          <>
-            <p>{`Dog fee : `}</p>
-            <p>{`€${priceForDogEuros}`}</p>
-          </>
-        ) : (
-          <></>
-        )}
-        <p>{`Cleaning fee: `}</p>
-        <p>{`€${priceForCleaningEuros}`}</p>
-        <div className="border-b-1 border-dashed border-black"></div>
-        <div className="border-b-1 border-dashed border-black"></div>
-        <p>{`Suggested Price: `}</p>
-        <p>{`€${suggestedPriceEuros}`}</p>
-        {hasDiscountApplied ? (
-          <>
-            <p>{`Discount: `}</p>
-            <p>{`${form.watch("discountValuePercentageFormValue")}%`}</p>
+      {!successfullySubmitted ? (
+        <>
+          <h1>Price:</h1>
+          <p>
+            Based on your preferences your automatic price suggestion is as
+            follows
+          </p>
+          <h1>Price Claculation</h1>
+          <div className="grid grid-cols-[200px_400px] gap-4">
+            <p>{`${numOfNights}x Nights : `}</p>
+            <p>{`€${nighsTotalPriceEuros}`}</p>
+            {with_dog ? (
+              <>
+                <p>{`Dog fee : `}</p>
+                <p>{`€${priceForDogEuros}`}</p>
+              </>
+            ) : (
+              <></>
+            )}
+            <p>{`Cleaning fee: `}</p>
+            <p>{`€${priceForCleaningEuros}`}</p>
             <div className="border-b-1 border-dashed border-black"></div>
             <div className="border-b-1 border-dashed border-black"></div>
-            <p>{`Discounted Price: `}</p>
-            <p>{`€${discountedPriceEuros}`}</p>
-          </>
-        ) : (
-          <></>
-        )}
-      </div>
+            <p>{`Suggested Price: `}</p>
+            <p>{`€${suggestedPriceEuros}`}</p>
+            {hasDiscountApplied ? (
+              <>
+                <p>{`Discount: `}</p>
+                <p>{`${form.watch("discountValuePercentageFormValue")}%`}</p>
+                <div className="border-b-1 border-dashed border-black"></div>
+                <div className="border-b-1 border-dashed border-black"></div>
+                <p>{`Discounted Price: `}</p>
+                <p>{`€${discountedPriceEuros}`}</p>
+              </>
+            ) : (
+              <></>
+            )}
+          </div>
+          <Switch
+            id="with_discount"
+            onCheckedChange={() => setHasDiscountApplied((prev) => !prev)}
+            checked={hasDiscountApplied}
+          />
+          {hasDiscountApplied ? (
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="bg-orange-extra-light mx-auto max-w-3xl space-y-8 py-10"
+              >
+                <FormField
+                  control={form.control}
+                  name="discountValuePercentageFormValue"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Apply a Percentage Disscount </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="0"
+                          type="number"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(
+                              e.target.valueAsNumber
+                                ? Math.min(
+                                    Math.max(e.target.valueAsNumber, 1),
+                                    99,
+                                  )
+                                : 1,
+                            )
+                          }
+                        />
+                      </FormControl>
 
-      <Switch
-        id="with_discount"
-        onCheckedChange={() => setHasDiscountApplied((prev) => !prev)}
-        checked={hasDiscountApplied}
-      />
-      {hasDiscountApplied ? (
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="bg-orange-extra-light mx-auto max-w-3xl space-y-8 py-10"
-          >
-            <FormField
-              control={form.control}
-              name="discountValuePercentageFormValue"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Apply a Percentage Disscount </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="0"
-                      type="number"
-                      {...field}
-                      onChange={(e) =>
-                        field.onChange(
-                          e.target.valueAsNumber
-                            ? Math.min(Math.max(e.target.valueAsNumber, 1), 99)
-                            : 1,
-                        )
-                      }
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </form>
-        </Form>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </form>
+            </Form>
+          ) : (
+            <></>
+          )}
+          <p>{`An email will be sent to ${guest_email}`}</p>
+          <Button onClick={handleAcceptAndSend}>Accept and send</Button>
+        </>
       ) : (
-        <></>
+        <>
+          <p>
+            You have successfully accepted the Price and an Email was sent to
+            the guest
+          </p>
+          <p>
+            You will recieve another email as soon as the guest makes the
+            payment
+          </p>
+          <div>
+            <Spinner />
+            <span>you are being redirected to the admin page ...</span>
+          </div>
+        </>
       )}
-      <p>{`An email will be sent to ${guest_email}`}</p>
-      <Button onClick={handleAcceptAndSend}>Accept and send</Button>
     </div>
   );
 }

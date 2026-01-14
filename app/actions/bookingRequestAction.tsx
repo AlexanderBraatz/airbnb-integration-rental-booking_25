@@ -181,3 +181,30 @@ export async function sendEmail<EmailT>(args: SendEmailArgTypes<EmailT>) {
   }
   return { error: null };
 }
+
+export async function setPayedPriceSnapshot(payedCents: number, id: number) {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("Bookings")
+    .update({ price_snapshot_guest_payed_in_EURcents: payedCents })
+    .eq("id", id)
+    .select()
+    .maybeSingle();
+  if (error) {
+    console.error(
+      "An Error occurred while trying to set the Payed Price on the Database",
+      error,
+    );
+    return {
+      data: null,
+      error:
+        "An Error occurred while trying to set the Payed Price on the Database",
+    };
+  } else {
+    return {
+      data,
+      error: null,
+    };
+  }
+}

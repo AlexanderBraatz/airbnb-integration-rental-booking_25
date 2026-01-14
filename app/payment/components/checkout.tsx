@@ -13,8 +13,8 @@ const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string,
 );
 
-export default function Checkout() {
-  const orderId = 2;
+export default function Checkout({ orderId }: { orderId: number }) {
+  console.log(orderId, "cvvvv");
   return (
     <div id="checkout">
       <EmbeddedCheckoutProvider

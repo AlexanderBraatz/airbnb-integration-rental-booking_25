@@ -10,6 +10,9 @@ import { maskIdAsBookingCode } from "@/lib/utils";
 const testingEmailHost = "alex_braatz@icloud.com";
 const testingEmailGuest = "alex_braatz@icloud.com";
 
+// this server action will
+// 2. update the databse to lock in the accepted Price
+// 2.
 export async function acceptPriceAndSendEmailsAction({
   id,
   hasDiscountApplied,
@@ -126,8 +129,8 @@ export async function acceptPriceAndSendEmailsAction({
   // const { error: errorHostEmail } = (
   //   await sendEmail
   // )<EmailTemplatePropsV2andH2>(emailPropsHostPriceIsAccepted);
-  if (errorHostEmail) {
-    console.log(errorHostEmail);
+  if (errorVisitorEmail) {
+    console.log(errorVisitorEmail);
   }
   //on success
   revalidatePath("/");

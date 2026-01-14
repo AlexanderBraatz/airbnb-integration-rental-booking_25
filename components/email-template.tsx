@@ -1,3 +1,4 @@
+import { EmailTemplatePropsV3andH3 } from "@/app/api/stripe/webhook/route";
 import * as React from "react";
 
 interface EmailTemplatePropsV1andH1 {
@@ -115,12 +116,8 @@ export const EmailTemplateH2: React.FC<Readonly<EmailTemplatePropsV2andH2>> = ({
   price_snapshot_host_accepted_in_EURcents,
 }) => (
   <div>
-    <h1>hello, Host!</h1>
-    <p>You have a new booking request</p>
-    <p>follow this link to review and accept the booking</p>
-    <a href={`${process.env.SITE_BASE_URL}/admin/bookings`}>
-      click to go to your admin board
-    </a>
+    <h1>hello, Guest !</h1>
+
     <ul>
       <li>{check_in_date}</li>
       <li>{check_out_date}</li>
@@ -140,9 +137,51 @@ export const EmailTemplateH2: React.FC<Readonly<EmailTemplatePropsV2andH2>> = ({
     </div>
     <div className="p-4">
       <h2>
-        <a href="http://localhost:3000/pay"></a>
-        go to pay here
+        <a href={`http://localhost:3000/payment/${bookingCode}`}>
+          go to pay here
+        </a>
       </h2>
     </div>
+  </div>
+);
+
+export const EmailTemplateH3: React.FC<Readonly<EmailTemplatePropsV3andH3>> = ({
+  check_in_date,
+  check_out_date,
+  number_of_guests,
+  with_dog,
+  guest_email,
+  guest_first_name,
+  guest_last_name,
+  guest_message,
+  guest_phone_number,
+  has_agreed_to_policies,
+  bookingCode,
+  price_snapshot_guest_payed_in_EURcents,
+}) => (
+  <div>
+    <h1>hello, Guest !</h1>
+
+    <ul>
+      <li>{check_in_date}</li>
+      <li>{check_out_date}</li>
+      <li>{number_of_guests}</li>
+      <li>{with_dog}</li>
+      <li>{guest_email}</li>
+      <li>{guest_first_name}</li>
+      <li>{guest_last_name}</li>
+      <li>{guest_message}</li>
+      <li>{guest_phone_number}</li>
+      <li>{has_agreed_to_policies}</li>
+      <li>{bookingCode}</li>
+    </ul>
+    <div className="p-4">
+      <h4>
+        thank you for making the payment, you will reiceice a recipt in a
+        sepearate email
+      </h4>
+      <h2>{price_snapshot_guest_payed_in_EURcents}</h2>
+    </div>
+    <div className="p-4"></div>
   </div>
 );

@@ -3,16 +3,17 @@ import { redirect } from "next/navigation";
 import { stripe } from "@/lib/stripe";
 
 type PageProps = {
-  searchParams: Readonly<Record<string, string | string[] | undefined>>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
 export default async function Return({ searchParams }: PageProps) {
+  const params = await searchParams;
   // Normalize to a single string
   const session_id =
-    typeof searchParams.session_id === "string"
-      ? searchParams.session_id
-      : Array.isArray(searchParams.session_id)
-        ? searchParams.session_id[0]
+    typeof params.session_id === "string"
+      ? params.session_id
+      : Array.isArray(params.session_id)
+        ? params.session_id[0]
         : undefined;
 
   if (!session_id)

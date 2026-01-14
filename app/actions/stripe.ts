@@ -5,10 +5,10 @@ import { headers } from "next/headers";
 import { stripe } from "../../lib/stripe";
 import { getBookingFromIdAction } from "./admindashboardActions";
 
-export async function fetchClientSecret(id: number) {
+export async function fetchClientSecret(orderId: number) {
   const origin = (await headers()).get("origin");
 
-  const response = await getBookingFromIdAction(id);
+  const response = await getBookingFromIdAction(orderId);
   if (
     response &&
     response.data &&
@@ -19,6 +19,7 @@ export async function fetchClientSecret(id: number) {
     // Create Checkout Sessions from body params.
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded",
+      client_reference_id: String(orderId),
       line_items: [
         {
           quantity: 1,

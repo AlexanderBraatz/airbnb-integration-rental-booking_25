@@ -29,3 +29,20 @@ export function maskIdAsBookingCode(id: number) {
   const bookingCode = `BKG-${toBase36(masked)}`;
   return bookingCode;
 }
+
+export function bookingCodeConvertedBackToId(bookingCode: string): number {
+  if (!bookingCode.startsWith("BKG-")) {
+    throw new Error("Invalid booking code format");
+  }
+
+  const base36Part = bookingCode.replace("BKG-", "");
+  const masked = parseInt(base36Part, 36);
+
+  if (Number.isNaN(masked)) {
+    throw new Error("Invalid booking code value");
+  }
+
+  const secret = Number(process.env.SECRET_MASK_FOR_BOOKING_CODE_OBFUSCATION);
+
+  return masked ^ secret;
+}
