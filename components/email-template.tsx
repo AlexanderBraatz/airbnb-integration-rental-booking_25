@@ -185,3 +185,95 @@ export const EmailTemplateH3: React.FC<Readonly<EmailTemplatePropsV3andH3>> = ({
     <div className="p-4"></div>
   </div>
 );
+
+export interface EmailTemplatePropsV4andH4 {
+  check_in_date: string;
+  check_out_date: string;
+  number_of_guests: number;
+  with_dog: string;
+  guest_email: string;
+  guest_first_name: string;
+  guest_last_name: string;
+  guest_message: string;
+  guest_phone_number: string;
+  has_agreed_to_policies: string;
+  bookingCode: string;
+  price_snapshot_guest_payed_in_EURcents: string;
+}
+export const EmailTemplateH4: React.FC<Readonly<EmailTemplatePropsV4andH4>> = ({
+  check_in_date,
+  check_out_date,
+  number_of_guests,
+  with_dog,
+  guest_email,
+  guest_first_name,
+  guest_last_name,
+  guest_message,
+  guest_phone_number,
+  has_agreed_to_policies,
+  bookingCode,
+  price_snapshot_guest_payed_in_EURcents,
+}) => (
+  <div>
+    <h1>hello, Host !</h1>
+    <h1>Its Time to start your holiday!!</h1>
+
+    <ul>
+      <li>{check_in_date}</li>
+      <li>{check_out_date}</li>
+      <li>{number_of_guests}</li>
+      <li>{with_dog}</li>
+      <li>{guest_email}</li>
+      <li>{guest_first_name}</li>
+      <li>{guest_last_name}</li>
+      <li>{guest_message}</li>
+      <li>{guest_phone_number}</li>
+      <li>{has_agreed_to_policies}</li>
+      <li>{bookingCode}</li>
+      <li>{price_snapshot_guest_payed_in_EURcents}</li>
+    </ul>
+    <div className="p-4">
+      <h4>your guest is about to start their holiday</h4>
+    </div>
+    <div className="p-4"></div>
+  </div>
+);
+
+export const EmailTemplateV4: React.FC<Readonly<EmailTemplatePropsV4andH4>> = ({
+  check_in_date,
+  check_out_date,
+  number_of_guests,
+  with_dog,
+  guest_email,
+  guest_first_name,
+  guest_last_name,
+  guest_message,
+  guest_phone_number,
+  has_agreed_to_policies,
+  bookingCode,
+  price_snapshot_guest_payed_in_EURcents,
+}) => (
+  <div>
+    <h1>hello, Guest!</h1>
+    <h1>Its Time to start your holiday!!</h1>
+
+    <ul>
+      <li>{check_in_date}</li>
+      <li>{check_out_date}</li>
+      <li>{number_of_guests}</li>
+      <li>{with_dog}</li>
+      <li>{guest_email}</li>
+      <li>{guest_first_name}</li>
+      <li>{guest_last_name}</li>
+      <li>{guest_message}</li>
+      <li>{guest_phone_number}</li>
+      <li>{has_agreed_to_policies}</li>
+      <li>{bookingCode}</li>
+      <li>{price_snapshot_guest_payed_in_EURcents}</li>
+    </ul>
+    <div className="p-4">
+      <h2>Happy Holidays!</h2>
+    </div>
+    <div className="p-4"></div>
+  </div>
+);

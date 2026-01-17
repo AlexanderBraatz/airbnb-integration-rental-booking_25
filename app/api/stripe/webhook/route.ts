@@ -2,6 +2,7 @@ import {
   sendEmail,
   setPayedPriceSnapshot,
 } from "@/app/actions/bookingRequestAction";
+import { scheduleEmailAction } from "@/app/actions/scheduling";
 import { EmailTemplateH3 } from "@/components/email-template";
 import { stripe } from "@/lib/stripe";
 import { maskIdAsBookingCode } from "@/lib/utils";
@@ -104,6 +105,26 @@ export async function POST(request: NextRequest) {
 
           const { error: errorVisitoEmail } =
             await sendEmail<EmailTemplatePropsV3andH3>(emailPropsGuestHasPayed);
+          await scheduleEmailAction({
+            to_email: testingEmailHost,
+            subject: "New booking request",
+            template: "H4",
+            template_props: {
+              check_in_date,
+              check_out_date,
+              number_of_guests,
+              with_dog: with_dog ? "yes" : "no",
+              guest_email,
+              guest_first_name,
+              guest_last_name,
+              guest_message: guest_message ?? "",
+              guest_phone_number: guest_phone_number ?? "",
+              has_agreed_to_policies: has_agreed_to_policies ? "yes" : "no",
+              bookingCode,
+              price_snapshot_guest_payed_in_EURcents: price_snapshot_guest_payed_in_EURcents ? String(price_snapshot_guest_payed_in_EURcents) : ""
+            },
+            send_at: new Date(Date.now() + 10 * 60 * 1000), // send 10 min later
+          });
         }
       }
       //DO follow up actions here

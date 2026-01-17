@@ -131,6 +131,45 @@ export type Database = {
         }
         Relationships: []
       }
+      ScheduledEmails: {
+        Row: {
+          attempts: number
+          created_at: string
+          id: string
+          last_error: string | null
+          send_at: string
+          status: string
+          subject: string
+          template: string
+          template_props: Json
+          to_email: string
+        }
+        Insert: {
+          attempts?: number
+          created_at?: string
+          id?: string
+          last_error?: string | null
+          send_at: string
+          status?: string
+          subject: string
+          template: string
+          template_props: Json
+          to_email: string
+        }
+        Update: {
+          attempts?: number
+          created_at?: string
+          id?: string
+          last_error?: string | null
+          send_at?: string
+          status?: string
+          subject?: string
+          template?: string
+          template_props?: Json
+          to_email?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
