@@ -123,7 +123,9 @@ export async function POST(request: NextRequest) {
               bookingCode,
               price_snapshot_guest_payed_in_EURcents: price_snapshot_guest_payed_in_EURcents ? String(price_snapshot_guest_payed_in_EURcents) : ""
             },
-            send_at: new Date(Date.now() + 10 * 60 * 1000), // send 10 min later
+            send_at: new Date(Date.now() + 10 * 60 * 1000),
+            // after testing it shoudl send one day before check in date
+            // send_at: subtractOneDay(check_in_date)
           });
         }
       }
