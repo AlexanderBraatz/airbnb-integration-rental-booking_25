@@ -158,7 +158,6 @@ export default function BookingGuestDetailsForm({
             placeholder="Placeholder"
             {...form.register("guest_phone_number")}
           />
-          <FieldDescription>Enter your phone number.</FieldDescription>
           <FieldError>
             {form.formState.errors.guest_phone_number?.message}
           </FieldError>
@@ -170,8 +169,6 @@ export default function BookingGuestDetailsForm({
             name="check_in_date"
             render={({ field }) => (
               <Field>
-                <FieldLabel htmlFor="check_in_date">Date of birth</FieldLabel>
-
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -206,19 +203,13 @@ export default function BookingGuestDetailsForm({
                   </PopoverContent>
                 </Popover>
 
-                <FieldDescription>
-                  Your date of birth is used to calculate your age.
-                </FieldDescription>
-
                 <FieldError>
                   {form.formState.errors.check_in_date?.message}
                 </FieldError>
               </Field>
             )}
           />
-          <FieldDescription>
-            Your date of birth is used to calculate your age.
-          </FieldDescription>
+
           <FieldError>
             {form.formState.errors.check_in_date?.message}
           </FieldError>
@@ -230,8 +221,6 @@ export default function BookingGuestDetailsForm({
             name="check_out_date"
             render={({ field }) => (
               <Field>
-                <FieldLabel htmlFor="check_out_date">Date of birth</FieldLabel>
-
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -266,19 +255,13 @@ export default function BookingGuestDetailsForm({
                   </PopoverContent>
                 </Popover>
 
-                <FieldDescription>
-                  Your date of birth is used to calculate your age.
-                </FieldDescription>
-
                 <FieldError>
                   {form.formState.errors.check_out_date?.message}
                 </FieldError>
               </Field>
             )}
           />
-          <FieldDescription>
-            Your date of birth is used to calculate your age.
-          </FieldDescription>
+
           <FieldError>
             {form.formState.errors.check_out_date?.message}
           </FieldError>

@@ -4,6 +4,7 @@ import React from "react";
 import { Tables } from "@/database.types";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { User, Mail, Phone, Calendar, Users, Dog } from "lucide-react";
 
 type BookingRow = Tables<"Bookings">;
 
@@ -51,36 +52,47 @@ export default function BookingGuestDetailsReadOnly({
     return germanDateFormatter.format(value);
   };
 
-  const rows: { key: string; label: string; value?: React.ReactNode }[] = [
+  const rows: { 
+    key: string; 
+    label: string; 
+    value?: React.ReactNode;
+    icon?: React.ReactNode;
+  }[] = [
     {
       key: "guest_first_name",
       label: "First name",
       value: bookingData.guest_first_name || "—",
+      icon: <User className="h-4 w-4" />,
     },
     {
       key: "guest_last_name",
       label: "Last name",
       value: bookingData.guest_last_name || "—",
+      icon: <User className="h-4 w-4" />,
     },
     {
       key: "guest_email",
       label: "Email",
       value: bookingData.guest_email || "—",
+      icon: <Mail className="h-4 w-4" />,
     },
     {
       key: "guest_phone_number",
       label: "Phone number",
       value: bookingData.guest_phone_number || "—",
+      icon: <Phone className="h-4 w-4" />,
     },
     {
       key: "check_in_date",
       label: "Check-in date",
       value: formatDate(bookingData.check_in_date),
+      icon: <Calendar className="h-4 w-4" />,
     },
     {
       key: "check_out_date",
       label: "Check-out date",
       value: formatDate(bookingData.check_out_date),
+      icon: <Calendar className="h-4 w-4" />,
     },
     {
       key: "number_of_guests",
@@ -89,6 +101,7 @@ export default function BookingGuestDetailsReadOnly({
         bookingData.number_of_guests != null
           ? bookingData.number_of_guests
           : "—",
+      icon: <Users className="h-4 w-4" />,
     },
     {
       key: "with_dog",
@@ -98,28 +111,34 @@ export default function BookingGuestDetailsReadOnly({
           {bookingData.with_dog ? "Yes" : "No"}
         </Badge>
       ),
+      icon: <Dog className="h-4 w-4" />,
     },
   ];
 
   return (
-    <Card className="max-w-3xl">
+    <Card className="w-full shadow-sm border">
       <CardHeader>
-        <CardTitle>Booking guest details</CardTitle>
+        <CardTitle className="text-xl">Guest Details</CardTitle>
       </CardHeader>
 
       <CardContent>
-        <dl className="space-y-4">
+        <dl className="space-y-3">
           {rows.map((row) => (
             <div
               key={row.key}
-              className="grid grid-cols-[max-content,1fr] items-start gap-x-6 gap-y-1 rounded-md px-2 py-2"
+              className="flex items-start gap-4 rounded-lg px-3 py-2.5 transition-colors hover:bg-accent/50"
             >
-              <dt className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-                {row.label}
-              </dt>
-              <dd className="text-foreground text-sm break-words">
-                {row.value}
-              </dd>
+              <div className="mt-0.5 text-muted-foreground">
+                {row.icon}
+              </div>
+              <div className="grid flex-1 grid-cols-[minmax(120px,max-content),1fr] items-start gap-x-6 gap-y-1">
+                <dt className="text-xs font-medium tracking-wide uppercase text-muted-foreground">
+                  {row.label}
+                </dt>
+                <dd className="wrap-break-word text-sm text-foreground">
+                  {row.value}
+                </dd>
+              </div>
             </div>
           ))}
         </dl>
