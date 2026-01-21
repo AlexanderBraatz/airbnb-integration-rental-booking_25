@@ -15,7 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { BookingRow } from "./columns";
 
 interface DataTableProps<TData, TValue> {
@@ -33,6 +33,8 @@ export function DataTable<TData extends BookingRow, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  const router = useRouter();
 
   return (
     <div className="flex h-[800px] w-full flex-col gap-4">
@@ -62,7 +64,8 @@ export function DataTable<TData extends BookingRow, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  onClick={() => redirect(`bookings/${row.original.id}`)}
+                  // onClick={() => redirect(`bookings/${row.original.id}`)}
+                  onClick={() => router.push(`bookings/${row.original.id}`)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

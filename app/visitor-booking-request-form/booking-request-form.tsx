@@ -129,10 +129,17 @@ export default function BookingRequestForm() {
         <FormField
           control={form.control}
           name="guest_email"
-          render={({ field }) => (
+          render={({ field }
+
+
+            
+          ) => (
             <FormItem>
               <FormLabel>Guest Email</FormLabel>
-              <FormControl>
+              <FormControl
+              
+              
+              >
                 <Input
                   placeholder="example@gmail.com"
                   type="email"

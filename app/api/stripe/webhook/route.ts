@@ -121,7 +121,10 @@ export async function POST(request: NextRequest) {
               guest_phone_number: guest_phone_number ?? "",
               has_agreed_to_policies: has_agreed_to_policies ? "yes" : "no",
               bookingCode,
-              price_snapshot_guest_payed_in_EURcents: price_snapshot_guest_payed_in_EURcents ? String(price_snapshot_guest_payed_in_EURcents) : ""
+              price_snapshot_guest_payed_in_EURcents:
+                price_snapshot_guest_payed_in_EURcents
+                  ? String(price_snapshot_guest_payed_in_EURcents)
+                  : "",
             },
             send_at: new Date(Date.now() + 10 * 60 * 1000),
             // after testing it shoudl send one day before check in date
@@ -133,8 +136,16 @@ export async function POST(request: NextRequest) {
       // use amount total to set price_snapshot_guest_payed_in_EURcents
       //
     }
-    return NextResponse.json({ received: true }, { status: 200 });
-  } catch (err) {
+    return NextResponse.json(
+      { received: true },
+
+      { status: 200 },
+    );
+  } catch (err
+
+
+
+  ) {
     if (err) {
       console.error(`Webhook Error: ${err}`);
       return NextResponse.json({ error: err }, { status: 400 });
