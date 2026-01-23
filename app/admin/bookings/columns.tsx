@@ -11,10 +11,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Database } from "@/database.types";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
-import { 
-  MoreVertical, 
-  Mail, 
-  Phone, 
+import {
+  MoreVertical,
+  Mail,
+  Phone,
   Calendar,
   Users,
   Dog,
@@ -34,10 +34,10 @@ const columnHelper = createColumnHelper<BookingRow>();
 const formatDate = (dateString: string | null) => {
   if (!dateString) return "-";
   const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", { 
-    month: "short", 
-    day: "numeric", 
-    year: "numeric" 
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
   });
 };
 
@@ -59,7 +59,7 @@ export const columns: ColumnDef<BookingRow>[] = [
               <MoreVertical className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent 
+          <DropdownMenuContent
             align="start"
             onCloseAutoFocus={(e) => e.preventDefault()}
             onClick={(e) => e.stopPropagation()}
@@ -82,7 +82,7 @@ export const columns: ColumnDef<BookingRow>[] = [
           variant="ghost"
           size="sm"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="-ml-3 h-8 data-[state=open]:bg-accent"
+          className="data-[state=open]:bg-accent -ml-3 h-8"
         >
           ID
           {column.getIsSorted() === "asc" ? (
@@ -108,7 +108,7 @@ export const columns: ColumnDef<BookingRow>[] = [
           variant="ghost"
           size="sm"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="-ml-3 h-8 data-[state=open]:bg-accent"
+          className="data-[state=open]:bg-accent -ml-3 h-8"
         >
           Guest Name
           {column.getIsSorted() === "asc" ? (
@@ -126,8 +126,9 @@ export const columns: ColumnDef<BookingRow>[] = [
       const lastName = row.original.guest_last_name;
       return (
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-blue-700 font-semibold text-sm">
-            {firstName?.[0]}{lastName?.[0]}
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-sm font-semibold text-blue-700">
+            {firstName?.[0]}
+            {lastName?.[0]}
           </div>
           <span className="font-medium text-gray-900">
             {firstName} {lastName}
@@ -160,7 +161,7 @@ export const columns: ColumnDef<BookingRow>[] = [
           <span className="text-sm">{phone}</span>
         </div>
       ) : (
-        <span className="text-gray-400 text-sm">-</span>
+        <span className="text-sm text-gray-400">-</span>
       );
     },
   },
@@ -172,7 +173,7 @@ export const columns: ColumnDef<BookingRow>[] = [
           variant="ghost"
           size="sm"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="-ml-3 h-8 data-[state=open]:bg-accent"
+          className="data-[state=open]:bg-accent -ml-3 h-8"
         >
           Check-in
           {column.getIsSorted() === "asc" ? (
@@ -203,7 +204,7 @@ export const columns: ColumnDef<BookingRow>[] = [
           variant="ghost"
           size="sm"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="-ml-3 h-8 data-[state=open]:bg-accent"
+          className="data-[state=open]:bg-accent -ml-3 h-8"
         >
           Check-out
           {column.getIsSorted() === "asc" ? (
@@ -245,12 +246,15 @@ export const columns: ColumnDef<BookingRow>[] = [
     cell: ({ row }) => {
       const withDog = row.getValue("with_dog") as boolean;
       return withDog ? (
-        <Badge variant="secondary" className="bg-green-100 text-green-800 border-green-200">
+        <Badge
+          variant="secondary"
+          className="border-green-200 bg-green-100 text-green-800"
+        >
           <Dog className="h-3 w-3" />
           Yes
         </Badge>
       ) : (
-        <Badge variant="outline" className="text-gray-500 border-gray-300">
+        <Badge variant="outline" className="border-gray-300 text-gray-500">
           No
         </Badge>
       );
@@ -264,7 +268,7 @@ export const columns: ColumnDef<BookingRow>[] = [
           variant="ghost"
           size="sm"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="-ml-3 h-8 data-[state=open]:bg-accent"
+          className="data-[state=open]:bg-accent -ml-3 h-8"
         >
           Offer Price
           {column.getIsSorted() === "asc" ? (
@@ -278,7 +282,9 @@ export const columns: ColumnDef<BookingRow>[] = [
       );
     },
     cell: ({ row }) => {
-      const price = row.getValue("price_snapshot_host_accepted_in_EURcents") as number;
+      const price = row.getValue(
+        "price_snapshot_host_accepted_in_EURcents",
+      ) as number;
       return (
         <div className="flex items-center gap-1 font-semibold text-gray-900">
           <Euro className="h-4 w-4 text-gray-400" />
@@ -293,12 +299,18 @@ export const columns: ColumnDef<BookingRow>[] = [
     cell: ({ row }) => {
       const sent = row.getValue("sent_email_2_payment_link_guest") as boolean;
       return sent ? (
-        <Badge variant="secondary" className="bg-blue-100 text-blue-800 border-blue-200">
+        <Badge
+          variant="secondary"
+          className="border-blue-200 bg-blue-100 text-blue-800"
+        >
           <CheckCircle2 className="h-3 w-3" />
           Sent
         </Badge>
       ) : (
-        <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-300">
+        <Badge
+          variant="outline"
+          className="border-amber-300 bg-amber-50 text-amber-700"
+        >
           <Clock className="h-3 w-3" />
           Pending
         </Badge>
@@ -309,7 +321,9 @@ export const columns: ColumnDef<BookingRow>[] = [
     accessorKey: "price_snapshot_guest_payed_in_EURcents",
     header: "Paid Amount",
     cell: ({ row }) => {
-      const paid = row.getValue("price_snapshot_guest_payed_in_EURcents") as number;
+      const paid = row.getValue(
+        "price_snapshot_guest_payed_in_EURcents",
+      ) as number;
       const hasPaid = paid !== null && paid > 0;
       return (
         <div className="flex items-center gap-2">
@@ -334,14 +348,19 @@ export const columns: ColumnDef<BookingRow>[] = [
     accessorKey: "sent_email_3_paymend_confimed_guest",
     header: "Confirmation",
     cell: ({ row }) => {
-      const sent = row.getValue("sent_email_3_paymend_confimed_guest") as boolean;
+      const sent = row.getValue(
+        "sent_email_3_paymend_confimed_guest",
+      ) as boolean;
       return sent ? (
-        <Badge variant="secondary" className="bg-green-100 text-green-800 border-green-200">
+        <Badge
+          variant="secondary"
+          className="border-green-200 bg-green-100 text-green-800"
+        >
           <CheckCircle2 className="h-3 w-3" />
           Confirmed
         </Badge>
       ) : (
-        <Badge variant="outline" className="text-gray-500 border-gray-300">
+        <Badge variant="outline" className="border-gray-300 text-gray-500">
           <Clock className="h-3 w-3" />
           Pending
         </Badge>
