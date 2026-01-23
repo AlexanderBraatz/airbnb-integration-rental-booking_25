@@ -62,6 +62,10 @@ export default function BookingRequest() {
     },
   });
 
+  // Watch dates to enable/disable calendar dates dynamically
+  const checkInDate = form.watch("check_in_date");
+  const checkOutDate = form.watch("check_out_date");
+
   const formatDateToISO = (date: Date): string => {
     const year = date.getUTCFullYear();
     const month = date.getUTCMonth() + 1;
@@ -248,9 +252,38 @@ export default function BookingRequest() {
                           mode="single"
                           selected={field.value}
                           onSelect={(date) => {
-                            if (date) field.onChange(date);
+                            if (date) {
+                              field.onChange(date);
+                              // Clear checkout date if it's now invalid
+                              if (checkOutDate) {
+                                const checkoutDate = new Date(checkOutDate);
+                                checkoutDate.setHours(0, 0, 0, 0);
+                                const selectedDate = new Date(date);
+                                selectedDate.setHours(0, 0, 0, 0);
+                                if (selectedDate >= checkoutDate) {
+                                  form.resetField("check_out_date");
+                                }
+                              }
+                            }
                           }}
-                          disabled={(date) => date < new Date()}
+                          disabled={(date) => {
+                            const today = new Date();
+                            today.setHours(0, 0, 0, 0);
+                            const dateToCheck = new Date(date);
+                            dateToCheck.setHours(0, 0, 0, 0);
+
+                            // Disable past dates
+                            if (dateToCheck < today) return true;
+
+                            // Disable dates on or after checkout date (if checkout is selected)
+                            if (checkOutDate) {
+                              const checkoutDate = new Date(checkOutDate);
+                              checkoutDate.setHours(0, 0, 0, 0);
+                              return dateToCheck >= checkoutDate;
+                            }
+
+                            return false;
+                          }}
                         />
                       </PopoverContent>
                     </Popover>
@@ -294,9 +327,38 @@ export default function BookingRequest() {
                           mode="single"
                           selected={field.value}
                           onSelect={(date) => {
-                            if (date) field.onChange(date);
+                            if (date) {
+                              field.onChange(date);
+                              // Clear checkin date if it's now invalid
+                              if (checkInDate) {
+                                const checkinDate = new Date(checkInDate);
+                                checkinDate.setHours(0, 0, 0, 0);
+                                const selectedDate = new Date(date);
+                                selectedDate.setHours(0, 0, 0, 0);
+                                if (selectedDate <= checkinDate) {
+                                  form.resetField("check_in_date");
+                                }
+                              }
+                            }
                           }}
-                          disabled={(date) => date < new Date()}
+                          disabled={(date) => {
+                            const today = new Date();
+                            today.setHours(0, 0, 0, 0);
+                            const dateToCheck = new Date(date);
+                            dateToCheck.setHours(0, 0, 0, 0);
+
+                            // Disable past dates
+                            if (dateToCheck < today) return true;
+
+                            // Disable dates on or before checkin date (if checkin is selected)
+                            if (checkInDate) {
+                              const checkinDate = new Date(checkInDate);
+                              checkinDate.setHours(0, 0, 0, 0);
+                              return dateToCheck <= checkinDate;
+                            }
+
+                            return false;
+                          }}
                         />
                       </PopoverContent>
                     </Popover>
