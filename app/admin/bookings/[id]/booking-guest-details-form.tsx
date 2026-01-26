@@ -44,6 +44,7 @@ const formSchema = z.object({
   check_out_date: z.date(),
   number_of_guests: z.string(),
   with_dog: z.boolean(),
+  guest_message: z.string().max(400, "Max 400 characters"),
 });
 export type FormValues = z.infer<typeof formSchema>;
 
@@ -64,6 +65,7 @@ export default function BookingGuestDetailsForm({
     guest_phone_number,
     number_of_guests,
     with_dog,
+    guest_message,
   } = bookingData;
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -79,6 +81,7 @@ export default function BookingGuestDetailsForm({
       check_in_date: checkedDate(check_in_date),
       check_out_date: checkedDate(check_out_date),
       with_dog,
+      guest_message: guest_message ?? "",
     },
   });
   //  checkedDate sets the field to undefined if no Date was provided
@@ -90,13 +93,6 @@ export default function BookingGuestDetailsForm({
     const result = await handleUpdateBookingAction(id, values);
 
     if (result?.data) {
-      toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">
-            {JSON.stringify(result.data, null, 2)}
-          </code>
-        </pre>,
-      );
       setShowForm(false);
     }
 
@@ -116,7 +112,7 @@ export default function BookingGuestDetailsForm({
           <FieldLabel htmlFor="guest_first_name">First Name</FieldLabel>
           <Input
             id="guest_first_name"
-            placeholder=""
+            placeholder="First Name"
             {...form.register("guest_first_name")}
           />
 
@@ -131,7 +127,7 @@ export default function BookingGuestDetailsForm({
               <FieldLabel htmlFor="guest_last_name">Last Name</FieldLabel>
               <Input
                 id="guest_last_name"
-                placeholder="shadcn"
+                placeholder="Last Name"
                 {...form.register("guest_last_name")}
               />
 
@@ -145,7 +141,7 @@ export default function BookingGuestDetailsForm({
           <FieldLabel htmlFor="guest_email">Email</FieldLabel>
           <Input
             id="guest_email"
-            placeholder="shadcn"
+            placeholder="Email"
             {...form.register("guest_email")}
           />
 
@@ -155,7 +151,7 @@ export default function BookingGuestDetailsForm({
           <FieldLabel htmlFor="guest_phone_number">Phone number</FieldLabel>
           <Input
             id="guest_phone_number"
-            placeholder="Placeholder"
+            placeholder="Phone Number"
             {...form.register("guest_phone_number")}
           />
           <FieldError>
@@ -315,6 +311,18 @@ export default function BookingGuestDetailsForm({
           />
           <FieldError>{form.formState.errors.with_dog?.message}</FieldError>
         </Field>
+        <Field>
+          <FieldLabel htmlFor="guest_message">Guest Message</FieldLabel>
+          <Input
+            id="guest_message"
+            placeholder="message"
+            {...form.register("guest_message")}
+          />
+          <FieldError>
+            {form.formState.errors.guest_message?.message}
+          </FieldError>
+        </Field>
+        <Field></Field>
         <Button type="submit">Save</Button>
       </form>
     </Form>

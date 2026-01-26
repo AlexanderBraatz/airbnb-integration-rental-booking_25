@@ -150,6 +150,7 @@ export async function handleUpdateBookingAction(
     check_out_date,
     number_of_guests,
     with_dog,
+    guest_message,
   } = values;
   console.log(number_of_guests, with_dog);
   const { data, error } = await supabase
@@ -163,6 +164,7 @@ export async function handleUpdateBookingAction(
       check_out_date: convertDate(check_out_date),
       number_of_guests: Number(number_of_guests),
       with_dog,
+      guest_message,
     })
     .eq("id", id)
     .select()

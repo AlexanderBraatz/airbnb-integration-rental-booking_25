@@ -4,7 +4,7 @@ import React from "react";
 import { Tables } from "@/database.types";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { User, Mail, Phone, Calendar, Users, Dog } from "lucide-react";
+import { User, Mail, Phone, Calendar, Users, Dog, Text } from "lucide-react";
 
 type BookingRow = Tables<"Bookings">;
 
@@ -52,9 +52,9 @@ export default function BookingGuestDetailsReadOnly({
     return germanDateFormatter.format(value);
   };
 
-  const rows: { 
-    key: string; 
-    label: string; 
+  const rows: {
+    key: string;
+    label: string;
     value?: React.ReactNode;
     icon?: React.ReactNode;
   }[] = [
@@ -113,10 +113,16 @@ export default function BookingGuestDetailsReadOnly({
       ),
       icon: <Dog className="h-4 w-4" />,
     },
+    {
+      key: "guest_message",
+      label: "Guest Message",
+      value: bookingData.guest_message || "-",
+      icon: <Text className="h-4 w-4" />,
+    },
   ];
 
   return (
-    <Card className="w-full shadow-sm border">
+    <Card className="w-full border shadow-sm">
       <CardHeader>
         <CardTitle className="text-xl">Guest Details</CardTitle>
       </CardHeader>
@@ -126,16 +132,14 @@ export default function BookingGuestDetailsReadOnly({
           {rows.map((row) => (
             <div
               key={row.key}
-              className="flex items-start gap-4 rounded-lg px-3 py-2.5 transition-colors hover:bg-accent/50"
+              className="hover:bg-accent/50 flex items-start gap-4 rounded-lg px-3 py-2.5 transition-colors"
             >
-              <div className="mt-0.5 text-muted-foreground">
-                {row.icon}
-              </div>
+              <div className="text-muted-foreground mt-0.5">{row.icon}</div>
               <div className="grid flex-1 grid-cols-[minmax(120px,max-content),1fr] items-start gap-x-6 gap-y-1">
-                <dt className="text-xs font-medium tracking-wide uppercase text-muted-foreground">
+                <dt className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                   {row.label}
                 </dt>
-                <dd className="wrap-break-word text-sm text-foreground">
+                <dd className="text-foreground text-sm wrap-break-word">
                   {row.value}
                 </dd>
               </div>
