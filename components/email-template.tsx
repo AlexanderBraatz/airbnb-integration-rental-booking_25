@@ -14,6 +14,10 @@ interface EmailTemplatePropsV1andH1 {
   has_agreed_to_policies: string;
   bookingCode: string;
 }
+
+export interface EmailTemplatePropsH1 extends EmailTemplatePropsV1andH1 {
+  id: number;
+}
 interface EmailTemplatePropsV2andH2 {
   check_in_date: string;
   check_out_date: string;
@@ -65,7 +69,7 @@ export const EmailTemplateV1: React.FC<Readonly<EmailTemplatePropsV1andH1>> = ({
   </div>
 );
 
-export const EmailTemplateH1: React.FC<Readonly<EmailTemplatePropsV1andH1>> = ({
+export const EmailTemplateH1: React.FC<Readonly<EmailTemplatePropsH1>> = ({
   check_in_date,
   check_out_date,
   number_of_guests,
@@ -77,13 +81,14 @@ export const EmailTemplateH1: React.FC<Readonly<EmailTemplatePropsV1andH1>> = ({
   guest_phone_number,
   has_agreed_to_policies,
   bookingCode,
+  id,
 }) => (
   <div>
     <h1>hello, Host!</h1>
     <p>You have a new booking request</p>
     <p>follow this link to review and accept the booking</p>
-    <a href={`${process.env.SITE_BASE_URL}/admin/bookings`}>
-      click to go to your admin board
+    <a href={`${process.env.SITE_BASE_URL}/admin/bookings/${id}`}>
+      click to go to strait to the booking request
     </a>
     <ul>
       <li>{check_in_date}</li>

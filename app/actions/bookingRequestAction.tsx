@@ -3,6 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import {
   EmailTemplateV1,
   EmailTemplateH1,
+  EmailTemplatePropsH1,
 } from "../../components/email-template";
 import { Resend } from "resend";
 import * as React from "react";
@@ -88,12 +89,12 @@ export async function bookingRequestAction(
           guest_phone_number: guest_phone_number ?? "",
           has_agreed_to_policies: has_agreed_to_policies ? "yes" : "no",
           bookingCode,
+          id,
         },
       };
-      const { error: errorHostEmail } =
-        await sendEmail<EmailTemplatePropsV1andH1>(
-          emailPropsHostNewBookingRequestNotification,
-        );
+      const { error: errorHostEmail } = await sendEmail<EmailTemplatePropsH1>(
+        emailPropsHostNewBookingRequestNotification,
+      );
       if (errorHostEmail) {
         console.log(errorHostEmail);
       }
