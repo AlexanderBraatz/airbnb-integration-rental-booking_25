@@ -69,11 +69,14 @@ export default function BookingHeader({ bookingData }: BookingHeaderProps) {
             <h1 className="text-3xl font-bold tracking-tight">
               Booking #{bookingData.id}
             </h1>
-            <Badge variant={getStatusVariant(bookingData.status)} className="text-xs">
+            <Badge
+              variant={getStatusVariant(bookingData.status)}
+              className="text-xs"
+            >
               {bookingData.status || "pending"}
             </Badge>
           </div>
-          <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
+          <div className="text-muted-foreground flex flex-wrap gap-x-4 gap-y-1 text-sm">
             {bookingData.created_at && (
               <span>Created: {formatDateTime(bookingData.created_at)}</span>
             )}

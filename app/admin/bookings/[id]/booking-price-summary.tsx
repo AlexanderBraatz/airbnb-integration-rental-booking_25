@@ -79,7 +79,7 @@ export default function BookingPriceSummary({
   const DiscountedPriceCents = Math.round(
     (suggestedPriceCents *
       (100 - form.watch("discountValuePercentageFormValue"))) /
-      100
+      100,
   );
   const discountedPriceEuros = financial(DiscountedPriceCents / 100);
 
@@ -102,18 +102,18 @@ export default function BookingPriceSummary({
       <Card className="w-full border shadow-sm">
         <CardContent className="flex flex-col items-center justify-center gap-4 py-12">
           <CheckCircle2 className="h-16 w-16 text-green-600" />
-          <div className="text-center space-y-2">
+          <div className="space-y-2 text-center">
             <h3 className="text-lg font-semibold">Booking Accepted!</h3>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               You have successfully accepted the price and an email was sent to
               the guest.
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               You will receive another email as soon as the guest makes the
               payment.
             </p>
           </div>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <div className="text-muted-foreground flex items-center gap-2 text-sm">
             <Spinner />
             <span>Redirecting to the admin page...</span>
           </div>
@@ -126,10 +126,10 @@ export default function BookingPriceSummary({
     <Card className="w-full border shadow-sm">
       <CardHeader>
         <div className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-muted-foreground" />
+          <Calculator className="text-muted-foreground h-5 w-5" />
           <CardTitle className="text-xl">Price Calculation</CardTitle>
         </div>
-        <p className="text-sm text-muted-foreground mt-2">
+        <p className="text-muted-foreground mt-2 text-sm">
           Based on your preferences, the automatic price suggestion is
           calculated below.
         </p>
@@ -149,17 +149,23 @@ export default function BookingPriceSummary({
               <TableCell className="font-medium">
                 {numOfNights} Night{numOfNights !== 1 ? "s" : ""}
               </TableCell>
-              <TableCell className="text-right">€{nighsTotalPriceEuros}</TableCell>
+              <TableCell className="text-right">
+                €{nighsTotalPriceEuros}
+              </TableCell>
             </TableRow>
             {with_dog && (
               <TableRow>
                 <TableCell className="font-medium">Dog Fee</TableCell>
-                <TableCell className="text-right">€{priceForDogEuros}</TableCell>
+                <TableCell className="text-right">
+                  €{priceForDogEuros}
+                </TableCell>
               </TableRow>
             )}
             <TableRow>
               <TableCell className="font-medium">Cleaning Fee</TableCell>
-              <TableCell className="text-right">€{priceForCleaningEuros}</TableCell>
+              <TableCell className="text-right">
+                €{priceForCleaningEuros}
+              </TableCell>
             </TableRow>
           </TableBody>
           <TableFooter>
@@ -175,20 +181,21 @@ export default function BookingPriceSummary({
                   <TableCell className="text-muted-foreground">
                     <div className="flex items-center gap-2">
                       <Tag className="h-4 w-4" />
-                      Discount ({form.watch("discountValuePercentageFormValue")}%)
+                      Discount ({form.watch("discountValuePercentageFormValue")}
+                      %)
                     </div>
                   </TableCell>
                   <TableCell className="text-right text-red-600">
                     -€
                     {financial(
-                      (suggestedPriceCents - DiscountedPriceCents) / 100
+                      (suggestedPriceCents - DiscountedPriceCents) / 100,
                     )}
                   </TableCell>
                 </TableRow>
                 <TableRow className="bg-accent/50">
                   <TableCell className="font-bold">Final Price</TableCell>
                   <TableCell className="text-right">
-                    <Badge variant="default" className="text-base px-3 py-1">
+                    <Badge variant="default" className="px-3 py-1 text-base">
                       €{discountedPriceEuros}
                     </Badge>
                   </TableCell>
@@ -199,15 +206,15 @@ export default function BookingPriceSummary({
         </Table>
 
         {/* Discount Toggle */}
-        <div className="flex items-center justify-between rounded-lg border bg-card p-4">
+        <div className="bg-card flex items-center justify-between rounded-lg border p-4">
           <div className="space-y-0.5">
             <label
               htmlFor="with_discount"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
               Apply Discount
             </label>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Offer a percentage discount to the guest
             </p>
           </div>
@@ -220,7 +227,7 @@ export default function BookingPriceSummary({
 
         {/* Discount Form */}
         {hasDiscountApplied && (
-          <div className="rounded-lg border bg-accent/20 p-4 space-y-4">
+          <div className="bg-accent/20 space-y-4 rounded-lg border p-4">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -244,13 +251,15 @@ export default function BookingPriceSummary({
                                 e.target.valueAsNumber
                                   ? Math.min(
                                       Math.max(e.target.valueAsNumber, 1),
-                                      99
+                                      99,
                                     )
-                                  : 1
+                                  : 1,
                               )
                             }
                           />
-                          <span className="text-sm text-muted-foreground">%</span>
+                          <span className="text-muted-foreground text-sm">
+                            %
+                          </span>
                         </div>
                       </FormControl>
                       <FormMessage />
@@ -272,11 +281,7 @@ export default function BookingPriceSummary({
         </Alert>
 
         {/* Accept Button */}
-        <Button
-          onClick={handleAcceptAndSend}
-          className="w-full"
-          size="lg"
-        >
+        <Button onClick={handleAcceptAndSend} className="w-full" size="lg">
           <CheckCircle2 className="mr-2 h-5 w-5" />
           Accept Price and Send Email
         </Button>

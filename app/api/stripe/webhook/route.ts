@@ -141,11 +141,7 @@ export async function POST(request: NextRequest) {
 
       { status: 200 },
     );
-  } catch (err
-
-
-
-  ) {
+  } catch (err) {
     if (err) {
       console.error(`Webhook Error: ${err}`);
       return NextResponse.json({ error: err }, { status: 400 });

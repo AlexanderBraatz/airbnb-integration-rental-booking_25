@@ -131,12 +131,44 @@ export type Database = {
         };
         Relationships: [];
       };
+      host_config: {
+        Row: {
+          created_at: string | null;
+          host_business_email: string;
+          id: number;
+          price_for_cleaning_cents: number;
+          price_for_dog_cents: number;
+          price_per_night_cents: number;
+          updated_at: string | null;
+        };
+        Insert: {
+          created_at?: string | null;
+          host_business_email: string;
+          id?: number;
+          price_for_cleaning_cents: number;
+          price_for_dog_cents: number;
+          price_per_night_cents: number;
+          updated_at?: string | null;
+        };
+        Update: {
+          created_at?: string | null;
+          host_business_email?: string;
+          id?: number;
+          price_for_cleaning_cents?: number;
+          price_for_dog_cents?: number;
+          price_per_night_cents?: number;
+          updated_at?: string | null;
+        };
+        Relationships: [];
+      };
       ScheduledEmails: {
         Row: {
           attempts: number;
           created_at: string;
+          html: string | null;
           id: string;
           last_error: string | null;
+          resend_email_id: string | null;
           send_at: string;
           status: string;
           subject: string;
@@ -147,8 +179,10 @@ export type Database = {
         Insert: {
           attempts?: number;
           created_at?: string;
+          html?: string | null;
           id?: string;
           last_error?: string | null;
+          resend_email_id?: string | null;
           send_at: string;
           status?: string;
           subject: string;
@@ -159,8 +193,10 @@ export type Database = {
         Update: {
           attempts?: number;
           created_at?: string;
+          html?: string | null;
           id?: string;
           last_error?: string | null;
+          resend_email_id?: string | null;
           send_at?: string;
           status?: string;
           subject?: string;

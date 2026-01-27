@@ -23,16 +23,27 @@ export const createBookingRequestSchema = z.object({
 
 // Form schema for the booking request form (uses Date objects, not ISO strings)
 export const bookingRequestFormSchema = z.object({
-  guest_first_name: z.string().min(1, "Name ist erforderlich").max(100, "Max 100 Zeichen"),
-  guest_last_name: z.string().min(1, "Nachname ist erforderlich").max(100, "Max 100 Zeichen"),
+  guest_first_name: z
+    .string()
+    .min(1, "Name ist erforderlich")
+    .max(100, "Max 100 Zeichen"),
+  guest_last_name: z
+    .string()
+    .min(1, "Nachname ist erforderlich")
+    .max(100, "Max 100 Zeichen"),
   guest_email: z.string().email("Ungültige E-Mail-Adresse"),
   guest_phone_number: z.string().max(100, "Max 100 Zeichen").optional(),
   check_in_date: z.date("Anreise ist erforderlich"),
   check_out_date: z.date("Abreise ist erforderlich"),
   number_of_guests: z.string().min(1, "Anzahl der Gäste erforderlich"),
   with_dog: z.string().min(1, "Bitte wählen Sie eine Option"),
-  guest_message: z.string().max(400, "Nachricht zu lang (max 400 Zeichen)").optional(),
-  has_agreed_to_policies: z.boolean().refine(val => val === true, "Zustimmung erforderlich"),
+  guest_message: z
+    .string()
+    .max(400, "Nachricht zu lang (max 400 Zeichen)")
+    .optional(),
+  has_agreed_to_policies: z
+    .boolean()
+    .refine((val) => val === true, "Zustimmung erforderlich"),
 });
 
 export interface BookingRequestFormTypes {

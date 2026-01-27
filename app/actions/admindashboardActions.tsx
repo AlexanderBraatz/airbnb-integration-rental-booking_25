@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { sendEmail } from "./bookingRequestAction";
 import { EmailTemplateH2 } from "@/components/email-template";
 import { maskIdAsBookingCode } from "@/lib/utils";
+import type { Tables } from "@/database.types";
 
 const testingEmailHost = "alex_braatz@icloud.com";
 const testingEmailGuest = "alex_braatz@icloud.com";
@@ -329,6 +330,91 @@ export const getAllBookings = async () => {
   }
 
   // 3) Success
+  return {
+    data,
+    error: null,
+  };
+};
+
+export type HostConfig = Tables<"host_config">;
+
+export const getHostConfigAction = async () => {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("host_config")
+    .select("*")
+    .eq("id", 1)
+    .maybeSingle();
+
+  // 1) Real Supabase error (network, RLS, SQL etc.)
+  if (error) {
+    console.error("Supabase error in getHostConfigAction:", error);
+    return {
+      data: null,
+      error: "Something went wrong while fetching host config.",
+    };
+  }
+
+  // 2) No row found - return null (caller can handle this)
+  if (!data) {
+    return {
+      data: null,
+      error: "No host config found",
+    };
+  }
+
+  // 3) Success
+  return {
+    data,
+    error: null,
+  };
+};
+
+export interface UpdateHostConfigValues {
+  price_per_night_cents: number;
+  price_for_dog_cents: number;
+  price_for_cleaning_cents: number;
+  host_business_email: string;
+}
+
+export const updateHostConfigAction = async (
+  values: UpdateHostConfigValues,
+) => {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("host_config")
+    .upsert(
+      {
+        id: 1,
+        ...values,
+      },
+      {
+        onConflict: "id",
+      },
+    )
+    .select()
+    .maybeSingle();
+
+  // 1) Real Supabase error (network, RLS, SQL etc.)
+  if (error) {
+    console.error("Supabase error in updateHostConfigAction:", error);
+    return {
+      data: null,
+      error: "Something went wrong while updating host config.",
+    };
+  }
+
+  // 2) No row returned
+  if (!data) {
+    return {
+      data: null,
+      error: "Failed to update host config.",
+    };
+  }
+
+  // 3) Success
+  revalidatePath("/admin/host-settings");
+  revalidatePath("/admin/bookings");
   return {
     data,
     error: null,

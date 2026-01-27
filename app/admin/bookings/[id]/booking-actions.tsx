@@ -3,7 +3,13 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Tables } from "@/database.types";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Mail, Trash2, XCircle, AlertTriangle } from "lucide-react";
@@ -83,15 +89,11 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
         <div className="space-y-3">
           <div className="space-y-1">
             <h3 className="text-sm font-semibold">Contact Guest</h3>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               Get in touch with the guest directly via email
             </p>
           </div>
-          <Button
-            variant="outline"
-            className="w-full gap-2"
-            asChild
-          >
+          <Button variant="outline" className="w-full gap-2" asChild>
             <a href={`mailto:${bookingData.guest_email}`}>
               <Mail className="h-4 w-4" />
               Email {bookingData.guest_email}
@@ -105,29 +107,30 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
         <div className="space-y-3">
           <div className="space-y-1">
             <h3 className="text-sm font-semibold">Decline Booking</h3>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               If you cannot accommodate this booking, you can decline it. The
               guest will be notified via email.
             </p>
           </div>
-          
+
           {!showDeclineConfirm ? (
             <Button
               variant="destructive"
               className="w-full gap-2"
               onClick={handleDeclineClick}
-              disabled={bookingData.status === "declined" || isProcessing}
+              disabled={isProcessing}
             >
               <XCircle className="h-4 w-4" />
               Decline Booking
             </Button>
           ) : (
-            <div className="space-y-2 rounded-lg border-2 border-destructive bg-destructive/10 p-4">
-              <p className="text-sm font-semibold text-destructive">
+            <div className="border-destructive bg-destructive/10 space-y-2 rounded-lg border-2 p-4">
+              <p className="text-destructive text-sm font-semibold">
                 Are you sure you want to decline this booking?
               </p>
-              <p className="text-xs text-muted-foreground">
-                The guest will receive an email notification. This action can be reversed later if needed.
+              <p className="text-muted-foreground text-xs">
+                The guest will receive an email notification. This action can be
+                reversed later if needed.
               </p>
               <div className="flex gap-2 pt-2">
                 <Button
@@ -158,10 +161,10 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
         {/* Delete Booking Section */}
         <div className="space-y-3">
           <div className="space-y-1">
-            <h3 className="text-sm font-semibold text-destructive">
+            <h3 className="text-destructive text-sm font-semibold">
               Delete Booking
             </h3>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               Permanently remove this booking from the system. This action
               cannot be undone.
             </p>
@@ -170,7 +173,7 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
           {!showDeleteConfirm ? (
             <Button
               variant="outline"
-              className="w-full gap-2 border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
+              className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground w-full gap-2"
               onClick={handleDeleteClick}
               disabled={isProcessing}
             >
@@ -178,12 +181,13 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
               Delete Booking
             </Button>
           ) : (
-            <div className="space-y-2 rounded-lg border-2 border-destructive bg-destructive/10 p-4">
-              <p className="text-sm font-semibold text-destructive">
+            <div className="border-destructive bg-destructive/10 space-y-2 rounded-lg border-2 p-4">
+              <p className="text-destructive text-sm font-semibold">
                 Delete booking #{bookingData.id} permanently?
               </p>
-              <p className="text-xs text-muted-foreground">
-                This will permanently delete this booking and all associated data. This action cannot be undone.
+              <p className="text-muted-foreground text-xs">
+                This will permanently delete this booking and all associated
+                data. This action cannot be undone.
               </p>
               <div className="flex gap-2 pt-2">
                 <Button
