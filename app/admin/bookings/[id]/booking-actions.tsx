@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Tables } from "@/database.types";
 import { Button } from "@/components/ui/button";
+import { declineBookingAction } from "@/app/actions/admindashboardActions";
 import {
   Card,
   CardContent,
@@ -35,10 +36,12 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
     setIsProcessing(true);
     setError(null);
     try {
-      // TODO: Implement decline action
-      console.log("Declining booking:", bookingData.id);
-      // await declineBookingAction(bookingData.id);
-      router.push("/admin/bookings");
+      const result = await declineBookingAction(bookingData.id);
+      if (result.error) {
+        setError(result.error);
+      } else {
+        router.push("/admin/bookings");
+      }
     } catch (err) {
       setError("Failed to decline booking. Please try again.");
     } finally {

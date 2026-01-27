@@ -4,7 +4,11 @@ import { createClient } from "@/utils/supabase/server";
 import { FormValues } from "../admin/bookings/[id]/booking-guest-details-form";
 import { revalidatePath } from "next/cache";
 import { sendEmail } from "./bookingRequestAction";
-import { EmailTemplateH2 } from "@/components/email-template";
+import {
+  EmailTemplateH2,
+  EmailTemplateV5,
+  EmailTemplateH5,
+} from "@/components/email-template";
 import { maskIdAsBookingCode } from "@/lib/utils";
 import type { Tables } from "@/database.types";
 
@@ -34,6 +38,7 @@ export async function acceptPriceAndSendEmailsAction({
       price_snapshot_host_accepted_in_EURcents: hasDiscountApplied
         ? DiscountedPriceCents
         : suggestedPriceCents,
+      status: "accepted",
     })
     .eq("id", id)
     .select()
@@ -106,13 +111,6 @@ export async function acceptPriceAndSendEmailsAction({
     has_agreed_to_policies: string;
     bookingCode: string;
     price_snapshot_host_accepted_in_EURcents: string;
-  }
-
-  interface sendEmailArgTypes {
-    Template: React.FC<Readonly<EmailTemplatePropsV2andH2>>;
-    email_to: string;
-    templateProps: Readonly<EmailTemplatePropsV2andH2>;
-    // Ensures email data remains immutable after rendering, avoiding inconsistencies between the email and its source data.
   }
   const { error: errorHostEmail } = await sendEmail<EmailTemplatePropsV2andH2>(
     emailPropsHostPriceIsAccepted,
@@ -420,3 +418,118 @@ export const updateHostConfigAction = async (
     error: null,
   };
 };
+
+export async function declineBookingAction(id: number) {
+  const supabase = await createClient();
+
+  // Update booking status to declined
+  const { data, error } = await supabase
+    .from("Bookings")
+    .update({ status: "declined" })
+    .eq("id", id)
+    .select()
+    .maybeSingle();
+
+  if (error) {
+    console.error("Supabase error in declineBookingAction:", error);
+    return {
+      data: null,
+      error: "Something went wrong while declining the booking.",
+    };
+  }
+
+  if (!data) {
+    return {
+      data: null,
+      error: "Booking not found or you don't have access to it.",
+    };
+  }
+
+  // Send emails to guest and host
+  const {
+    check_in_date,
+    check_out_date,
+    number_of_guests,
+    with_dog,
+    guest_email,
+    guest_first_name,
+    guest_last_name,
+    guest_message,
+    guest_phone_number,
+    has_agreed_to_policies,
+  } = data;
+
+  const bookingCode = maskIdAsBookingCode(id);
+
+  // Email to guest
+  interface EmailTemplatePropsV5andH5 {
+    check_in_date: string;
+    check_out_date: string;
+    number_of_guests: number;
+    with_dog: string;
+    guest_email: string;
+    guest_first_name: string;
+    guest_last_name: string;
+    guest_message: string;
+    guest_phone_number: string;
+    has_agreed_to_policies: string;
+    bookingCode: string;
+  }
+
+  const emailPropsGuestDeclined = {
+    Template: EmailTemplateV5,
+    email_to: testingEmailGuest, // TODO: replace with guest_email
+    templateProps: {
+      check_in_date,
+      check_out_date,
+      number_of_guests,
+      with_dog: with_dog ? "yes" : "no",
+      guest_email,
+      guest_first_name,
+      guest_last_name,
+      guest_message: guest_message ?? "",
+      guest_phone_number: guest_phone_number ?? "",
+      has_agreed_to_policies: has_agreed_to_policies ? "yes" : "no",
+      bookingCode,
+    },
+  };
+
+  const { error: errorGuestEmail } = await sendEmail<EmailTemplatePropsV5andH5>(
+    emailPropsGuestDeclined,
+  );
+  if (errorGuestEmail) {
+    console.log("Error sending decline email to guest:", errorGuestEmail);
+  }
+
+  // Email to host
+  const emailPropsHostDeclined = {
+    Template: EmailTemplateH5,
+    email_to: testingEmailHost,
+    templateProps: {
+      check_in_date,
+      check_out_date,
+      number_of_guests,
+      with_dog: with_dog ? "yes" : "no",
+      guest_email,
+      guest_first_name,
+      guest_last_name,
+      guest_message: guest_message ?? "",
+      guest_phone_number: guest_phone_number ?? "",
+      has_agreed_to_policies: has_agreed_to_policies ? "yes" : "no",
+      bookingCode,
+    },
+  };
+
+  const { error: errorHostEmail } = await sendEmail<EmailTemplatePropsV5andH5>(
+    emailPropsHostDeclined,
+  );
+  if (errorHostEmail) {
+    console.log("Error sending decline email to host:", errorHostEmail);
+  }
+
+  revalidatePath("/admin/bookings");
+  return {
+    data,
+    error: null,
+  };
+}

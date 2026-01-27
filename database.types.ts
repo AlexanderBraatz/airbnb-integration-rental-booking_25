@@ -35,6 +35,7 @@ export type Database = {
           sent_email_2_payment_link_guest: boolean;
           sent_email_3_paymend_confimed_guest: boolean;
           sent_email_3_payment_confirmed_host: boolean;
+          status: string;
           with_dog: boolean;
         };
         Insert: {
@@ -57,6 +58,7 @@ export type Database = {
           sent_email_2_payment_link_guest?: boolean;
           sent_email_3_paymend_confimed_guest?: boolean;
           sent_email_3_payment_confirmed_host?: boolean;
+          status?: string;
           with_dog?: boolean;
         };
         Update: {
@@ -79,6 +81,7 @@ export type Database = {
           sent_email_2_payment_link_guest?: boolean;
           sent_email_3_paymend_confimed_guest?: boolean;
           sent_email_3_payment_confirmed_host?: boolean;
+          status?: string;
           with_dog?: boolean;
         };
         Relationships: [];

@@ -16,7 +16,7 @@ interface BookingHeaderProps {
 export default function BookingHeader({ bookingData }: BookingHeaderProps) {
   const router = useRouter();
 
-  const getStatusVariant = (status: string | null) => {
+  const getStatusVariant = (status: string) => {
     switch (status) {
       case "accepted":
         return "default";
@@ -24,6 +24,8 @@ export default function BookingHeader({ bookingData }: BookingHeaderProps) {
         return "destructive";
       case "pending":
         return "secondary";
+      case "paid":
+        return "default";
       default:
         return "outline";
     }
@@ -73,15 +75,12 @@ export default function BookingHeader({ bookingData }: BookingHeaderProps) {
               variant={getStatusVariant(bookingData.status)}
               className="text-xs"
             >
-              {bookingData.status || "pending"}
+              {bookingData.status}
             </Badge>
           </div>
           <div className="text-muted-foreground flex flex-wrap gap-x-4 gap-y-1 text-sm">
             {bookingData.created_at && (
               <span>Created: {formatDateTime(bookingData.created_at)}</span>
-            )}
-            {bookingData.updated_at && (
-              <span>Updated: {formatDateTime(bookingData.updated_at)}</span>
             )}
           </div>
         </div>

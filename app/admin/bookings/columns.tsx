@@ -101,6 +101,50 @@ export const columns: ColumnDef<BookingRow>[] = [
     },
   },
   {
+    accessorKey: "status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="data-[state=open]:bg-accent -ml-3 h-8"
+        >
+          Status
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "desc" ? (
+            <ArrowDown className="ml-2 h-4 w-4" />
+          ) : (
+            <ArrowUpDown className="ml-2 h-4 w-4 opacity-50" />
+          )}
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const status = row.getValue("status") as string;
+      const getStatusVariant = (status: string) => {
+        switch (status) {
+          case "accepted":
+            return "default";
+          case "declined":
+            return "destructive";
+          case "pending":
+            return "secondary";
+          case "paid":
+            return "default";
+          default:
+            return "outline";
+        }
+      };
+      return (
+        <Badge variant={getStatusVariant(status)} className="text-xs">
+          {status}
+        </Badge>
+      );
+    },
+  },
+  {
     accessorKey: "guest_first_name",
     header: ({ column }) => {
       return (
@@ -295,7 +339,7 @@ export const columns: ColumnDef<BookingRow>[] = [
   },
   {
     accessorKey: "sent_email_2_payment_link_guest",
-    header: "Payment Link",
+    header: "Payment Link Email",
     cell: ({ row }) => {
       const sent = row.getValue("sent_email_2_payment_link_guest") as boolean;
       return sent ? (
@@ -346,7 +390,7 @@ export const columns: ColumnDef<BookingRow>[] = [
   },
   {
     accessorKey: "sent_email_3_paymend_confimed_guest",
-    header: "Confirmation",
+    header: "Confirmation Email",
     cell: ({ row }) => {
       const sent = row.getValue(
         "sent_email_3_paymend_confimed_guest",

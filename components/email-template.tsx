@@ -282,3 +282,89 @@ export const EmailTemplateV4: React.FC<Readonly<EmailTemplatePropsV4andH4>> = ({
     <div className="p-4"></div>
   </div>
 );
+
+// Decline email templates
+export interface EmailTemplatePropsV5andH5 {
+  check_in_date: string;
+  check_out_date: string;
+  number_of_guests: number;
+  with_dog: string;
+  guest_email: string;
+  guest_first_name: string;
+  guest_last_name: string;
+  guest_message: string;
+  guest_phone_number: string;
+  has_agreed_to_policies: string;
+  bookingCode: string;
+}
+
+export const EmailTemplateV5: React.FC<Readonly<EmailTemplatePropsV5andH5>> = ({
+  check_in_date,
+  check_out_date,
+  number_of_guests,
+  with_dog,
+  guest_email,
+  guest_first_name,
+  guest_last_name,
+  guest_message,
+  guest_phone_number,
+  has_agreed_to_policies,
+  bookingCode,
+}) => (
+  <div>
+    <h1>
+      Hello, {guest_first_name} {guest_last_name}!
+    </h1>
+    <p>We regret to inform you that your booking request has been declined.</p>
+    <p>Booking Code: {bookingCode}</p>
+    <p>
+      Unfortunately, we are unable to accommodate your booking request for the
+      following dates:
+    </p>
+    <ul>
+      <li>Check-in: {check_in_date}</li>
+      <li>Check-out: {check_out_date}</li>
+      <li>Number of guests: {number_of_guests}</li>
+      <li>With dog: {with_dog}</li>
+    </ul>
+    <p>
+      We apologize for any inconvenience this may cause. If you have any
+      questions, please feel free to contact us.
+    </p>
+    <p>Thank you for your interest, and we hope to serve you in the future.</p>
+  </div>
+);
+
+export const EmailTemplateH5: React.FC<Readonly<EmailTemplatePropsV5andH5>> = ({
+  check_in_date,
+  check_out_date,
+  number_of_guests,
+  with_dog,
+  guest_email,
+  guest_first_name,
+  guest_last_name,
+  guest_message,
+  guest_phone_number,
+  has_agreed_to_policies,
+  bookingCode,
+}) => (
+  <div>
+    <h1>Hello, Host!</h1>
+    <p>You have successfully declined a booking request.</p>
+    <p>Booking Code: {bookingCode}</p>
+    <p>Booking Details:</p>
+    <ul>
+      <li>Check-in: {check_in_date}</li>
+      <li>Check-out: {check_out_date}</li>
+      <li>Number of guests: {number_of_guests}</li>
+      <li>With dog: {with_dog}</li>
+      <li>
+        Guest: {guest_first_name} {guest_last_name}
+      </li>
+      <li>Email: {guest_email}</li>
+      <li>Phone: {guest_phone_number}</li>
+      {guest_message && <li>Message: {guest_message}</li>}
+    </ul>
+    <p>The guest has been notified via email about this decision.</p>
+  </div>
+);

@@ -188,7 +188,10 @@ export async function setPayedPriceSnapshot(payedCents: number, id: number) {
 
   const { data, error } = await supabase
     .from("Bookings")
-    .update({ price_snapshot_guest_payed_in_EURcents: payedCents })
+    .update({
+      price_snapshot_guest_payed_in_EURcents: payedCents,
+      status: "paid",
+    })
     .eq("id", id)
     .select()
     .maybeSingle();
