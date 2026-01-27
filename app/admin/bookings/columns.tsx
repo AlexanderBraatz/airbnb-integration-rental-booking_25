@@ -123,23 +123,53 @@ export const columns: ColumnDef<BookingRow>[] = [
     },
     cell: ({ row }) => {
       const status = row.getValue("status") as string;
-      const getStatusVariant = (status: string) => {
+
+      // Helper function to get status configuration
+      const getStatusConfig = (status: string) => {
         switch (status) {
-          case "accepted":
-            return "default";
-          case "declined":
-            return "destructive";
           case "pending":
-            return "secondary";
+            return {
+              variant: "outline" as const,
+              className: "border-amber-300 bg-amber-50 text-amber-700",
+              icon: Clock,
+            };
+          case "accepted":
+            return {
+              variant: "secondary" as const,
+              className: "border-blue-200 bg-blue-100 text-blue-800",
+              icon: CheckCircle2,
+            };
+          case "declined":
+            return {
+              variant: "secondary" as const,
+              className: "border-red-200 bg-red-100 text-red-800",
+              icon: XCircle,
+            };
           case "paid":
-            return "default";
+            return {
+              variant: "secondary" as const,
+              className: "border-green-200 bg-green-100 text-green-800",
+              icon: CheckCircle2,
+            };
           default:
-            return "outline";
+            return {
+              variant: "outline" as const,
+              className: "border-gray-300 text-gray-500",
+              icon: Clock,
+            };
         }
       };
+
+      const statusConfig = getStatusConfig(status);
+      const StatusIcon = statusConfig.icon;
+
       return (
-        <Badge variant={getStatusVariant(status)} className="text-xs">
-          {status}
+        <Badge
+          variant={statusConfig.variant}
+          className={`${statusConfig.className} text-xs`}
+        >
+          <StatusIcon className="h-3 w-3" />
+          <span>{status.charAt(0).toUpperCase() + status.slice(1)}</span>
         </Badge>
       );
     },
@@ -338,30 +368,6 @@ export const columns: ColumnDef<BookingRow>[] = [
     },
   },
   {
-    accessorKey: "sent_email_2_payment_link_guest",
-    header: "Payment Link Email",
-    cell: ({ row }) => {
-      const sent = row.getValue("sent_email_2_payment_link_guest") as boolean;
-      return sent ? (
-        <Badge
-          variant="secondary"
-          className="border-blue-200 bg-blue-100 text-blue-800"
-        >
-          <CheckCircle2 className="h-3 w-3" />
-          Sent
-        </Badge>
-      ) : (
-        <Badge
-          variant="outline"
-          className="border-amber-300 bg-amber-50 text-amber-700"
-        >
-          <Clock className="h-3 w-3" />
-          Pending
-        </Badge>
-      );
-    },
-  },
-  {
     accessorKey: "price_snapshot_guest_payed_in_EURcents",
     header: "Paid Amount",
     cell: ({ row }) => {
@@ -385,29 +391,6 @@ export const columns: ColumnDef<BookingRow>[] = [
             </>
           )}
         </div>
-      );
-    },
-  },
-  {
-    accessorKey: "sent_email_3_paymend_confimed_guest",
-    header: "Confirmation Email",
-    cell: ({ row }) => {
-      const sent = row.getValue(
-        "sent_email_3_paymend_confimed_guest",
-      ) as boolean;
-      return sent ? (
-        <Badge
-          variant="secondary"
-          className="border-green-200 bg-green-100 text-green-800"
-        >
-          <CheckCircle2 className="h-3 w-3" />
-          Confirmed
-        </Badge>
-      ) : (
-        <Badge variant="outline" className="border-gray-300 text-gray-500">
-          <Clock className="h-3 w-3" />
-          Pending
-        </Badge>
       );
     },
   },
