@@ -1,5 +1,17 @@
 "use server";
 
+/**
+ * Scheduling system for delayed email sending
+ *
+ * This module handles scheduling emails to be sent at a future date/time.
+ * Currently supports:
+ * - V4: Guest check-in reminder (sent 1 day before check-in)
+ * - H4: Host check-in reminder (sent 1 day before check-in)
+ *
+ * Scheduled emails are stored in the ScheduledEmails table and processed
+ * by the Supabase Edge Function (send-scheduled-emails).
+ */
+
 import { createClient } from "@/utils/supabase/server";
 import { z } from "zod";
 import { render, pretty } from "@react-email/render";

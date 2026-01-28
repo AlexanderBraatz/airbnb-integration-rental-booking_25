@@ -1,7 +1,6 @@
 import { getAllBookings } from "@/app/actions/admindashboardActions";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
-import { Database } from "@/database.types";
 
 export default async function DemoPage() {
   const response = await getAllBookings();

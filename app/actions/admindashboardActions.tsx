@@ -5,11 +5,17 @@ import { FormValues } from "../admin/bookings/[id]/booking-guest-details-form";
 import { revalidatePath } from "next/cache";
 import { sendEmail } from "./bookingRequestAction";
 import {
+  EmailTemplateV2,
   EmailTemplateH2,
   EmailTemplateV5,
   EmailTemplateH5,
+  type EmailTemplatePropsV2,
+  type EmailTemplatePropsH2,
+  type EmailTemplatePropsV5,
+  type EmailTemplatePropsH5,
 } from "@/components/email-template";
 import { maskIdAsBookingCode } from "@/lib/utils";
+import { getEmailSubject } from "@/lib/email-utils";
 import type { Tables } from "@/database.types";
 
 const testingEmailHost = "alex_braatz@icloud.com";
@@ -76,11 +82,19 @@ export async function acceptPriceAndSendEmailsAction({
 
   const bookingCode = maskIdAsBookingCode(id);
 
-  // sending 2nd email to Host
+  // Get host email from config
+  const hostConfig = await getHostConfigAction();
+  const hostEmail = hostConfig.data?.host_business_email || testingEmailHost;
 
+  // Send email to Host (H2) - payment link sent confirmation
   const emailPropsHostPriceIsAccepted = {
     Template: EmailTemplateH2,
-    email_to: testingEmailHost,
+    email_to: hostEmail,
+    subject: getEmailSubject("H2", {
+      bookingCode,
+      guest_first_name,
+      guest_last_name,
+    }),
     templateProps: {
       check_in_date,
       check_out_date,
@@ -98,36 +112,42 @@ export async function acceptPriceAndSendEmailsAction({
       ),
     },
   };
-  interface EmailTemplatePropsV2andH2 {
-    check_in_date: string;
-    check_out_date: string;
-    number_of_guests: number;
-    with_dog: string;
-    guest_email: string;
-    guest_first_name: string;
-    guest_last_name: string;
-    guest_message: string;
-    guest_phone_number: string;
-    has_agreed_to_policies: string;
-    bookingCode: string;
-    price_snapshot_host_accepted_in_EURcents: string;
-  }
-  const { error: errorHostEmail } = await sendEmail<EmailTemplatePropsV2andH2>(
+  const { error: errorHostEmail } = await sendEmail<EmailTemplatePropsH2>(
     emailPropsHostPriceIsAccepted,
   );
-  // const { error: errorHostEmail } = (
-  //   await sendEmail
-  // )<EmailTemplatePropsV2andH2>(emailPropsHostPriceIsAccepted);
   if (errorHostEmail) {
     console.log(errorHostEmail);
   }
 
-  // send Visistor email with payment link
-  const { error: errorVisitorEmail } =
-    await sendEmail<EmailTemplatePropsV2andH2>(emailPropsHostPriceIsAccepted);
-  // const { error: errorHostEmail } = (
-  //   await sendEmail
-  // )<EmailTemplatePropsV2andH2>(emailPropsHostPriceIsAccepted);
+  // Send email to Guest (V2) - payment request with link
+  const emailPropsGuestPaymentRequest = {
+    Template: EmailTemplateV2,
+    email_to: guest_email || testingEmailGuest,
+    subject: getEmailSubject("V2", {
+      bookingCode,
+      guest_first_name,
+      guest_last_name,
+    }),
+    templateProps: {
+      check_in_date,
+      check_out_date,
+      number_of_guests,
+      with_dog: with_dog ? "yes" : "no",
+      guest_email,
+      guest_first_name,
+      guest_last_name,
+      guest_message: guest_message ?? "",
+      guest_phone_number: guest_phone_number ?? "",
+      has_agreed_to_policies: has_agreed_to_policies ? "yes" : "no",
+      bookingCode,
+      price_snapshot_host_accepted_in_EURcents: String(
+        price_snapshot_host_accepted_in_EURcents,
+      ),
+    },
+  };
+  const { error: errorVisitorEmail } = await sendEmail<EmailTemplatePropsV2>(
+    emailPropsGuestPaymentRequest,
+  );
   if (errorVisitorEmail) {
     console.log(errorVisitorEmail);
   }
@@ -461,24 +481,19 @@ export async function declineBookingAction(id: number) {
 
   const bookingCode = maskIdAsBookingCode(id);
 
-  // Email to guest
-  interface EmailTemplatePropsV5andH5 {
-    check_in_date: string;
-    check_out_date: string;
-    number_of_guests: number;
-    with_dog: string;
-    guest_email: string;
-    guest_first_name: string;
-    guest_last_name: string;
-    guest_message: string;
-    guest_phone_number: string;
-    has_agreed_to_policies: string;
-    bookingCode: string;
-  }
+  // Get host email from config
+  const hostConfig = await getHostConfigAction();
+  const hostEmail = hostConfig.data?.host_business_email || testingEmailHost;
 
+  // Email to Guest (V5) - booking declined
   const emailPropsGuestDeclined = {
     Template: EmailTemplateV5,
-    email_to: testingEmailGuest, // TODO: replace with guest_email
+    email_to: guest_email || testingEmailGuest,
+    subject: getEmailSubject("V5", {
+      bookingCode,
+      guest_first_name,
+      guest_last_name,
+    }),
     templateProps: {
       check_in_date,
       check_out_date,
@@ -494,17 +509,22 @@ export async function declineBookingAction(id: number) {
     },
   };
 
-  const { error: errorGuestEmail } = await sendEmail<EmailTemplatePropsV5andH5>(
+  const { error: errorGuestEmail } = await sendEmail<EmailTemplatePropsV5>(
     emailPropsGuestDeclined,
   );
   if (errorGuestEmail) {
     console.log("Error sending decline email to guest:", errorGuestEmail);
   }
 
-  // Email to host
+  // Email to Host (H5) - booking declined confirmation
   const emailPropsHostDeclined = {
     Template: EmailTemplateH5,
-    email_to: testingEmailHost,
+    email_to: hostEmail,
+    subject: getEmailSubject("H5", {
+      bookingCode,
+      guest_first_name,
+      guest_last_name,
+    }),
     templateProps: {
       check_in_date,
       check_out_date,
@@ -520,7 +540,7 @@ export async function declineBookingAction(id: number) {
     },
   };
 
-  const { error: errorHostEmail } = await sendEmail<EmailTemplatePropsV5andH5>(
+  const { error: errorHostEmail } = await sendEmail<EmailTemplatePropsH5>(
     emailPropsHostDeclined,
   );
   if (errorHostEmail) {

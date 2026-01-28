@@ -3,26 +3,21 @@ import {
   setPayedPriceSnapshot,
 } from "@/app/actions/bookingRequestAction";
 import { scheduleEmailAction } from "@/app/actions/scheduling";
-import { EmailTemplateH3 } from "@/components/email-template";
+import {
+  EmailTemplateV3,
+  EmailTemplateH3,
+  type EmailTemplatePropsV3,
+  type EmailTemplatePropsH3,
+} from "@/components/email-template";
 import { stripe } from "@/lib/stripe";
 import { maskIdAsBookingCode } from "@/lib/utils";
+import {
+  getEmailSubject,
+  calculateCheckInReminderDate,
+} from "@/lib/email-utils";
+import { getHostConfigAction } from "@/app/actions/admindashboardActions";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-
-export interface EmailTemplatePropsV3andH3 {
-  check_in_date: string;
-  check_out_date: string;
-  number_of_guests: number;
-  with_dog: string;
-  guest_email: string;
-  guest_first_name: string;
-  guest_last_name: string;
-  guest_message: string;
-  guest_phone_number: string;
-  has_agreed_to_policies: string;
-  bookingCode: string;
-  price_snapshot_guest_payed_in_EURcents: string;
-}
 
 export async function POST(request: NextRequest) {
   console.log("------->  route has run after stripe event");
@@ -79,12 +74,21 @@ export async function POST(request: NextRequest) {
           } = data;
           const bookingCode = maskIdAsBookingCode(id);
 
-          const testingEmailHost = "alex_braatz@icloud.com";
-          const testingEmailGuest = "alex_braatz@icloud.com";
+          // Get host email from config
+          const hostConfig = await getHostConfigAction();
+          const hostEmail =
+            hostConfig.data?.host_business_email || "alex_braatz@icloud.com";
+          const guestEmail = guest_email || "alex_braatz@icloud.com";
 
-          const emailPropsGuestHasPayed = {
-            Template: EmailTemplateH3,
-            email_to: testingEmailHost,
+          // Send email to Guest (V3) - payment success confirmation
+          const emailPropsGuestPaymentSuccess = {
+            Template: EmailTemplateV3,
+            email_to: guestEmail,
+            subject: getEmailSubject("V3", {
+              bookingCode,
+              guest_first_name,
+              guest_last_name,
+            }),
             templateProps: {
               check_in_date,
               check_out_date,
@@ -103,11 +107,97 @@ export async function POST(request: NextRequest) {
             },
           };
 
-          const { error: errorVisitoEmail } =
-            await sendEmail<EmailTemplatePropsV3andH3>(emailPropsGuestHasPayed);
+          const { error: errorGuestEmail } =
+            await sendEmail<EmailTemplatePropsV3>(
+              emailPropsGuestPaymentSuccess,
+            );
+          if (errorGuestEmail) {
+            console.log(
+              "Error sending payment success email to guest:",
+              errorGuestEmail,
+            );
+          }
+
+          // Send email to Host (H3) - payment received notification
+          const emailPropsHostPaymentReceived = {
+            Template: EmailTemplateH3,
+            email_to: hostEmail,
+            subject: getEmailSubject("H3", {
+              bookingCode,
+              guest_first_name,
+              guest_last_name,
+            }),
+            templateProps: {
+              check_in_date,
+              check_out_date,
+              number_of_guests,
+              with_dog: with_dog ? "yes" : "no",
+              guest_email,
+              guest_first_name,
+              guest_last_name,
+              guest_message: guest_message ?? "",
+              guest_phone_number: guest_phone_number ?? "",
+              has_agreed_to_policies: has_agreed_to_policies ? "yes" : "no",
+              bookingCode,
+              price_snapshot_guest_payed_in_EURcents: String(
+                price_snapshot_guest_payed_in_EURcents,
+              ),
+            },
+          };
+
+          const { error: errorHostEmail } =
+            await sendEmail<EmailTemplatePropsH3>(
+              emailPropsHostPaymentReceived,
+            );
+          if (errorHostEmail) {
+            console.log(
+              "Error sending payment received email to host:",
+              errorHostEmail,
+            );
+          }
+
+          // Calculate send date (1 day before check-in at 9 AM)
+          const sendDate = calculateCheckInReminderDate(check_in_date);
+
+          // Schedule email to Guest (V4) - check-in reminder
           await scheduleEmailAction({
-            to_email: testingEmailHost,
-            subject: "New booking request",
+            to_email: guestEmail,
+            subject: getEmailSubject("V4", {
+              bookingCode,
+              check_in_date,
+              guest_first_name,
+              guest_last_name,
+            }),
+            template: "V4",
+            template_props: {
+              check_in_date,
+              check_out_date,
+              number_of_guests,
+              with_dog: with_dog ? "yes" : "no",
+              guest_email,
+              guest_first_name,
+              guest_last_name,
+              guest_message: guest_message ?? "",
+              guest_phone_number: guest_phone_number ?? "",
+              has_agreed_to_policies: has_agreed_to_policies ? "yes" : "no",
+              bookingCode,
+              price_snapshot_guest_payed_in_EURcents: String(
+                price_snapshot_guest_payed_in_EURcents,
+              ),
+            },
+            send_at: sendDate,
+            // For testing: send_at: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes from now
+          });
+
+          // Schedule email to Host (H4) - check-in reminder
+          await scheduleEmailAction({
+            to_email: hostEmail,
+            subject: getEmailSubject("H4", {
+              bookingCode,
+              check_in_date,
+              guest_first_name,
+              guest_last_name,
+            }),
             template: "H4",
             template_props: {
               check_in_date,
@@ -121,14 +211,12 @@ export async function POST(request: NextRequest) {
               guest_phone_number: guest_phone_number ?? "",
               has_agreed_to_policies: has_agreed_to_policies ? "yes" : "no",
               bookingCode,
-              price_snapshot_guest_payed_in_EURcents:
-                price_snapshot_guest_payed_in_EURcents
-                  ? String(price_snapshot_guest_payed_in_EURcents)
-                  : "",
+              price_snapshot_guest_payed_in_EURcents: String(
+                price_snapshot_guest_payed_in_EURcents,
+              ),
             },
-            send_at: new Date(Date.now() + 10 * 60 * 1000),
-            // after testing it shoudl send one day before check in date
-            // send_at: subtractOneDay(check_in_date)
+            send_at: sendDate,
+            // For testing: send_at: new Date(Date.now() + 10 * 60 * 1000), // 10 minutes from now
           });
         }
       }
