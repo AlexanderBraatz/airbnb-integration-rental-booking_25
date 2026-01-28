@@ -13,14 +13,21 @@ const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string,
 );
 
-export default function Checkout({ orderId }: { orderId: number }) {
-  console.log(orderId, "cvvvv");
+export default function Checkout({
+  orderId,
+  bookingCode,
+}: {
+  orderId: number;
+  bookingCode: string;
+}) {
   return (
     <div id="checkout">
       <EmbeddedCheckoutProvider
         stripe={stripePromise}
         // options={() => returnFetchClientSecret(id)}
-        options={{ fetchClientSecret: () => fetchClientSecret(orderId) }}
+        options={{
+          fetchClientSecret: () => fetchClientSecret(orderId, bookingCode),
+        }}
       >
         <EmbeddedCheckout />
       </EmbeddedCheckoutProvider>

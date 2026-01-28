@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import { stripe } from "../../lib/stripe";
 import { getBookingFromIdAction } from "./admindashboardActions";
 
-export async function fetchClientSecret(orderId: number) {
+export async function fetchClientSecret(orderId: number, bookingCode: string) {
   const origin = (await headers()).get("origin");
 
   const response = await getBookingFromIdAction(orderId);
@@ -20,6 +20,7 @@ export async function fetchClientSecret(orderId: number) {
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded",
       client_reference_id: String(orderId),
+      payment_method_types: ["card"], // Only card payments (includes Apple Pay and Google Pay)
       line_items: [
         {
           quantity: 1,
@@ -29,8 +30,8 @@ export async function fetchClientSecret(orderId: number) {
             ),
             currency: "eur",
             product_data: {
-              name: "testing",
-              description: "code could go here",
+              name: "Gesamtpreis für ihre Buchung",
+              description: bookingCode,
             },
           },
           //below is a test product
