@@ -5,17 +5,21 @@ import Highlights from "@/components/sections/highlights";
 import Reviews from "@/components/sections/reviews";
 import Directions from "@/components/sections/directions";
 import BookingRequest from "@/components/sections/booking-request";
+import Footer from "@/components/sections/footer";
 
 export default function Home() {
   return (
-    <main className="bg-q-blue relative">
-      <NavBar />
-      <Hero />
-      <Rooms />
-      <Highlights />
-      <Reviews />
-      <Directions />
-      <BookingRequest />
-    </main>
+    <>
+      <main className="bg-q-blue relative">
+        <NavBar />
+        <Hero />
+        <Rooms />
+        <Highlights />
+        <Reviews />
+        <Directions />
+        <BookingRequest />
+      </main>
+      <Footer />
+    </>
   );
 }
