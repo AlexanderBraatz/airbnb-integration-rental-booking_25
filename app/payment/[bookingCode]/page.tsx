@@ -58,19 +58,13 @@ export default async function Payment({
             <div className="tablet:px-6 tablet:py-6 bg-white px-10 py-10">
               {/* Greeting and main heading */}
               <div className="tablet:mb-5 mb-6">
-                <h1
-                  className="text-q-text-dark-700 tablet:text-[24px] mb-3 text-[28px] leading-tight font-bold"
-                  style={{ fontFamily: "Arial, sans-serif" }}
-                >
+                <h1 className="font-reem-kufi text-q-text-dark-700 tablet:text-[24px] mb-3 text-[28px] leading-tight font-bold">
                   {guestFirstName
                     ? `Guten Tag, ${guestFirstName}!`
                     : "Guten Tag!"}
                 </h1>
 
-                <p
-                  className="text-q-text-dark-700 tablet:text-sm text-base leading-[1.6]"
-                  style={{ fontFamily: "Arial, sans-serif" }}
-                >
+                <p className="font-jost text-q-text-dark-700 tablet:text-sm text-base leading-[1.6]">
                   Um Ihre Buchung abzuschließen, bitten wir Sie, den
                   Gesamtbetrag zu begleichen. Die Zahlung erfolgt sicher über
                   unseren Partner Stripe.
@@ -84,10 +78,7 @@ export default async function Payment({
 
               {/* Contact information in main content */}
               {hostEmail && (
-                <p
-                  className="tablet:mb-5 tablet:text-xs my-6 text-sm leading-[1.6] text-[#554f51]"
-                  style={{ fontFamily: "Arial, sans-serif" }}
-                >
+                <p className="font-jost tablet:mb-5 tablet:text-xs my-6 text-sm leading-[1.6] text-[#554f51]">
                   Falls Sie Fragen haben oder Unterstützung benötigen, können
                   Sie uns gerne unter{" "}
                   <a
@@ -102,56 +93,38 @@ export default async function Payment({
 
               {/* Booking information box - email style */}
               <div className="border-q-blue tablet:mb-5 tablet:p-5 mb-6 rounded-lg border-2 p-6">
-                <h3
-                  className="text-q-text-dark-700 tablet:text-lg mb-4 text-[20px] font-bold"
-                  style={{ fontFamily: "Arial, sans-serif" }}
-                >
+                <h3 className="font-reem-kufi text-q-text-dark-700 tablet:text-lg mb-4 text-[20px] font-bold">
                   Buchungsübersicht
                 </h3>
                 <table className="w-full border-collapse">
                   <tbody>
                     <tr>
                       <td
-                        className="py-2 text-sm text-[#554f51]"
+                        className="font-jost py-2 text-sm text-[#554f51]"
                         style={{ width: "40%" }}
                       >
                         <strong>Buchungscode:</strong>
                       </td>
-                      <td
-                        className="text-q-blue py-2 text-sm font-bold"
-                        style={{ fontFamily: "Arial, sans-serif" }}
-                      >
+                      <td className="font-jost text-q-blue py-2 text-sm font-bold">
                         {bookingCode}
                       </td>
                     </tr>
                     {checkInDate && (
                       <tr>
-                        <td
-                          className="py-2 text-sm text-[#554f51]"
-                          style={{ fontFamily: "Arial, sans-serif" }}
-                        >
+                        <td className="font-jost py-2 text-sm text-[#554f51]">
                           <strong>Check-in:</strong>
                         </td>
-                        <td
-                          className="text-q-text-dark-700 py-2 text-sm"
-                          style={{ fontFamily: "Arial, sans-serif" }}
-                        >
+                        <td className="font-jost text-q-text-dark-700 py-2 text-sm">
                           {checkInDate}
                         </td>
                       </tr>
                     )}
                     {checkOutDate && (
                       <tr>
-                        <td
-                          className="py-2 text-sm text-[#554f51]"
-                          style={{ fontFamily: "Arial, sans-serif" }}
-                        >
+                        <td className="font-jost py-2 text-sm text-[#554f51]">
                           <strong>Check-out:</strong>
                         </td>
-                        <td
-                          className="text-q-text-dark-700 py-2 text-sm"
-                          style={{ fontFamily: "Arial, sans-serif" }}
-                        >
+                        <td className="font-jost text-q-text-dark-700 py-2 text-sm">
                           {checkOutDate}
                         </td>
                       </tr>
@@ -161,10 +134,7 @@ export default async function Payment({
               </div>
 
               {/* Friendly closing message */}
-              <p
-                className="text-q-text-dark-700 tablet:mt-5 tablet:text-sm mt-6 text-base leading-[1.6]"
-                style={{ fontFamily: "Arial, sans-serif" }}
-              >
+              <p className="font-jost text-q-text-dark-700 tablet:mt-5 tablet:text-sm mt-6 text-base leading-[1.6]">
                 Wir freuen uns auf Ihren Besuch!
                 <br />
                 <strong>Das Team von Sieben Gipfel Blick</strong>
@@ -173,17 +143,11 @@ export default async function Payment({
 
             {/* Email-style footer */}
             <div className="bg-q-card-background tablet:px-5 tablet:py-6 rounded-b-lg px-8 py-8 text-center">
-              <p
-                className="text-q-text-dark-700 mb-2 text-sm font-bold"
-                style={{ fontFamily: "Arial, sans-serif" }}
-              >
+              <p className="font-jost text-q-text-dark-700 mb-2 text-sm font-bold">
                 <strong>Sieben Gipfel Blick</strong>
               </p>
               {hostEmail && (
-                <p
-                  className="text-q-text-dark-700 tablet:text-xs mb-1 text-sm"
-                  style={{ fontFamily: "Arial, sans-serif" }}
-                >
+                <p className="font-jost text-q-text-dark-700 tablet:text-xs mb-1 text-sm">
                   Email:{" "}
                   <a
                     href={`mailto:${hostEmail}`}
@@ -193,10 +157,7 @@ export default async function Payment({
                   </a>
                 </p>
               )}
-              <p
-                className="mt-4 text-xs text-[#554f51]"
-                style={{ fontFamily: "Arial, sans-serif" }}
-              >
+              <p className="font-jost mt-4 text-xs text-[#554f51]">
                 © {new Date().getFullYear()} Sieben Gipfel Blick. Alle Rechte
                 vorbehalten.
               </p>
