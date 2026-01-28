@@ -27,7 +27,6 @@ export default async function Payment({
   const hostConfigResponse = await getHostConfigAction();
   const hostEmail = hostConfigResponse?.data?.host_business_email;
 
-  console.log(bookingCode, "back");
   if (bookingCode && bookingData) {
     const checkInDate = bookingData.check_in_date
       ? formatDate(bookingData.check_in_date)
@@ -40,7 +39,7 @@ export default async function Payment({
     return (
       <>
         {/* Outer container with email-style background */}
-        <div className="bg-q-background tablet:py-4 tablet:px-4 min-h-screen px-6 py-6">
+        <div className="bg-q-background tablet:py-4 tablet:px-4 tablet:pb-10 min-h-screen px-6 py-6 pb-40">
           <div className="tablet:max-w-[600px] mx-auto max-w-4xl">
             {/* Header with logo - email style */}
             <div className="bg-q-blue tablet:px-5 tablet:py-7 rounded-t-lg px-8 py-8 text-center">
@@ -64,7 +63,7 @@ export default async function Payment({
                   style={{ fontFamily: "Arial, sans-serif" }}
                 >
                   {guestFirstName
-                    ? `Guten Tag ${guestFirstName}!`
+                    ? `Guten Tag, ${guestFirstName}!`
                     : "Guten Tag!"}
                 </h1>
 
@@ -218,6 +217,16 @@ export default async function Payment({
               Es ist ein Fehler aufgetreten
             </h1>
             <p>Die Zahlungsseite konnte nicht geladen werden.</p>
+            <p>
+              Bitte kontaktieren Sie uns direkt unter{" "}
+              <a
+                href={`mailto:${hostEmail}`}
+                className="text-white underline hover:font-semibold"
+              >
+                {hostEmail}
+              </a>
+              .
+            </p>
           </main>
         </div>
         <Footer />
