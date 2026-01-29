@@ -60,7 +60,7 @@ export default function BookingHeader({ bookingData }: BookingHeaderProps) {
           className="gap-2"
         >
           <ChevronLeft className="h-4 w-4" />
-          Back to Bookings
+          Zurück zur Buchungsübersicht
         </Button>
       </div>
 
@@ -69,18 +69,25 @@ export default function BookingHeader({ bookingData }: BookingHeaderProps) {
         <div className="space-y-1">
           <div className="flex items-center gap-3">
             <h1 className="text-3xl font-bold tracking-tight">
-              Booking #{bookingData.id}
+              Buchung #{bookingData.id}
             </h1>
             <Badge
               variant={getStatusVariant(bookingData.status)}
               className="text-xs"
             >
-              {bookingData.status}
+              {(
+                {
+                  pending: "Ausstehend",
+                  accepted: "Angenommen",
+                  declined: "Abgelehnt",
+                  paid: "Bezahlt",
+                } as Record<string, string>
+              )[bookingData.status] ?? bookingData.status}
             </Badge>
           </div>
           <div className="text-muted-foreground flex flex-wrap gap-x-4 gap-y-1 text-sm">
             {bookingData.created_at && (
-              <span>Created: {formatDateTime(bookingData.created_at)}</span>
+              <span>Erstellt: {formatDateTime(bookingData.created_at)}</span>
             )}
           </div>
         </div>
@@ -89,7 +96,7 @@ export default function BookingHeader({ bookingData }: BookingHeaderProps) {
         <div className="flex gap-2">
           <Button variant="outline" size="sm" className="gap-2">
             <Printer className="h-4 w-4" />
-            Print
+            Drucken
           </Button>
           <Button variant="outline" size="sm" className="gap-2">
             <Download className="h-4 w-4" />

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -15,20 +15,35 @@ import {
 } from "@/app/actions/admindashboardActions";
 import { useRouter } from "next/navigation";
 
+/** Format cents as euro string (e.g. 3050 → "30,50") for display. */
+function formatCentsToEuro(cents: number): string {
+  return (cents / 100).toLocaleString("de-DE", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
+/** Parse German number string (e.g. "30,50" or "1.234,56") to number; result in euros. */
+function parseGermanNumberToEuros(str: string): number {
+  const cleaned = str.trim().replace(/\./g, "").replace(",", ".");
+  const parsed = Number.parseFloat(cleaned);
+  return Number.isNaN(parsed) ? 0 : parsed;
+}
+
 const formSchema = z.object({
   price_per_night_cents: z
     .number()
-    .int("Must be a whole number")
-    .min(0, "Must be 0 or greater"),
+    .int("Muss eine ganze Zahl sein")
+    .min(0, "Muss 0 oder größer sein"),
   price_for_dog_cents: z
     .number()
-    .int("Must be a whole number")
-    .min(0, "Must be 0 or greater"),
+    .int("Muss eine ganze Zahl sein")
+    .min(0, "Muss 0 oder größer sein"),
   price_for_cleaning_cents: z
     .number()
-    .int("Must be a whole number")
-    .min(0, "Must be 0 or greater"),
-  host_business_email: z.string().email("Invalid email address"),
+    .int("Muss eine ganze Zahl sein")
+    .min(0, "Muss 0 oder größer sein"),
+  host_business_email: z.string().email("Ungültige E-Mail-Adresse"),
 });
 
 export type HostConfigFormValues = z.infer<typeof formSchema>;
@@ -56,13 +71,13 @@ export default function HostConfigForm({
 
     if (result?.data) {
       setIsEditing(false);
-      toast.success("Host settings updated successfully.");
+      toast.success("Gastgeber-Einstellungen wurden gespeichert.");
       router.refresh();
     }
 
     if (result?.error) {
       console.error("Form submission error", result.error);
-      toast.error("Failed to update settings. Please try again.");
+      toast.error("Einstellungen konnten nicht gespeichert werden. Bitte versuchen Sie es erneut.");
     }
   };
 
@@ -89,30 +104,40 @@ export default function HostConfigForm({
               onClick={() => setIsEditing(true)}
               variant="default"
             >
-              Edit
+              Bearbeiten
             </Button>
           ) : (
             <div className="flex gap-2">
               <Button type="button" onClick={handleCancel} variant="outline">
-                Cancel
+                Abbrechen
               </Button>
-              <Button type="submit">Save</Button>
+              <Button type="submit">Speichern</Button>
             </div>
           )}
         </div>
 
         <Field>
           <FieldLabel htmlFor="price_per_night_cents">
-            Price Per Night (cents)
+            Preis pro Nacht (€)
           </FieldLabel>
-          <Input
-            id="price_per_night_cents"
-            type="number"
-            placeholder="10000"
-            disabled={!isEditing}
-            {...form.register("price_per_night_cents", {
-              valueAsNumber: true,
-            })}
+          <Controller
+            control={form.control}
+            name="price_per_night_cents"
+            render={({ field }) => (
+              <Input
+                id="price_per_night_cents"
+                type="text"
+                inputMode="decimal"
+                placeholder="100,00"
+                disabled={!isEditing}
+                value={formatCentsToEuro(field.value)}
+                onChange={(e) => {
+                  const euros = parseGermanNumberToEuros(e.target.value);
+                  field.onChange(Math.round(euros * 100));
+                }}
+                onBlur={field.onBlur}
+              />
+            )}
           />
           <FieldError>
             {form.formState.errors.price_per_night_cents?.message}
@@ -121,16 +146,26 @@ export default function HostConfigForm({
 
         <Field>
           <FieldLabel htmlFor="price_for_dog_cents">
-            Price For Dog (cents)
+            Hundegebühr (€)
           </FieldLabel>
-          <Input
-            id="price_for_dog_cents"
-            type="number"
-            placeholder="2500"
-            disabled={!isEditing}
-            {...form.register("price_for_dog_cents", {
-              valueAsNumber: true,
-            })}
+          <Controller
+            control={form.control}
+            name="price_for_dog_cents"
+            render={({ field }) => (
+              <Input
+                id="price_for_dog_cents"
+                type="text"
+                inputMode="decimal"
+                placeholder="25,00"
+                disabled={!isEditing}
+                value={formatCentsToEuro(field.value)}
+                onChange={(e) => {
+                  const euros = parseGermanNumberToEuros(e.target.value);
+                  field.onChange(Math.round(euros * 100));
+                }}
+                onBlur={field.onBlur}
+              />
+            )}
           />
           <FieldError>
             {form.formState.errors.price_for_dog_cents?.message}
@@ -139,16 +174,26 @@ export default function HostConfigForm({
 
         <Field>
           <FieldLabel htmlFor="price_for_cleaning_cents">
-            Price For Cleaning (cents)
+            Reinigungspauschale (€)
           </FieldLabel>
-          <Input
-            id="price_for_cleaning_cents"
-            type="number"
-            placeholder="4488"
-            disabled={!isEditing}
-            {...form.register("price_for_cleaning_cents", {
-              valueAsNumber: true,
-            })}
+          <Controller
+            control={form.control}
+            name="price_for_cleaning_cents"
+            render={({ field }) => (
+              <Input
+                id="price_for_cleaning_cents"
+                type="text"
+                inputMode="decimal"
+                placeholder="44,88"
+                disabled={!isEditing}
+                value={formatCentsToEuro(field.value)}
+                onChange={(e) => {
+                  const euros = parseGermanNumberToEuros(e.target.value);
+                  field.onChange(Math.round(euros * 100));
+                }}
+                onBlur={field.onBlur}
+              />
+            )}
           />
           <FieldError>
             {form.formState.errors.price_for_cleaning_cents?.message}
@@ -157,12 +202,12 @@ export default function HostConfigForm({
 
         <Field>
           <FieldLabel htmlFor="host_business_email">
-            Host Business Email
+            Geschäftliche E-Mail-Adresse
           </FieldLabel>
           <Input
             id="host_business_email"
             type="email"
-            placeholder="host@example.com"
+            placeholder="host@beispiel.de"
             disabled={!isEditing}
             {...form.register("host_business_email")}
           />

@@ -22,7 +22,7 @@ export default function BookingGuestDetails({
         <>
           <BookingGuestDetailsReadOnly bookingData={bookingData} />
           <Button onClick={() => setShowForm((prev) => !prev)}>
-            Edit Booking Details
+            Buchungsdetails bearbeiten
           </Button>
         </>
       )}

@@ -30,15 +30,23 @@ import {
 export type BookingRow = Database["public"]["Tables"]["Bookings"]["Row"];
 const columnHelper = createColumnHelper<BookingRow>();
 
-// Helper function to format dates
+// Helper function to format dates (German locale)
 const formatDate = (dateString: string | null) => {
   if (!dateString) return "-";
   const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", {
+  return date.toLocaleDateString("de-DE", {
     month: "short",
     day: "numeric",
     year: "numeric",
   });
+};
+
+// Status labels for client-facing display (German)
+const statusLabelDe: Record<string, string> = {
+  pending: "Ausstehend",
+  accepted: "Angenommen",
+  declined: "Abgelehnt",
+  paid: "Bezahlt",
 };
 
 // Helper function to format currency
@@ -65,9 +73,9 @@ export const columns: ColumnDef<BookingRow>[] = [
             onClick={(e) => e.stopPropagation()}
           >
             <DropdownMenuLabel className="border-b font-semibold">
-              Actions
+              Aktionen
             </DropdownMenuLabel>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem>Löschen</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -162,6 +170,7 @@ export const columns: ColumnDef<BookingRow>[] = [
 
       const statusConfig = getStatusConfig(status);
       const StatusIcon = statusConfig.icon;
+      const label = statusLabelDe[status] ?? status;
 
       return (
         <Badge
@@ -169,7 +178,7 @@ export const columns: ColumnDef<BookingRow>[] = [
           className={`${statusConfig.className} text-xs`}
         >
           <StatusIcon className="h-3 w-3" />
-          <span>{status.charAt(0).toUpperCase() + status.slice(1)}</span>
+          <span>{label}</span>
         </Badge>
       );
     },
@@ -184,7 +193,7 @@ export const columns: ColumnDef<BookingRow>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="data-[state=open]:bg-accent -ml-3 h-8"
         >
-          Guest Name
+          Gastname
           {column.getIsSorted() === "asc" ? (
             <ArrowUp className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "desc" ? (
@@ -213,7 +222,7 @@ export const columns: ColumnDef<BookingRow>[] = [
   },
   {
     accessorKey: "guest_email",
-    header: "Email",
+    header: "E-Mail",
     cell: ({ row }) => {
       const email = row.getValue("guest_email") as string;
       return (
@@ -226,7 +235,7 @@ export const columns: ColumnDef<BookingRow>[] = [
   },
   {
     accessorKey: "guest_phone_number",
-    header: "Phone",
+    header: "Telefon",
     cell: ({ row }) => {
       const phone = row.getValue("guest_phone_number") as string;
       return phone ? (
@@ -249,7 +258,7 @@ export const columns: ColumnDef<BookingRow>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="data-[state=open]:bg-accent -ml-3 h-8"
         >
-          Check-in
+          Anreise
           {column.getIsSorted() === "asc" ? (
             <ArrowUp className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "desc" ? (
@@ -280,7 +289,7 @@ export const columns: ColumnDef<BookingRow>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="data-[state=open]:bg-accent -ml-3 h-8"
         >
-          Check-out
+          Abreise
           {column.getIsSorted() === "asc" ? (
             <ArrowUp className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "desc" ? (
@@ -303,7 +312,7 @@ export const columns: ColumnDef<BookingRow>[] = [
   },
   {
     accessorKey: "number_of_guests",
-    header: "Guests",
+    header: "Gäste",
     cell: ({ row }) => {
       const guests = row.getValue("number_of_guests") as number;
       return (
@@ -316,7 +325,7 @@ export const columns: ColumnDef<BookingRow>[] = [
   },
   {
     accessorKey: "with_dog",
-    header: "Pet",
+    header: "Haustier",
     cell: ({ row }) => {
       const withDog = row.getValue("with_dog") as boolean;
       return withDog ? (
@@ -325,11 +334,11 @@ export const columns: ColumnDef<BookingRow>[] = [
           className="border-green-200 bg-green-100 text-green-800"
         >
           <Dog className="h-3 w-3" />
-          Yes
+          Ja
         </Badge>
       ) : (
         <Badge variant="outline" className="border-gray-300 text-gray-500">
-          No
+          Nein
         </Badge>
       );
     },
@@ -344,7 +353,7 @@ export const columns: ColumnDef<BookingRow>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="data-[state=open]:bg-accent -ml-3 h-8"
         >
-          Offer Price
+          Angebotspreis
           {column.getIsSorted() === "asc" ? (
             <ArrowUp className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "desc" ? (
@@ -369,7 +378,7 @@ export const columns: ColumnDef<BookingRow>[] = [
   },
   {
     accessorKey: "price_snapshot_guest_payed_in_EURcents",
-    header: "Paid Amount",
+    header: "Bezahlter Betrag",
     cell: ({ row }) => {
       const paid = row.getValue(
         "price_snapshot_guest_payed_in_EURcents",
@@ -387,7 +396,7 @@ export const columns: ColumnDef<BookingRow>[] = [
           ) : (
             <>
               <XCircle className="h-4 w-4 text-gray-400" />
-              <span className="text-gray-500">Not paid</span>
+              <span className="text-gray-500">Nicht bezahlt</span>
             </>
           )}
         </div>

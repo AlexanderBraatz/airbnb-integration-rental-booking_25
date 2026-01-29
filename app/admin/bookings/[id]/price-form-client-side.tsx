@@ -100,36 +100,36 @@ export default function PriceFormClientSide({
     <div className="bg-amber-100">
       {!successfullySubmitted ? (
         <>
-          <h1>Price:</h1>
+          <h1>Preis:</h1>
           <p>
-            Based on your preferences your automatic price suggestion is as
-            follows
+            Basierend auf Ihren Einstellungen lautet Ihre automatische
+            Preisempfehlung:
           </p>
-          <h1>Price Claculation</h1>
+          <h1>Preisberechnung</h1>
           <div className="grid grid-cols-[200px_400px] gap-4">
-            <p>{`${numOfNights}x Nights : `}</p>
+            <p>{`${numOfNights} ${numOfNights === 1 ? "Nacht" : "Nächte"}: `}</p>
             <p>{`€${nighsTotalPriceEuros}`}</p>
             {with_dog ? (
               <>
-                <p>{`Dog fee : `}</p>
+                <p>Hundegebühr: </p>
                 <p>{`€${priceForDogEuros}`}</p>
               </>
             ) : (
               <></>
             )}
-            <p>{`Cleaning fee: `}</p>
+            <p>Reinigungspauschale: </p>
             <p>{`€${priceForCleaningEuros}`}</p>
             <div className="border-b-1 border-dashed border-black"></div>
             <div className="border-b-1 border-dashed border-black"></div>
-            <p>{`Suggested Price: `}</p>
+            <p>Vorgeschlagener Preis: </p>
             <p>{`€${suggestedPriceEuros}`}</p>
             {hasDiscountApplied ? (
               <>
-                <p>{`Discount: `}</p>
-                <p>{`${form.watch("discountValuePercentageFormValue")}%`}</p>
+                <p>Rabatt: </p>
+                <p>{`${form.watch("discountValuePercentageFormValue")} %`}</p>
                 <div className="border-b-1 border-dashed border-black"></div>
                 <div className="border-b-1 border-dashed border-black"></div>
-                <p>{`Discounted Price: `}</p>
+                <p>Rabattierter Preis: </p>
                 <p>{`€${discountedPriceEuros}`}</p>
               </>
             ) : (
@@ -152,7 +152,7 @@ export default function PriceFormClientSide({
                   name="discountValuePercentageFormValue"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Apply a Percentage Disscount </FormLabel>
+                      <FormLabel>Prozentualen Rabatt gewähren</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="0"
@@ -180,22 +180,22 @@ export default function PriceFormClientSide({
           ) : (
             <></>
           )}
-          <p>{`An email will be sent to ${guest_email}`}</p>
-          <Button onClick={handleAcceptAndSend}>Accept and send</Button>
+          <p>An {guest_email} wird eine E-Mail gesendet.</p>
+          <Button onClick={handleAcceptAndSend}>Annehmen und senden</Button>
         </>
       ) : (
         <>
           <p>
-            You have successfully accepted the Price and an Email was sent to
-            the guest
+            Sie haben den Preis angenommen und eine E-Mail wurde an den Gast
+            gesendet.
           </p>
           <p>
-            You will recieve another email as soon as the guest makes the
-            payment
+            Sie erhalten eine weitere E-Mail, sobald der Gast die Zahlung
+            vornimmt.
           </p>
           <div>
             <Spinner />
-            <span>you are being redirected to the admin page ...</span>
+            <span>Sie werden zur Verwaltung weitergeleitet …</span>
           </div>
         </>
       )}

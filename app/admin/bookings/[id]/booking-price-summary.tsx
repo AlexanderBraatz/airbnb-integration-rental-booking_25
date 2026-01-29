@@ -103,19 +103,19 @@ export default function BookingPriceSummary({
         <CardContent className="flex flex-col items-center justify-center gap-4 py-12">
           <CheckCircle2 className="h-16 w-16 text-green-600" />
           <div className="space-y-2 text-center">
-            <h3 className="text-lg font-semibold">Booking Accepted!</h3>
+            <h3 className="text-lg font-semibold">Buchung angenommen!</h3>
             <p className="text-muted-foreground text-sm">
-              You have successfully accepted the price and an email was sent to
-              the guest.
+              Sie haben den Preis erfolgreich angenommen und eine E-Mail wurde
+              an den Gast gesendet.
             </p>
             <p className="text-muted-foreground text-sm">
-              You will receive another email as soon as the guest makes the
-              payment.
+              Sie erhalten eine weitere E-Mail, sobald der Gast die Zahlung
+              vornimmt.
             </p>
           </div>
           <div className="text-muted-foreground flex items-center gap-2 text-sm">
             <Spinner />
-            <span>Redirecting to the admin page...</span>
+            <span>Weiterleitung zur Verwaltung …</span>
           </div>
         </CardContent>
       </Card>
@@ -127,11 +127,11 @@ export default function BookingPriceSummary({
       <CardHeader>
         <div className="flex items-center gap-2">
           <Calculator className="text-muted-foreground h-5 w-5" />
-          <CardTitle className="text-xl">Price Calculation</CardTitle>
+          <CardTitle className="text-xl">Preisberechnung</CardTitle>
         </div>
         <p className="text-muted-foreground mt-2 text-sm">
-          Based on your preferences, the automatic price suggestion is
-          calculated below.
+          Basierend auf Ihren Einstellungen wird unten die automatische
+          Preisempfehlung berechnet.
         </p>
       </CardHeader>
 
@@ -140,14 +140,14 @@ export default function BookingPriceSummary({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Item</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
+              <TableHead>Position</TableHead>
+              <TableHead className="text-right">Betrag</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             <TableRow>
               <TableCell className="font-medium">
-                {numOfNights} Night{numOfNights !== 1 ? "s" : ""}
+                {numOfNights} {numOfNights === 1 ? "Nacht" : "Nächte"}
               </TableCell>
               <TableCell className="text-right">
                 €{nighsTotalPriceEuros}
@@ -155,14 +155,14 @@ export default function BookingPriceSummary({
             </TableRow>
             {with_dog && (
               <TableRow>
-                <TableCell className="font-medium">Dog Fee</TableCell>
+                <TableCell className="font-medium">Hundegebühr</TableCell>
                 <TableCell className="text-right">
                   €{priceForDogEuros}
                 </TableCell>
               </TableRow>
             )}
             <TableRow>
-              <TableCell className="font-medium">Cleaning Fee</TableCell>
+              <TableCell className="font-medium">Reinigungspauschale</TableCell>
               <TableCell className="text-right">
                 €{priceForCleaningEuros}
               </TableCell>
@@ -170,7 +170,7 @@ export default function BookingPriceSummary({
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell className="font-semibold">Suggested Price</TableCell>
+              <TableCell className="font-semibold">Vorgeschlagener Preis</TableCell>
               <TableCell className="text-right font-semibold">
                 €{suggestedPriceEuros}
               </TableCell>
@@ -181,8 +181,7 @@ export default function BookingPriceSummary({
                   <TableCell className="text-muted-foreground">
                     <div className="flex items-center gap-2">
                       <Tag className="h-4 w-4" />
-                      Discount ({form.watch("discountValuePercentageFormValue")}
-                      %)
+                      Rabatt ({form.watch("discountValuePercentageFormValue")} %)
                     </div>
                   </TableCell>
                   <TableCell className="text-right text-red-600">
@@ -193,7 +192,7 @@ export default function BookingPriceSummary({
                   </TableCell>
                 </TableRow>
                 <TableRow className="bg-accent/50">
-                  <TableCell className="font-bold">Final Price</TableCell>
+                  <TableCell className="font-bold">Endpreis</TableCell>
                   <TableCell className="text-right">
                     <Badge variant="default" className="px-3 py-1 text-base">
                       €{discountedPriceEuros}
@@ -212,10 +211,10 @@ export default function BookingPriceSummary({
               htmlFor="with_discount"
               className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
-              Apply Discount
+              Rabatt gewähren
             </label>
             <p className="text-muted-foreground text-xs">
-              Offer a percentage discount to the guest
+              Dem Gast einen prozentualen Rabatt gewähren
             </p>
           </div>
           <Switch
@@ -238,7 +237,7 @@ export default function BookingPriceSummary({
                   name="discountValuePercentageFormValue"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Discount Percentage</FormLabel>
+                      <FormLabel>Rabatt in Prozent</FormLabel>
                       <FormControl>
                         <div className="flex items-center gap-2">
                           <Input
@@ -275,15 +274,15 @@ export default function BookingPriceSummary({
         <Alert>
           <Mail className="h-4 w-4" />
           <AlertDescription>
-            An email will be sent to <strong>{guest_email}</strong> with the
-            booking confirmation and payment instructions.
+            An <strong>{guest_email}</strong> wird eine E-Mail mit der
+            Buchungsbestätigung und den Zahlungsanweisungen gesendet.
           </AlertDescription>
         </Alert>
 
         {/* Accept Button */}
         <Button onClick={handleAcceptAndSend} className="w-full" size="lg">
           <CheckCircle2 className="mr-2 h-5 w-5" />
-          Accept Price and Send Email
+          Preis annehmen und E-Mail senden
         </Button>
       </CardContent>
     </Card>

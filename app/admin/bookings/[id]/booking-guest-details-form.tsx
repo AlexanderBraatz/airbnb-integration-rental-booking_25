@@ -44,7 +44,7 @@ const formSchema = z.object({
   check_out_date: z.date(),
   number_of_guests: z.string(),
   with_dog: z.boolean(),
-  guest_message: z.string().max(400, "Max 400 characters"),
+  guest_message: z.string().max(400, "Max. 400 Zeichen"),
 });
 export type FormValues = z.infer<typeof formSchema>;
 
@@ -98,7 +98,7 @@ export default function BookingGuestDetailsForm({
 
     if (result?.error) {
       console.error("Form submission error", result.error);
-      toast.error("Failed to submit the form. Please try again.");
+      toast.error("Formular konnte nicht gesendet werden. Bitte versuchen Sie es erneut.");
     }
   };
 
@@ -109,10 +109,10 @@ export default function BookingGuestDetailsForm({
         className="mx-auto max-w-3xl space-y-8 py-10"
       >
         <Field>
-          <FieldLabel htmlFor="guest_first_name">First Name</FieldLabel>
+          <FieldLabel htmlFor="guest_first_name">Vorname</FieldLabel>
           <Input
             id="guest_first_name"
-            placeholder="First Name"
+            placeholder="Vorname"
             {...form.register("guest_first_name")}
           />
 
@@ -124,10 +124,10 @@ export default function BookingGuestDetailsForm({
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-4">
             <Field>
-              <FieldLabel htmlFor="guest_last_name">Last Name</FieldLabel>
+              <FieldLabel htmlFor="guest_last_name">Nachname</FieldLabel>
               <Input
                 id="guest_last_name"
-                placeholder="Last Name"
+                placeholder="Nachname"
                 {...form.register("guest_last_name")}
               />
 
@@ -138,20 +138,20 @@ export default function BookingGuestDetailsForm({
           </div>
         </div>
         <Field>
-          <FieldLabel htmlFor="guest_email">Email</FieldLabel>
+          <FieldLabel htmlFor="guest_email">E-Mail</FieldLabel>
           <Input
             id="guest_email"
-            placeholder="Email"
+            placeholder="E-Mail"
             {...form.register("guest_email")}
           />
 
           <FieldError>{form.formState.errors.guest_email?.message}</FieldError>
         </Field>
         <Field>
-          <FieldLabel htmlFor="guest_phone_number">Phone number</FieldLabel>
+          <FieldLabel htmlFor="guest_phone_number">Telefonnummer</FieldLabel>
           <Input
             id="guest_phone_number"
-            placeholder="Phone Number"
+            placeholder="Telefonnummer"
             {...form.register("guest_phone_number")}
           />
           <FieldError>
@@ -159,7 +159,7 @@ export default function BookingGuestDetailsForm({
           </FieldError>
         </Field>
         <Field>
-          <FieldLabel htmlFor="check_in_date">Check In Date</FieldLabel>
+          <FieldLabel htmlFor="check_in_date">Anreisedatum</FieldLabel>
           <Controller
             control={form.control}
             name="check_in_date"
@@ -174,8 +174,8 @@ export default function BookingGuestDetailsForm({
                       className="w-48 justify-between font-normal"
                     >
                       {field.value
-                        ? field.value.toLocaleDateString()
-                        : "Select date"}
+                        ? field.value.toLocaleDateString("de-DE")
+                        : "Datum wählen"}
                       <ChevronDownIcon className="ml-2 h-4 w-4 opacity-50" />
                     </Button>
                   </PopoverTrigger>
@@ -211,7 +211,7 @@ export default function BookingGuestDetailsForm({
           </FieldError>
         </Field>
         <Field>
-          <FieldLabel htmlFor="check_out_date">Checkout Date</FieldLabel>
+          <FieldLabel htmlFor="check_out_date">Abreisedatum</FieldLabel>
           <Controller
             control={form.control}
             name="check_out_date"
@@ -226,8 +226,8 @@ export default function BookingGuestDetailsForm({
                       className="w-48 justify-between font-normal"
                     >
                       {field.value
-                        ? field.value.toLocaleDateString()
-                        : "Select date"}
+                        ? field.value.toLocaleDateString("de-DE")
+                        : "Datum wählen"}
                       <ChevronDownIcon className="ml-2 h-4 w-4 opacity-50" />
                     </Button>
                   </PopoverTrigger>
@@ -263,7 +263,7 @@ export default function BookingGuestDetailsForm({
           </FieldError>
         </Field>
         <Field>
-          <FieldLabel htmlFor="number_of_guests">Number of Guests</FieldLabel>
+          <FieldLabel htmlFor="number_of_guests">Anzahl der Gäste</FieldLabel>
           <Controller
             control={form.control}
             name="number_of_guests"
@@ -274,7 +274,7 @@ export default function BookingGuestDetailsForm({
                 defaultValue={field.value}
               >
                 <SelectTrigger id="number_of_guests">
-                  <SelectValue placeholder="Select an option" />
+                  <SelectValue placeholder="Option wählen" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="1">1</SelectItem>
@@ -295,7 +295,7 @@ export default function BookingGuestDetailsForm({
         <Field className="flex flex-row items-center justify-between rounded-lg border p-4">
           <div className="space-y-0.5">
             <FieldLabel htmlFor="with_dog" className="text-base">
-              With Dog
+              Mit Hund
             </FieldLabel>
           </div>
           <Controller
@@ -312,10 +312,10 @@ export default function BookingGuestDetailsForm({
           <FieldError>{form.formState.errors.with_dog?.message}</FieldError>
         </Field>
         <Field>
-          <FieldLabel htmlFor="guest_message">Guest Message</FieldLabel>
+          <FieldLabel htmlFor="guest_message">Gastnachricht</FieldLabel>
           <Input
             id="guest_message"
-            placeholder="message"
+            placeholder="Nachricht"
             {...form.register("guest_message")}
           />
           <FieldError>
@@ -323,7 +323,7 @@ export default function BookingGuestDetailsForm({
           </FieldError>
         </Field>
         <Field></Field>
-        <Button type="submit">Save</Button>
+        <Button type="submit">Speichern</Button>
       </form>
     </Form>
   );

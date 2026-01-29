@@ -14,8 +14,8 @@ export default async function DemoPage() {
   return (
     <div className="container mx-auto py-10">
       <p>
-        An Error has occurred, you are probably not cone ted ot the
-        internet{" "}
+        Ein Fehler ist aufgetreten. Sie sind möglicherweise nicht mit dem
+        Internet verbunden.
       </p>
       <p>{response.error}</p>
     </div>

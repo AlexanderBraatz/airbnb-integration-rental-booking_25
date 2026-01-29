@@ -66,7 +66,7 @@ export default function BookingAcceptanceForm({
         {/* <input onChange={handlePriceChange}>{price}</input>
          */}
         <form>
-          <label htmlFor="price">Price:</label>
+          <label htmlFor="price">Preis:</label>
           {/* <input
             type="text"
             id="price"
@@ -78,21 +78,21 @@ export default function BookingAcceptanceForm({
         <ul>
           <li>
             <Button className="cursor-pointer" onClick={handleAccept}>
-              accept
+              Annehmen
             </Button>
           </li>
           <li>
             {" "}
-            <Button className="cursor-pointer">Delete</Button>
+            <Button className="cursor-pointer">Löschen</Button>
           </li>
           <p>
-            If you would like to decline this booking you can click the button
-            blow
+            Wenn Sie diese Buchung ablehnen möchten, klicken Sie auf den
+            folgenden Button.
           </p>
-          <Button className="cursor-pointer">Decline</Button>
+          <Button className="cursor-pointer">Ablehnen</Button>
           <p>
-            if you want to email them directly you can get intuch witht them
-            here:
+            Wenn Sie den Gast direkt per E-Mail kontaktieren möchten, können
+            Sie ihn hier erreichen:
           </p>
           <a href={`mailto:${bookingData.guest_email}`}>
             {bookingData.guest_email}
@@ -103,7 +103,7 @@ export default function BookingAcceptanceForm({
         className="cursor-pointer"
         onClick={() => redirect(`./`, RedirectType.push)}
       >
-        Back to Bookings
+        Zurück zur Buchungsübersicht
       </Button>
     </>
   );

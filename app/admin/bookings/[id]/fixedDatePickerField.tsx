@@ -46,7 +46,7 @@ export default function MyForm() {
       );
     } catch (error) {
       console.error("Form submission error", error);
-      toast.error("Failed to submit the form. Please try again.");
+      toast.error("Formular konnte nicht gesendet werden. Bitte versuchen Sie es erneut.");
     }
   }
 
@@ -61,7 +61,7 @@ export default function MyForm() {
           name="name_2557050335"
           render={({ field }) => (
             <Field>
-              <FieldLabel htmlFor="name_2557050335">Date of birth</FieldLabel>
+              <FieldLabel htmlFor="name_2557050335">Geburtsdatum</FieldLabel>
 
               <Popover>
                 <PopoverTrigger asChild>
@@ -72,8 +72,8 @@ export default function MyForm() {
                     className="w-48 justify-between font-normal"
                   >
                     {field.value
-                      ? field.value.toLocaleDateString()
-                      : "Select date"}
+                      ? field.value.toLocaleDateString("de-DE")
+                      : "Datum wählen"}
                     <ChevronDownIcon className="ml-2 h-4 w-4 opacity-50" />
                   </Button>
                 </PopoverTrigger>
@@ -98,7 +98,7 @@ export default function MyForm() {
               </Popover>
 
               <FieldDescription>
-                Your date of birth is used to calculate your age.
+                Ihr Geburtsdatum wird zur Berechnung Ihres Alters verwendet.
               </FieldDescription>
 
               <FieldError>
@@ -108,7 +108,7 @@ export default function MyForm() {
           )}
         />
 
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Absenden</Button>
       </form>
     </Form>
   );

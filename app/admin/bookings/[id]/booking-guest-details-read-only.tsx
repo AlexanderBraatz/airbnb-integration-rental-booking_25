@@ -60,43 +60,43 @@ export default function BookingGuestDetailsReadOnly({
   }[] = [
     {
       key: "guest_first_name",
-      label: "First name",
+      label: "Vorname",
       value: bookingData.guest_first_name || "—",
       icon: <User className="h-4 w-4" />,
     },
     {
       key: "guest_last_name",
-      label: "Last name",
+      label: "Nachname",
       value: bookingData.guest_last_name || "—",
       icon: <User className="h-4 w-4" />,
     },
     {
       key: "guest_email",
-      label: "Email",
+      label: "E-Mail",
       value: bookingData.guest_email || "—",
       icon: <Mail className="h-4 w-4" />,
     },
     {
       key: "guest_phone_number",
-      label: "Phone number",
+      label: "Telefonnummer",
       value: bookingData.guest_phone_number || "—",
       icon: <Phone className="h-4 w-4" />,
     },
     {
       key: "check_in_date",
-      label: "Check-in date",
+      label: "Anreisedatum",
       value: formatDate(bookingData.check_in_date),
       icon: <Calendar className="h-4 w-4" />,
     },
     {
       key: "check_out_date",
-      label: "Check-out date",
+      label: "Abreisedatum",
       value: formatDate(bookingData.check_out_date),
       icon: <Calendar className="h-4 w-4" />,
     },
     {
       key: "number_of_guests",
-      label: "Number of guests",
+      label: "Anzahl der Gäste",
       value:
         bookingData.number_of_guests != null
           ? bookingData.number_of_guests
@@ -105,17 +105,17 @@ export default function BookingGuestDetailsReadOnly({
     },
     {
       key: "with_dog",
-      label: "With dog",
+      label: "Mit Hund",
       value: (
         <Badge variant={bookingData.with_dog ? "default" : "outline"}>
-          {bookingData.with_dog ? "Yes" : "No"}
+          {bookingData.with_dog ? "Ja" : "Nein"}
         </Badge>
       ),
       icon: <Dog className="h-4 w-4" />,
     },
     {
       key: "guest_message",
-      label: "Guest Message",
+      label: "Gastnachricht",
       value: bookingData.guest_message || "-",
       icon: <Text className="h-4 w-4" />,
     },
@@ -124,7 +124,7 @@ export default function BookingGuestDetailsReadOnly({
   return (
     <Card className="w-full border shadow-sm">
       <CardHeader>
-        <CardTitle className="text-xl">Guest Details</CardTitle>
+        <CardTitle className="text-xl">Gastdaten</CardTitle>
       </CardHeader>
 
       <CardContent>

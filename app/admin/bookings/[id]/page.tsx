@@ -40,10 +40,10 @@ export default async function Page({ params }: { params: { id: string } }) {
           <div className="container mx-auto max-w-5xl px-4 py-8">
             <Alert variant="destructive">
               <AlertTriangle className="h-4 w-4" />
-              <AlertTitle>Error</AlertTitle>
+              <AlertTitle>Fehler</AlertTitle>
               <AlertDescription>
-                An error occurred while loading your host settings. Please try
-                again later.
+                Beim Laden Ihrer Gastgeber-Einstellungen ist ein Fehler
+                aufgetreten. Bitte versuchen Sie es später erneut.
               </AlertDescription>
             </Alert>
           </div>
@@ -113,10 +113,10 @@ export default async function Page({ params }: { params: { id: string } }) {
         <div className="container mx-auto max-w-5xl px-4 py-8">
           <Alert variant="destructive">
             <AlertTriangle className="h-4 w-4" />
-            <AlertTitle>Error</AlertTitle>
+            <AlertTitle>Fehler</AlertTitle>
             <AlertDescription>
-              An error occurred while loading the booking details. Please try
-              again later.
+              Beim Laden der Buchungsdetails ist ein Fehler aufgetreten. Bitte
+              versuchen Sie es später erneut.
             </AlertDescription>
           </Alert>
         </div>

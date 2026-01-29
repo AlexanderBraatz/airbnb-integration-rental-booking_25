@@ -89,16 +89,16 @@ export function DataTable<TData extends BookingRow, TValue>({
             <div>
               <div className="flex items-center gap-2">
                 <Calendar className="h-6 w-6 text-slate-600" />
-                <CardTitle className="text-2xl">Bookings Dashboard</CardTitle>
+                <CardTitle className="text-2xl">Buchungsübersicht</CardTitle>
               </div>
               <CardDescription className="mt-1 text-gray-600">
-                Manage and view all property bookings
+                Alle Buchungen verwalten und einsehen
               </CardDescription>
             </div>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" className="gap-2">
                 <Filter className="h-4 w-4" />
-                Filters
+                Filter
               </Button>
               <Button variant="outline" size="sm" className="gap-2">
                 <Download className="h-4 w-4" />
@@ -116,7 +116,7 @@ export function DataTable<TData extends BookingRow, TValue>({
                 <Search className="h-4 w-4 text-gray-400" />
               </div>
               <Input
-                placeholder="Search bookings by name, email, or ID..."
+                placeholder="Buchungen nach Name, E-Mail oder ID suchen …"
                 value={globalFilter ?? ""}
                 onChange={(event) => setGlobalFilter(event.target.value)}
                 className="pl-9"
@@ -128,8 +128,8 @@ export function DataTable<TData extends BookingRow, TValue>({
               </span>
               <span>
                 {table.getFilteredRowModel().rows.length === 1
-                  ? "booking"
-                  : "bookings"}
+                  ? "Buchung"
+                  : "Buchungen"}
               </span>
             </div>
           </div>
@@ -195,13 +195,13 @@ export function DataTable<TData extends BookingRow, TValue>({
                         <Calendar className="h-12 w-12 text-gray-300" />
                         <p className="text-lg font-medium">
                           {globalFilter
-                            ? "No bookings match your search"
-                            : "No bookings found"}
+                            ? "Keine Buchungen entsprechen Ihrer Suche"
+                            : "Keine Buchungen gefunden"}
                         </p>
                         <p className="text-sm text-gray-400">
                           {globalFilter
-                            ? "Try adjusting your search terms"
-                            : "Bookings will appear here once they are created"}
+                            ? "Versuchen Sie, Ihre Suchbegriffe anzupassen"
+                            : "Buchungen erscheinen hier, sobald sie erstellt wurden"}
                         </p>
                       </div>
                     </TableCell>
@@ -216,7 +216,7 @@ export function DataTable<TData extends BookingRow, TValue>({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-6">
                 <div className="text-sm text-gray-600">
-                  Page {table.getState().pagination.pageIndex + 1} of{" "}
+                  Seite {table.getState().pagination.pageIndex + 1} von{" "}
                   {table.getPageCount()}
                 </div>
                 <div className="flex items-center gap-2">
@@ -224,7 +224,7 @@ export function DataTable<TData extends BookingRow, TValue>({
                     htmlFor="pageSize"
                     className="text-sm whitespace-nowrap text-gray-600"
                   >
-                    Rows per page:
+                    Zeilen pro Seite:
                   </label>
                   <select
                     id="pageSize"

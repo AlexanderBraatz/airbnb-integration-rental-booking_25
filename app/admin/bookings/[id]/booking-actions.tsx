@@ -43,7 +43,7 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
         router.push("/admin/bookings");
       }
     } catch (err) {
-      setError("Failed to decline booking. Please try again.");
+      setError("Buchung konnte nicht abgelehnt werden. Bitte versuchen Sie es erneut.");
     } finally {
       setIsProcessing(false);
       setShowDeclineConfirm(false);
@@ -63,7 +63,7 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
       // await deleteBookingAction(bookingData.id);
       router.push("/admin/bookings");
     } catch (err) {
-      setError("Failed to delete booking. Please try again.");
+      setError("Buchung konnte nicht gelöscht werden. Bitte versuchen Sie es erneut.");
     } finally {
       setIsProcessing(false);
       setShowDeleteConfirm(false);
@@ -73,9 +73,9 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
   return (
     <Card className="w-full border shadow-sm">
       <CardHeader>
-        <CardTitle className="text-xl">Additional Actions</CardTitle>
+        <CardTitle className="text-xl">Weitere Aktionen</CardTitle>
         <CardDescription>
-          Manage this booking with the following options
+          Diese Buchung mit den folgenden Optionen verwalten
         </CardDescription>
       </CardHeader>
 
@@ -91,15 +91,15 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
         {/* Contact Guest Section */}
         <div className="space-y-3">
           <div className="space-y-1">
-            <h3 className="text-sm font-semibold">Contact Guest</h3>
+            <h3 className="text-sm font-semibold">Gast kontaktieren</h3>
             <p className="text-muted-foreground text-sm">
-              Get in touch with the guest directly via email
+              Kontaktieren Sie den Gast direkt per E-Mail
             </p>
           </div>
           <Button variant="outline" className="w-full gap-2" asChild>
             <a href={`mailto:${bookingData.guest_email}`}>
               <Mail className="h-4 w-4" />
-              Email {bookingData.guest_email}
+              E-Mail an {bookingData.guest_email}
             </a>
           </Button>
         </div>
@@ -109,10 +109,10 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
         {/* Decline Booking Section */}
         <div className="space-y-3">
           <div className="space-y-1">
-            <h3 className="text-sm font-semibold">Decline Booking</h3>
+            <h3 className="text-sm font-semibold">Buchung ablehnen</h3>
             <p className="text-muted-foreground text-sm">
-              If you cannot accommodate this booking, you can decline it. The
-              guest will be notified via email.
+              Wenn Sie diese Buchung nicht annehmen können, können Sie sie
+              ablehnen. Der Gast erhält eine E-Mail-Benachrichtigung.
             </p>
           </div>
 
@@ -124,16 +124,16 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
               disabled={isProcessing}
             >
               <XCircle className="h-4 w-4" />
-              Decline Booking
+              Buchung ablehnen
             </Button>
           ) : (
             <div className="border-destructive bg-destructive/10 space-y-2 rounded-lg border-2 p-4">
               <p className="text-destructive text-sm font-semibold">
-                Are you sure you want to decline this booking?
+                Möchten Sie diese Buchung wirklich ablehnen?
               </p>
               <p className="text-muted-foreground text-xs">
-                The guest will receive an email notification. This action can be
-                reversed later if needed.
+                Der Gast erhält eine E-Mail-Benachrichtigung. Diese Aktion kann
+                bei Bedarf später rückgängig gemacht werden.
               </p>
               <div className="flex gap-2 pt-2">
                 <Button
@@ -143,7 +143,7 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
                   disabled={isProcessing}
                   className="flex-1"
                 >
-                  Cancel
+                  Abbrechen
                 </Button>
                 <Button
                   variant="destructive"
@@ -152,7 +152,7 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
                   disabled={isProcessing}
                   className="flex-1"
                 >
-                  {isProcessing ? "Declining..." : "Confirm Decline"}
+                  {isProcessing ? "Wird abgelehnt …" : "Ablehnung bestätigen"}
                 </Button>
               </div>
             </div>
@@ -165,11 +165,11 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
         <div className="space-y-3">
           <div className="space-y-1">
             <h3 className="text-destructive text-sm font-semibold">
-              Delete Booking
+              Buchung löschen
             </h3>
             <p className="text-muted-foreground text-sm">
-              Permanently remove this booking from the system. This action
-              cannot be undone.
+              Diese Buchung dauerhaft aus dem System entfernen. Diese Aktion
+              kann nicht rückgängig gemacht werden.
             </p>
           </div>
 
@@ -181,16 +181,16 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
               disabled={isProcessing}
             >
               <Trash2 className="h-4 w-4" />
-              Delete Booking
+              Buchung löschen
             </Button>
           ) : (
             <div className="border-destructive bg-destructive/10 space-y-2 rounded-lg border-2 p-4">
               <p className="text-destructive text-sm font-semibold">
-                Delete booking #{bookingData.id} permanently?
+                Buchung #{bookingData.id} dauerhaft löschen?
               </p>
               <p className="text-muted-foreground text-xs">
-                This will permanently delete this booking and all associated
-                data. This action cannot be undone.
+                Diese Buchung und alle zugehörigen Daten werden dauerhaft
+                gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.
               </p>
               <div className="flex gap-2 pt-2">
                 <Button
@@ -200,7 +200,7 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
                   disabled={isProcessing}
                   className="flex-1"
                 >
-                  Cancel
+                  Abbrechen
                 </Button>
                 <Button
                   variant="destructive"
@@ -209,7 +209,7 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
                   disabled={isProcessing}
                   className="flex-1"
                 >
-                  {isProcessing ? "Deleting..." : "Delete Permanently"}
+                  {isProcessing ? "Wird gelöscht …" : "Dauerhaft löschen"}
                 </Button>
               </div>
             </div>
