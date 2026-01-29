@@ -1,0 +1,115 @@
+<!--
+  Supabase Auth: Confirm signup email body
+
+  Paste this into: Supabase Dashboard → Authentication → Email Templates → Confirm signup → Email body
+
+  Styling matches project email templates (EmailLayout + email-template.tsx):
+  - Brand colors: #faf2f0 (q-background), #6d7ca7 (q-blue), #3d3638 (q-text-dark-700), #554f51, #ebe3e1 (q-card-background)
+  - Logo: logo-fff.svg from your app (must be served at {{ .SiteURL }}/icons/logo-fff.svg)
+  - No external images; Substack image removed in favour of logo only.
+-->
+<div
+  style="
+    font-family: Arial, sans-serif;
+    background-color: #faf2f0;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  "
+>
+  <!-- Header with Logo (matches EmailLayout) -->
+  <div
+    style="
+      background-color: #6d7ca7;
+      padding: 30px 20px;
+      text-align: center;
+      border-radius: 8px 8px 0 0;
+    "
+  >
+    <div style="display: inline-block; max-width: 200px">
+      <img
+        src="{{ .SiteURL }}/icons/logo-fff.svg"
+        alt="Sieben Gipfel Blick Logo"
+        width="203"
+        height="62"
+        style="
+          width: 100%;
+          height: auto;
+          display: block;
+          max-width: 203px;
+          border: 0;
+        "
+      />
+    </div>
+  </div>
+
+  <!-- Main Content (white area, same as EmailLayout + email-template body text styles) -->
+  <div
+    style="
+      background-color: #ffffff;
+      padding: 40px 30px;
+      color: #3d3638;
+      line-height: 1.6;
+    "
+  >
+    <h2
+      style="
+        color: #3d3638;
+        font-size: 22px;
+        font-weight: bold;
+        margin: 0 0 8px 0;
+      "
+    >
+      Bestätigen Sie Ihre Registrierung
+    </h2>
+    <p style="color: #554f51; font-size: 16px; margin: 0 0 24px 0">
+      Sieben Gipfel Blick
+    </p>
+
+    <p
+      style="
+        color: #3d3638;
+        font-size: 16px;
+        line-height: 1.6;
+        margin: 0 0 20px 0;
+      "
+    >
+      Bitte klicken Sie auf den folgenden Link, um Ihre E-Mail-Adresse zu
+      bestätigen:
+    </p>
+    <p style="margin: 0">
+      <a
+        href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email"
+        style="
+          display: inline-block;
+          background-color: #6d7ca7;
+          color: #ffffff;
+          text-decoration: none;
+          padding: 15px 30px;
+          border-radius: 8px;
+          font-size: 16px;
+          font-weight: bold;
+        "
+      >
+        E-Mail bestätigen
+      </a>
+    </p>
+  </div>
+
+  <!-- Footer (matches EmailLayout footer) -->
+  <div
+    style="
+      background-color: #ebe3e1;
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #3d3638;
+      border-radius: 0 0 8px 8px;
+    "
+  >
+    <p style="margin: 0 0 10px 0"><strong>Sieben Gipfel Blick</strong></p>
+    <p style="margin: 20px 0 0 0; font-size: 12px; color: #554f51">
+      © Sieben Gipfel Blick. Alle Rechte vorbehalten.
+    </p>
+  </div>
+</div>
