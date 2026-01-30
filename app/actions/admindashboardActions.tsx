@@ -375,6 +375,7 @@ export const getHostConfigAction = async () => {
 
   // 2) No row found - return null (caller can handle this)
   if (!data) {
+    console.error("No host config found in getHostConfigAction", error);
     return {
       data: null,
       error: "No host config found",
@@ -552,4 +553,26 @@ export async function declineBookingAction(id: number) {
     data,
     error: null,
   };
+}
+
+/**
+ * Permanently deletes a booking (hard delete).
+ * Scheduled emails and Stripe data are left as-is.
+ */
+export async function deleteBookingAction(id: number) {
+  const supabase = await createClient();
+
+  const { error } = await supabase.from("Bookings").delete().eq("id", id);
+
+  if (error) {
+    console.error("Supabase error in deleteBookingAction:", error);
+    return {
+      data: null,
+      error:
+        "Buchung konnte nicht gelöscht werden. Bitte versuchen Sie es erneut.",
+    };
+  }
+
+  revalidatePath("/admin/bookings");
+  return { data: true, error: null };
 }

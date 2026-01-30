@@ -3,7 +3,10 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Tables } from "@/database.types";
 import { Button } from "@/components/ui/button";
-import { declineBookingAction } from "@/app/actions/admindashboardActions";
+import {
+  declineBookingAction,
+  deleteBookingAction,
+} from "@/app/actions/admindashboardActions";
 import {
   Card,
   CardContent,
@@ -42,8 +45,10 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
       } else {
         router.push("/admin/bookings");
       }
-    } catch (err) {
-      setError("Buchung konnte nicht abgelehnt werden. Bitte versuchen Sie es erneut.");
+    } catch {
+      setError(
+        "Buchung konnte nicht abgelehnt werden. Bitte versuchen Sie es erneut.",
+      );
     } finally {
       setIsProcessing(false);
       setShowDeclineConfirm(false);
@@ -58,12 +63,16 @@ export default function BookingActions({ bookingData }: BookingActionsProps) {
     setIsProcessing(true);
     setError(null);
     try {
-      // TODO: Implement delete action
-      console.log("Deleting booking:", bookingData.id);
-      // await deleteBookingAction(bookingData.id);
-      router.push("/admin/bookings");
-    } catch (err) {
-      setError("Buchung konnte nicht gelöscht werden. Bitte versuchen Sie es erneut.");
+      const result = await deleteBookingAction(bookingData.id);
+      if (result.error) {
+        setError(result.error);
+      } else {
+        router.push("/admin/bookings");
+      }
+    } catch {
+      setError(
+        "Buchung konnte nicht gelöscht werden. Bitte versuchen Sie es erneut.",
+      );
     } finally {
       setIsProcessing(false);
       setShowDeleteConfirm(false);

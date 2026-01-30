@@ -6,7 +6,6 @@ import { AlertTriangle } from "lucide-react";
 
 export default async function Page() {
   const response = await getHostConfigAction();
-
   if (response?.error) {
     return (
       <div className="bg-background min-h-screen">
@@ -15,8 +14,8 @@ export default async function Page() {
             <AlertTriangle className="h-4 w-4" />
             <AlertTitle>Fehler</AlertTitle>
             <AlertDescription>
-              Beim Laden der Gastgeber-Einstellungen ist ein Fehler
-              aufgetreten. Bitte versuchen Sie es später erneut.
+              Beim Laden der Gastgeber-Einstellungen ist ein Fehler aufgetreten.
+              Bitte versuchen Sie es später erneut.
             </AlertDescription>
           </Alert>
         </div>
