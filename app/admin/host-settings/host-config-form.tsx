@@ -15,19 +15,27 @@ import {
 } from "@/app/actions/admindashboardActions";
 import { useRouter } from "next/navigation";
 
-/** Format cents as euro string (e.g. 3050 → "30,50") for display. */
+/** Format cents as euro string, no thousand separator (e.g. 3050 → "30,50"). */
 function formatCentsToEuro(cents: number): string {
-  return (cents / 100).toLocaleString("de-DE", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  return (cents / 100).toFixed(2).replace(".", ",");
 }
 
-/** Parse German number string (e.g. "30,50" or "1.234,56") to number; result in euros. */
-function parseGermanNumberToEuros(str: string): number {
-  const cleaned = str.trim().replace(/\./g, "").replace(",", ".");
-  const parsed = Number.parseFloat(cleaned);
-  return Number.isNaN(parsed) ? 0 : parsed;
+/** German price string: digits, optional comma + 1–2 decimals. No thousand separator. */
+const GERMAN_PRICE_STRING_REGEX = /^\d*([,]\d{1,2})?$/;
+const germanPriceStringSchema = z
+  .string()
+  .regex(
+    GERMAN_PRICE_STRING_REGEX,
+    "Ungültiges Format. Bitte Zahl eingeben (z.B. 50 oder 50,00).",
+  );
+
+/** Parse validated German price string to cents. Only call after Zod passes. */
+function parseGermanPriceStringToCents(str: string): number {
+  const trimmed = str.trim();
+  if (trimmed === "") return 0;
+  const normalized = trimmed.replace(",", ".");
+  const euros = Number.parseFloat(normalized);
+  return Math.round(euros * 100);
 }
 
 const formSchema = z.object({
@@ -48,12 +56,36 @@ const formSchema = z.object({
 
 export type HostConfigFormValues = z.infer<typeof formSchema>;
 
+type PriceFieldName =
+  | "price_per_night_cents"
+  | "price_for_dog_cents"
+  | "price_for_cleaning_cents";
+
+const PRICE_FIELDS: PriceFieldName[] = [
+  "price_per_night_cents",
+  "price_for_dog_cents",
+  "price_for_cleaning_cents",
+];
+
+function initialDisplayValues(
+  data: HostConfig,
+): Record<PriceFieldName, string> {
+  return {
+    price_per_night_cents: formatCentsToEuro(data.price_per_night_cents),
+    price_for_dog_cents: formatCentsToEuro(data.price_for_dog_cents),
+    price_for_cleaning_cents: formatCentsToEuro(data.price_for_cleaning_cents),
+  };
+}
+
 export default function HostConfigForm({
   initialData,
 }: {
   initialData: HostConfig;
 }) {
   const [isEditing, setIsEditing] = React.useState(false);
+  const [displayValues, setDisplayValues] = React.useState<
+    Record<PriceFieldName, string>
+  >(() => initialDisplayValues(initialData));
   const router = useRouter();
 
   const form = useForm<HostConfigFormValues>({
@@ -66,8 +98,46 @@ export default function HostConfigForm({
     },
   });
 
-  const handleUpdateConfig = async (values: HostConfigFormValues) => {
-    const result = await updateHostConfigAction(values);
+  React.useEffect(() => {
+    setDisplayValues(initialDisplayValues(initialData));
+    // Only sync when saved cents change (e.g. after refresh), not on every initialData reference
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    initialData.price_per_night_cents,
+    initialData.price_for_dog_cents,
+    initialData.price_for_cleaning_cents,
+  ]);
+
+  function commitPriceField(field: PriceFieldName): boolean {
+    const raw = displayValues[field].trim();
+    const parsed = germanPriceStringSchema.safeParse(raw);
+    if (!parsed.success) {
+      form.setError(field, {
+        type: "manual",
+        message:
+          parsed.error.issues[0]?.message ??
+          "Ungültiges Format. Bitte Zahl in Euro Format eingeben (z.B. 50 oder 50,00).",
+      });
+      return false;
+    }
+    const cents = parseGermanPriceStringToCents(parsed.data);
+    form.setValue(field, cents);
+    form.clearErrors(field);
+    setDisplayValues((prev) => ({
+      ...prev,
+      [field]: formatCentsToEuro(cents),
+    }));
+    return true;
+  }
+
+  const handleUpdateConfig = async () => {
+    for (const field of PRICE_FIELDS) {
+      if (!commitPriceField(field)) {
+        form.setFocus(field);
+        return;
+      }
+    }
+    const result = await updateHostConfigAction(form.getValues());
 
     if (result?.data) {
       setIsEditing(false);
@@ -77,7 +147,9 @@ export default function HostConfigForm({
 
     if (result?.error) {
       console.error("Form submission error", result.error);
-      toast.error("Einstellungen konnten nicht gespeichert werden. Bitte versuchen Sie es erneut.");
+      toast.error(
+        "Einstellungen konnten nicht gespeichert werden. Bitte versuchen Sie es erneut.",
+      );
     }
   };
 
@@ -88,6 +160,8 @@ export default function HostConfigForm({
       price_for_cleaning_cents: initialData.price_for_cleaning_cents,
       host_business_email: initialData.host_business_email,
     });
+    setDisplayValues(initialDisplayValues(initialData));
+    form.clearErrors();
     setIsEditing(false);
   };
 
@@ -130,12 +204,18 @@ export default function HostConfigForm({
                 inputMode="decimal"
                 placeholder="100,00"
                 disabled={!isEditing}
-                value={formatCentsToEuro(field.value)}
+                value={displayValues.price_per_night_cents}
                 onChange={(e) => {
-                  const euros = parseGermanNumberToEuros(e.target.value);
-                  field.onChange(Math.round(euros * 100));
+                  setDisplayValues((prev) => ({
+                    ...prev,
+                    price_per_night_cents: e.target.value,
+                  }));
+                  form.clearErrors("price_per_night_cents");
                 }}
-                onBlur={field.onBlur}
+                onBlur={() => {
+                  commitPriceField("price_per_night_cents");
+                  field.onBlur();
+                }}
               />
             )}
           />
@@ -145,9 +225,7 @@ export default function HostConfigForm({
         </Field>
 
         <Field>
-          <FieldLabel htmlFor="price_for_dog_cents">
-            Hundegebühr (€)
-          </FieldLabel>
+          <FieldLabel htmlFor="price_for_dog_cents">Hundegebühr (€)</FieldLabel>
           <Controller
             control={form.control}
             name="price_for_dog_cents"
@@ -158,12 +236,18 @@ export default function HostConfigForm({
                 inputMode="decimal"
                 placeholder="25,00"
                 disabled={!isEditing}
-                value={formatCentsToEuro(field.value)}
+                value={displayValues.price_for_dog_cents}
                 onChange={(e) => {
-                  const euros = parseGermanNumberToEuros(e.target.value);
-                  field.onChange(Math.round(euros * 100));
+                  setDisplayValues((prev) => ({
+                    ...prev,
+                    price_for_dog_cents: e.target.value,
+                  }));
+                  form.clearErrors("price_for_dog_cents");
                 }}
-                onBlur={field.onBlur}
+                onBlur={() => {
+                  commitPriceField("price_for_dog_cents");
+                  field.onBlur();
+                }}
               />
             )}
           />
@@ -186,12 +270,18 @@ export default function HostConfigForm({
                 inputMode="decimal"
                 placeholder="44,88"
                 disabled={!isEditing}
-                value={formatCentsToEuro(field.value)}
+                value={displayValues.price_for_cleaning_cents}
                 onChange={(e) => {
-                  const euros = parseGermanNumberToEuros(e.target.value);
-                  field.onChange(Math.round(euros * 100));
+                  setDisplayValues((prev) => ({
+                    ...prev,
+                    price_for_cleaning_cents: e.target.value,
+                  }));
+                  form.clearErrors("price_for_cleaning_cents");
                 }}
-                onBlur={field.onBlur}
+                onBlur={() => {
+                  commitPriceField("price_for_cleaning_cents");
+                  field.onBlur();
+                }}
               />
             )}
           />
