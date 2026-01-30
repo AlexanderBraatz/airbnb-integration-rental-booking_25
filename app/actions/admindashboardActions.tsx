@@ -402,15 +402,10 @@ export const updateHostConfigAction = async (
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("host_config")
-    .upsert(
-      {
-        id: 1,
-        ...values,
-      },
-      {
-        onConflict: "id",
-      },
-    )
+    .update({
+      ...values,
+    })
+    .eq("id", 1)
     .select()
     .maybeSingle();
 
