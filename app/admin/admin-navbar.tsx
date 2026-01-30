@@ -38,7 +38,7 @@ export function AdminNavbar({ userEmail }: { userEmail: string }) {
               type="submit"
               variant="outline"
               size="sm"
-              className="border-q-wite-almost text-q-wite-almost hover:bg-q-wite-almost/10"
+              className="border-q-wite-almost bg-q-blue! text-q-wite-almost hover:bg-q-wite-almost/80!"
             >
               Abmelden
             </Button>

@@ -96,14 +96,14 @@ export function DataTable<TData extends BookingRow, TValue>({
               </CardDescription>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm" className="gap-2">
+              {/* <Button variant="outline" size="sm" className="gap-2">
                 <Filter className="h-4 w-4" />
                 Filter
               </Button>
               <Button variant="outline" size="sm" className="gap-2">
                 <Download className="h-4 w-4" />
                 Export
-              </Button>
+              </Button> */}
             </div>
           </div>
         </CardHeader>
