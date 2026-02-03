@@ -33,7 +33,7 @@ export async function bookingRequestAction(
     } else {
       console.log("data", data[0].id);
 
-      // selection and transformation of Booking data in preparation for sending emails
+      // selection and transformation f Booking data in preparation for sending emails
       const {
         check_in_date,
         check_out_date,
