@@ -138,7 +138,7 @@ export async function sendEmail<EmailT>(args: SendEmailArgTypes<EmailT>) {
   const resend = new Resend(process.env.RESEND_API_KEY);
   try {
     await resend.emails.send({
-      from: `Sieben Gipfel Blick <no-reply@${process.env.SITE_BASE_URL}>`,
+      from: `Sieben Gipfel Blick <no-reply@staging.alexanderbraatz.com>`,
       to: args.email_to,
       subject: args.subject,
       react: <args.Template {...args.templateProps} />,
