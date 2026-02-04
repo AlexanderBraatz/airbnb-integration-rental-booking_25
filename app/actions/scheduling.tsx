@@ -12,7 +12,7 @@
  * by the Supabase Edge Function (send-scheduled-emails).
  */
 
-import { createClient } from "@/utils/supabase/server";
+import { createClient, createServiceRoleClient } from "@/utils/supabase/server";
 import { z } from "zod";
 import { render, pretty } from "@react-email/render";
 import * as React from "react";
@@ -75,7 +75,7 @@ export async function scheduleEmailAction(input: ScheduleEmailInput): Promise<{
     );
 
     // 2) Insert scheduled email row
-    const supabase = await createClient();
+    const supabase = await createServiceRoleClient();
     const { data, error } = await supabase
       .from("ScheduledEmails")
       .insert({

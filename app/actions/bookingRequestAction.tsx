@@ -150,7 +150,7 @@ export async function sendEmail<EmailT>(args: SendEmailArgTypes<EmailT>) {
 }
 
 export async function setPayedPriceSnapshot(payedCents: number, id: number) {
-  const supabase = await createClient();
+  const supabase = await createServiceRoleClient();
 
   const { data, error } = await supabase
     .from("Bookings")

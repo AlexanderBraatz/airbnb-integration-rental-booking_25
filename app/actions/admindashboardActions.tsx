@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
+import { createClient, createServiceRoleClient } from "@/utils/supabase/server";
 import { FormValues } from "../admin/bookings/[id]/booking-guest-details-form";
 import { revalidatePath } from "next/cache";
 import { sendEmail } from "./bookingRequestAction";
@@ -357,7 +357,7 @@ export const getAllBookings = async () => {
 export type HostConfig = Tables<"host_config">;
 
 export const getHostConfigAction = async () => {
-  const supabase = await createClient();
+  const supabase = await createServiceRoleClient();
   const { data, error } = await supabase
     .from("host_config")
     .select("*")

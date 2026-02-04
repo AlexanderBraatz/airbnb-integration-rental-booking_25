@@ -11,10 +11,7 @@ import {
 } from "@/components/email-template";
 import { stripe } from "@/lib/stripe";
 import { maskIdAsBookingCode } from "@/lib/utils";
-import {
-  getEmailSubject,
-  calculateCheckInReminderDate,
-} from "@/lib/email-utils";
+import { getEmailSubject } from "@/lib/email-utils";
 import { getHostConfigAction } from "@/app/actions/admindashboardActions";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
@@ -112,10 +109,7 @@ export async function POST(request: NextRequest) {
               emailPropsGuestPaymentSuccess,
             );
           if (errorGuestEmail) {
-            console.log(
-              "Error sending payment success email to guest:",
-              errorGuestEmail,
-            );
+            console.log("Error sending payment success email to guest:", errorGuestEmail);
           }
 
           // Send email to Host (H3) - payment received notification
@@ -150,14 +144,14 @@ export async function POST(request: NextRequest) {
               emailPropsHostPaymentReceived,
             );
           if (errorHostEmail) {
-            console.log(
-              "Error sending payment received email to host:",
-              errorHostEmail,
-            );
+            console.log("Error sending payment received email to host:", errorHostEmail);
           }
 
-          // Calculate send date (1 day before check-in at 9 AM)
-          const sendDate = calculateCheckInReminderDate(check_in_date);
+          // Calculate send date (1 day before check-in)
+          const checkInDate = new Date(check_in_date);
+          const sendDate = new Date(checkInDate);
+          sendDate.setDate(sendDate.getDate() - 1);
+          sendDate.setHours(9, 0, 0, 0); // 9 AM on the day before check-in
 
           // Schedule email to Guest (V4) - check-in reminder
           await scheduleEmailAction({
