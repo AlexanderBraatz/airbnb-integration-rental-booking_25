@@ -1,5 +1,5 @@
 "use server";
-import { createClient } from "@/utils/supabase/server";
+import { createClient, createServiceRoleClient } from "@/utils/supabase/server";
 import {
   EmailTemplateV1,
   EmailTemplateH1,
@@ -22,8 +22,8 @@ export async function bookingRequestAction(
     //validate the incoming data
     const safeInput = createBookingRequestSchema.parse(input);
 
-    // write booking request data to database
-    const supabase = await createClient();
+    // write booking request data to database (service role bypasses RLS)
+    const supabase = await createServiceRoleClient();
     const { data, error } = await supabase
       .from("Bookings")
       .insert(safeInput)
