@@ -4,7 +4,7 @@ import Rooms from "@/components/sections/rooms/page";
 import Highlights from "@/components/sections/highlights";
 import Reviews from "@/components/sections/reviews";
 import Directions from "@/components/sections/directions";
-import BookingRequest from "@/components/sections/booking-request";
+import BookingRequestSection from "@/components/sections/booking-request-section";
 import Footer from "@/components/sections/footer";
 
 export default function Home() {
@@ -17,7 +17,7 @@ export default function Home() {
         <Highlights />
         <Reviews />
         <Directions />
-        <BookingRequest />
+        <BookingRequestSection />
       </main>
       <Footer />
     </>

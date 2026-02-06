@@ -51,7 +51,17 @@ const finalDisplay = {
   images: [outsideView, outsideForntDoor],
 };
 
-export default function BookingRequest() {
+export type BookingRequestPrices = {
+  price_per_night_cents: number;
+  price_for_dog_cents: number;
+  price_for_cleaning_cents: number;
+};
+
+type BookingRequestProps = {
+  prices: BookingRequestPrices | null;
+};
+
+export default function BookingRequest({ prices }: BookingRequestProps) {
   const { ref } = useSectionInView("Anfragen", 0.5);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isCheckInDatePopoverOpen, setIsCheckInDatePopoverOpen] =
@@ -81,13 +91,14 @@ export default function BookingRequest() {
 
   // difference between check in and check out date
 
-  const pricePerNightCentsFromHostSettings = 10000;
+  const pricePerNightCentsFromHostSettings = prices?.price_per_night_cents ?? 0;
   const [nighsTotalPriceEurosOnForntend, setNightsTotalPriceEurosOnForntend] =
     useState(0);
   const [suggestedPriceEurosOnFrontend, setSuggestedPriceEurosOnFrontend] =
     useState(0);
-  const priceForDogCentsFromHostSettings = 2500;
-  const priceForCleaningCentsFromHostSettings = 4488;
+  const priceForDogCentsFromHostSettings = prices?.price_for_dog_cents ?? 0;
+  const priceForCleaningCentsFromHostSettings =
+    prices?.price_for_cleaning_cents ?? 0;
   const financial = (x: number): string => x.toFixed(2);
   const priceForDogEurosFromHostSettings = financial(
     priceForDogCentsFromHostSettings / 100,
@@ -523,60 +534,63 @@ export default function BookingRequest() {
                 )}
               </div>
 
-              {/* Price Breakdown Table */}
-              <div className="relative col-start-1 -col-end-1">
-                <label className="text-xl/7 font-semibold">
-                  Unverbindlicher Kostenvoranschlag
-                </label>
-                <div className="bg-q-review-card-background block h-30 w-full border">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Leistungsübersicht</TableHead>
-                        <TableHead className="text-right">Betrag</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell className="font-medium">
-                          {numOfNights} {numOfNights === 1 ? "Nacht" : "Nächte"}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          €{nighsTotalPriceEurosOnForntend}
-                        </TableCell>
-                      </TableRow>
-                      {form.watch("with_dog") && (
+              {/* Price Breakdown Table - only shown when prices from host config are available */}
+              {prices && (
+                <div className="relative col-start-1 -col-end-1">
+                  <label className="text-xl/7 font-semibold">
+                    Unverbindlicher Kostenvoranschlag
+                  </label>
+                  <div className="bg-q-review-card-background block h-30 w-full border">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Leistungsübersicht</TableHead>
+                          <TableHead className="text-right">Betrag</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
                         <TableRow>
                           <TableCell className="font-medium">
-                            Hundegebühr
+                            {numOfNights}{" "}
+                            {numOfNights === 1 ? "Nacht" : "Nächte"}
                           </TableCell>
                           <TableCell className="text-right">
-                            €{priceForDogEurosFromHostSettings}
+                            €{nighsTotalPriceEurosOnForntend}
                           </TableCell>
                         </TableRow>
-                      )}
-                      <TableRow>
-                        <TableCell className="font-medium">
-                          Reinigungspauschale
-                        </TableCell>
-                        <TableCell className="text-right">
-                          €{priceForCleaningEurosFromHostSettings}
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                    <TableFooter>
-                      <TableRow>
-                        <TableCell className="font-semibold">
-                          Vorgeschlagener Preis
-                        </TableCell>
-                        <TableCell className="text-right font-semibold">
-                          €{suggestedPriceEurosOnFrontend}
-                        </TableCell>
-                      </TableRow>
-                    </TableFooter>
-                  </Table>
+                        {form.watch("with_dog") && (
+                          <TableRow>
+                            <TableCell className="font-medium">
+                              Hundegebühr
+                            </TableCell>
+                            <TableCell className="text-right">
+                              €{priceForDogEurosFromHostSettings}
+                            </TableCell>
+                          </TableRow>
+                        )}
+                        <TableRow>
+                          <TableCell className="font-medium">
+                            Reinigungspauschale
+                          </TableCell>
+                          <TableCell className="text-right">
+                            €{priceForCleaningEurosFromHostSettings}
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                      <TableFooter>
+                        <TableRow>
+                          <TableCell className="font-semibold">
+                            Vorgeschlagener Preis
+                          </TableCell>
+                          <TableCell className="text-right font-semibold">
+                            €{suggestedPriceEurosOnFrontend}
+                          </TableCell>
+                        </TableRow>
+                      </TableFooter>
+                    </Table>
+                  </div>
                 </div>
-              </div>
+              )}
               {/* Privacy Policy & Terms Checkbox */}
               <div className="relative col-start-1 -col-end-1">
                 <div

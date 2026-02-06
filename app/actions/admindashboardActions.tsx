@@ -388,6 +388,40 @@ export const getHostConfigAction = async () => {
     error: null,
   };
 };
+export const getPricesFromHostConfigAction = async () => {
+  const supabase = await createServiceRoleClient();
+  const { data, error } = await supabase
+    .from("host_config")
+    .select(
+      "price_per_night_cents, price_for_dog_cents, price_for_cleaning_cents",
+    )
+    .eq("id", 1)
+    .maybeSingle();
+
+  // 1) Real Supabase error (network, RLS, SQL etc.)
+  if (error) {
+    console.error("Supabase error in getHostConfigAction:", error);
+    return {
+      data: null,
+      error: "Something went wrong while fetching host config.",
+    };
+  }
+
+  // 2) No row found - return null (caller can handle this)
+  if (!data) {
+    console.error("No host config found in getHostConfigAction", error);
+    return {
+      data: null,
+      error: "No host config found",
+    };
+  }
+
+  // 3) Success
+  return {
+    data,
+    error: null,
+  };
+};
 
 export interface UpdateHostConfigValues {
   price_per_night_cents: number;
