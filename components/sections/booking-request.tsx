@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SectionHeading from "./componts";
 import arrowWhite from "@/public/icons/arrow-white.svg";
 import Image from "next/image";
@@ -29,9 +29,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Tag } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const finalDisplay = {
   adornmentWithHouse: false,
@@ -69,6 +78,53 @@ export default function BookingRequest() {
   // Watch dates to enable/disable calendar dates dynamically
   const checkInDate = form.watch("check_in_date");
   const checkOutDate = form.watch("check_out_date");
+
+  // difference between check in and check out date
+
+  const pricePerNightCentsFromHostSettings = 10000;
+  const [nighsTotalPriceEurosOnForntend, setNightsTotalPriceEurosOnForntend] =
+    useState(0);
+  const [suggestedPriceEurosOnFrontend, setSuggestedPriceEurosOnFrontend] =
+    useState(0);
+  const priceForDogCentsFromHostSettings = 2500;
+  const priceForCleaningCentsFromHostSettings = 4488;
+  const financial = (x: number): string => x.toFixed(2);
+  const priceForDogEurosFromHostSettings = financial(
+    priceForDogCentsFromHostSettings / 100,
+  );
+  const priceForCleaningEurosFromHostSettings = financial(
+    priceForCleaningCentsFromHostSettings / 100,
+  );
+  const [numOfNights, setNumOfNights] = useState(0);
+  useEffect(() => {
+    if (checkInDate && checkOutDate) {
+      setNumOfNights(
+        Math.ceil(
+          (checkOutDate.getTime() - checkInDate.getTime()) /
+            (1000 * 60 * 60 * 24),
+        ),
+      );
+    }
+  }, [checkInDate, checkOutDate]);
+
+  useEffect(() => {
+    if (numOfNights > 0) {
+      setNightsTotalPriceEurosOnForntend(
+        numOfNights * pricePerNightCentsFromHostSettings,
+      );
+    }
+  }, [numOfNights, pricePerNightCentsFromHostSettings]);
+  useEffect(() => {
+    setSuggestedPriceEurosOnFrontend(
+      nighsTotalPriceEurosOnForntend +
+        priceForDogCentsFromHostSettings +
+        priceForCleaningCentsFromHostSettings,
+    );
+  }, [
+    nighsTotalPriceEurosOnForntend,
+    priceForDogCentsFromHostSettings,
+    priceForCleaningCentsFromHostSettings,
+  ]);
 
   const formatDateToISO = (date: Date): string => {
     const year = date.getUTCFullYear();
@@ -467,6 +523,60 @@ export default function BookingRequest() {
                 )}
               </div>
 
+              {/* Price Breakdown Table */}
+              <div className="relative col-start-1 -col-end-1">
+                <label className="text-xl/7 font-semibold">
+                  Unverbindlicher Kostenvoranschlag
+                </label>
+                <div className="bg-q-review-card-background block h-30 w-full border">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Leistungsübersicht</TableHead>
+                        <TableHead className="text-right">Betrag</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="font-medium">
+                          {numOfNights} {numOfNights === 1 ? "Nacht" : "Nächte"}
+                        </TableCell>
+                        <TableCell className="text-right">
+                          €{nighsTotalPriceEurosOnForntend}
+                        </TableCell>
+                      </TableRow>
+                      {form.watch("with_dog") && (
+                        <TableRow>
+                          <TableCell className="font-medium">
+                            Hundegebühr
+                          </TableCell>
+                          <TableCell className="text-right">
+                            €{priceForDogEurosFromHostSettings}
+                          </TableCell>
+                        </TableRow>
+                      )}
+                      <TableRow>
+                        <TableCell className="font-medium">
+                          Reinigungspauschale
+                        </TableCell>
+                        <TableCell className="text-right">
+                          €{priceForCleaningEurosFromHostSettings}
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                    <TableFooter>
+                      <TableRow>
+                        <TableCell className="font-semibold">
+                          Vorgeschlagener Preis
+                        </TableCell>
+                        <TableCell className="text-right font-semibold">
+                          €{suggestedPriceEurosOnFrontend}
+                        </TableCell>
+                      </TableRow>
+                    </TableFooter>
+                  </Table>
+                </div>
+              </div>
               {/* Privacy Policy & Terms Checkbox */}
               <div className="relative col-start-1 -col-end-1">
                 <div

@@ -55,10 +55,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         hostConfigResponse.data.price_for_cleaning_cents;
       const priceForDogCents = hostConfigResponse.data.price_for_dog_cents;
       const pricePerNightCents = hostConfigResponse.data.price_per_night_cents;
-
-      const financial = (x: number) => {
-        return Number.parseFloat(x.toString()).toFixed(2);
-      };
+      const financial = (x: number): string => x.toFixed(2);
 
       const nighsTotalPriceEuros = financial(
         (numOfNights * pricePerNightCents) / 100,

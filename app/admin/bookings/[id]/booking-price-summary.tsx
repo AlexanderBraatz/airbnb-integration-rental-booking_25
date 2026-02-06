@@ -140,7 +140,7 @@ export default function BookingPriceSummary({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Position</TableHead>
+              <TableHead>Leistungsübersicht</TableHead>
               <TableHead className="text-right">Betrag</TableHead>
             </TableRow>
           </TableHeader>
@@ -170,7 +170,9 @@ export default function BookingPriceSummary({
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell className="font-semibold">Vorgeschlagener Preis</TableCell>
+              <TableCell className="font-semibold">
+                Vorgeschlagener Preis
+              </TableCell>
               <TableCell className="text-right font-semibold">
                 €{suggestedPriceEuros}
               </TableCell>
@@ -181,7 +183,10 @@ export default function BookingPriceSummary({
                   <TableCell className="text-muted-foreground">
                     <div className="flex items-center gap-2">
                       <Tag className="h-4 w-4" />
-                      Rabatt ({form.watch("discountValuePercentageFormValue")} %)
+                      Rabatt ({form.watch(
+                        "discountValuePercentageFormValue",
+                      )}{" "}
+                      %)
                     </div>
                   </TableCell>
                   <TableCell className="text-right text-red-600">
