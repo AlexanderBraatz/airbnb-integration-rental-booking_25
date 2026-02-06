@@ -45,6 +45,10 @@ const finalDisplay = {
 export default function BookingRequest() {
   const { ref } = useSectionInView("Anfragen", 0.5);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isCheckInDatePopoverOpen, setIsCheckInDatePopoverOpen] =
+    useState(false);
+  const [isCheckOutDatePopoverOpen, setIsCheckOutDatePopoverOpen] =
+    useState(false);
 
   const form = useForm<BookingRequestFormValues>({
     resolver: zodResolver(bookingRequestFormSchema),
@@ -230,7 +234,10 @@ export default function BookingRequest() {
                   control={form.control}
                   name="check_in_date"
                   render={({ field }) => (
-                    <Popover>
+                    <Popover
+                      open={isCheckInDatePopoverOpen}
+                      onOpenChange={setIsCheckInDatePopoverOpen}
+                    >
                       <PopoverTrigger asChild>
                         <button
                           type="button"
@@ -264,6 +271,7 @@ export default function BookingRequest() {
                                   form.resetField("check_out_date");
                                 }
                               }
+                              setIsCheckInDatePopoverOpen(false);
                             }
                           }}
                           disabled={(date) => {
@@ -305,7 +313,10 @@ export default function BookingRequest() {
                   control={form.control}
                   name="check_out_date"
                   render={({ field }) => (
-                    <Popover>
+                    <Popover
+                      open={isCheckOutDatePopoverOpen}
+                      onOpenChange={setIsCheckOutDatePopoverOpen}
+                    >
                       <PopoverTrigger asChild>
                         <button
                           type="button"
@@ -339,6 +350,7 @@ export default function BookingRequest() {
                                   form.resetField("check_in_date");
                                 }
                               }
+                              setIsCheckOutDatePopoverOpen(false);
                             }
                           }}
                           disabled={(date) => {
