@@ -577,10 +577,18 @@ export default function BookingRequest({ prices }: BookingRequestProps) {
               {/* Price Breakdown Table - only shown when prices from host config are available */}
               {prices && (
                 <div className="relative col-start-1 -col-end-1">
+                  <div className="border-q-text-dark-darkest my-4 border-b"></div>
                   <label className="text-xl/7 font-semibold">
-                    Unverbindlicher Kostenvoranschlag
+                    Kostenvoranschlag
                   </label>
-                  <div className="border-q-text-dark-darkest block w-full border bg-white">
+
+                  <p className="text-q-text-dark-darkest mt-2 mb-4 text-sm">
+                    Bitte beachten Sie: Der Kostenvoranschlag ist unverbindlich.
+                    Sie erhalten eine Rückmeldung, ob Ihre Anfrage zeitlich
+                    realisierbar ist.
+                  </p>
+
+                  <div className="border-q-text-dark-darkest mt-2 block w-full border bg-white">
                     <Table>
                       <TableHeader>
                         <TableRow>
