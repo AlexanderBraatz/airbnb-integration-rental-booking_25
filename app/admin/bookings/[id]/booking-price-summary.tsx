@@ -33,7 +33,7 @@ import { redirect } from "next/navigation";
 import { Spinner } from "@/components/ui/spinner";
 import { Calculator, Tag, Mail, CheckCircle2 } from "lucide-react";
 
-type PriceFormClientSideProps = {
+export type PriceFormClientSideProps = {
   id: number;
   guest_email: string;
   numOfNights: number;

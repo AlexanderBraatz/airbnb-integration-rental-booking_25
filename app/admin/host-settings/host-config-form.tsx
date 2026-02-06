@@ -16,7 +16,7 @@ import {
 import { useRouter } from "next/navigation";
 
 /** Format cents as euro string, no thousand separator (e.g. 3050 → "30,50"). */
-function formatCentsToEuro(cents: number): string {
+export function formatCentsToEuro(cents: number): string {
   return (cents / 100).toFixed(2).replace(".", ",");
 }
 
