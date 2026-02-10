@@ -157,12 +157,12 @@ function EmailTemplateGallery() {
 }
 
 function ListOfEmailTemplates() {
-  const [expandedId, setExpandedId] = useState<TemplateId | null>(null);
+  const [expandedIds, setExpandedIds] = useState<Set<TemplateId>>(new Set());
 
   return (
     <ul className="space-y-4">
       {TEMPLATE_LIST.map(({ id, heading }) => {
-        const isExpanded = expandedId === id;
+        const isExpanded = expandedIds.has(id);
         const Component = TEMPLATE_COMPONENTS[id];
         const props = getMockProps(id);
 
@@ -176,7 +176,14 @@ function ListOfEmailTemplates() {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setExpandedId(isExpanded ? null : id)}
+                onClick={() => {
+                  setExpandedIds((prev) => {
+                    const next = new Set(prev);
+                    if (next.has(id)) next.delete(id);
+                    else next.add(id);
+                    return next;
+                  });
+                }}
                 className="shrink-0"
               >
                 {isExpanded ? (
