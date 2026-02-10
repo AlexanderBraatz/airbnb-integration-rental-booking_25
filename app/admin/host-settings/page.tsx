@@ -3,6 +3,7 @@ import { getHostConfigAction } from "@/app/actions/admindashboardActions";
 import HostConfigForm from "./host-config-form";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertTriangle } from "lucide-react";
+import EmailTemplateGallery from "./email-template-gallery";
 
 export default async function Page() {
   const response = await getHostConfigAction();
@@ -46,6 +47,8 @@ export default async function Page() {
           </p>
         </div>
         <HostConfigForm initialData={configData} />
+
+        <EmailTemplateGallery />
       </div>
     </div>
   );
