@@ -169,27 +169,8 @@ export default function HostConfigForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleUpdateConfig)}
-        className="mx-auto max-w-3xl space-y-8 py-10"
+        className="mx-auto space-y-8 py-10"
       >
-        <div className="flex justify-end gap-2">
-          {!isEditing ? (
-            <Button
-              type="button"
-              onClick={() => setIsEditing(true)}
-              variant="default"
-            >
-              Bearbeiten
-            </Button>
-          ) : (
-            <div className="flex gap-2">
-              <Button type="button" onClick={handleCancel} variant="outline">
-                Abbrechen
-              </Button>
-              <Button type="submit">Speichern</Button>
-            </div>
-          )}
-        </div>
-
         <Field>
           <FieldLabel htmlFor="price_per_night_cents">
             Preis pro Nacht (€)
@@ -305,6 +286,24 @@ export default function HostConfigForm({
             {form.formState.errors.host_business_email?.message}
           </FieldError>
         </Field>
+        <div className="flex justify-end gap-2">
+          {!isEditing ? (
+            <Button
+              type="button"
+              onClick={() => setIsEditing(true)}
+              variant="default"
+            >
+              Bearbeiten
+            </Button>
+          ) : (
+            <div className="flex gap-2">
+              <Button type="button" onClick={handleCancel} variant="outline">
+                Abbrechen
+              </Button>
+              <Button type="submit">Speichern</Button>
+            </div>
+          )}
+        </div>
       </form>
     </Form>
   );
