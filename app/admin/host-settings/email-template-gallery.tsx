@@ -117,22 +117,41 @@ function EmailTemplateGallery() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <section className="mt-10 border-t pt-8">
-      <button
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        className="border-input bg-background hover:bg-accent hover:text-accent-foreground flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium"
-      >
-        <MailIcon className="size-4" />
-        Email-Vorlagen Galerie
-      </button>
-      {isOpen && (
-        <div className="mt-6 space-y-6">
-          <h2 className="text-foreground text-xl font-semibold">
-            Alle E-Mail-Vorlagen (Vorschau mit Beispieldaten)
-          </h2>
-          <ListOfEmailTemplates />
-        </div>
-      )}
+      <div className="border-border bg-card text-card-foreground rounded-lg border shadow-sm">
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="hover:bg-muted/50 focus-visible:ring-ring flex w-full cursor-pointer items-start justify-between gap-4 rounded-lg px-5 py-4 text-left transition-colors focus:outline-none focus-visible:ring-2"
+          aria-expanded={isOpen}
+        >
+          <div className="flex min-w-0 flex-1 items-start gap-3">
+            <MailIcon className="text-muted-foreground mt-0.5 size-5 shrink-0" />
+            <div>
+              <h2 className="text-foreground text-xl font-semibold">
+                E-Mail-Vorlagen
+              </h2>
+              <p className="text-muted-foreground mt-1 text-sm">
+                Hier können Sie alle automatisch versendeten E-Mails mit
+                Beispieldaten ansehen und die Texte prüfen – ohne Test-E-Mails
+                zu versenden.
+              </p>
+            </div>
+          </div>
+          <ChevronDown
+            className={`text-muted-foreground size-5 shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`}
+            aria-hidden
+          />
+        </button>
+        {isOpen && (
+          <div className="border-border border-t px-5 pt-4 pb-5">
+            <p className="text-muted-foreground mb-4 text-sm">
+              Klicken Sie auf „Vorschau“, um eine Vorlage mit Beispieldaten
+              anzuzeigen.
+            </p>
+            <ListOfEmailTemplates />
+          </div>
+        )}
+      </div>
     </section>
   );
 }
