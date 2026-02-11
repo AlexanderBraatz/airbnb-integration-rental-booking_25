@@ -80,8 +80,7 @@ const highlights: Highlight[] = [
     srcLandscape: childfrindlyLandscape,
     icon: babay,
     heading: "Kinderfreundlich",
-    paragraph:
-      "Küche mit offenem Wohn-Essbereich, alles da für gemeinsame Genussmomente",
+    paragraph: "Alles da für kleine und große Gäste",
   },
   {
     id: 5,
@@ -90,7 +89,7 @@ const highlights: Highlight[] = [
     srcLandscape: hike2Landscape,
     icon: hike,
     heading: "Direkt am Wanderweg",
-    paragraph: "Sonne auf dem Süd- und Abendstimmung auf dem Westbalkon",
+    paragraph: "Der perfekte Start in Ihr Naturerlebnis",
   },
 ];
 
@@ -129,8 +128,7 @@ export default function Highlights() {
     >
       <SectionHeading
         heading={responsiveHeading}
-        paragraph="Die Wohnung ist mit Sorgfalt eingerichtet und bietet ihn alles was sie
-        für einen Urlaub brauchen könnten."
+        paragraph="Die Wohnung ist mit Sorgfalt eingerichtet und bietet Ihnen alles, was Sie für einen entspannten Urlaub benötigen."
       />
       <div className="desktopSM:justify-center mobile:w-full flex w-[1270px] justify-between">
         <div className="desktopSM:grid-cols-3 desktopSM:grid-rows-2 tablet:grid-cols-2 tablet:grid-rows-3 mobile:w-full mobile:grid-cols-[repeat(auto-fit,minmax(0,400px))] mobile:grid-rows-6 mobile:px-4 grid grid-cols-2 grid-rows-3 justify-center gap-5">

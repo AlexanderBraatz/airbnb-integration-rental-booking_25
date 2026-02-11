@@ -27,7 +27,7 @@ const reviews: Review[] = [
     name: "Mike",
     reviewAt: "23 April 2025",
     paragraph:
-      "Die Wohnung von Elenor ist ein Traum. Der perfekte Bergblick von beiden geräumigen Balkonen und innen eine absolute Wohlfühloase. Hohe Decken mit schönen Holzbalken und gemütliche Möbel.",
+      "Wunderschöne Wohnung mit tollem Bergblick und viel Licht. Sehr ruhig gelegen, perfekt zum Abschalten. Wir haben uns vom ersten Moment an wohlgefühlt. Besonders die Aussicht hat uns begeistert.",
   },
   {
     pictureSrc: ReviewAvatar2,
@@ -35,7 +35,7 @@ const reviews: Review[] = [
     name: "Vera",
     reviewAt: "30 Juni 2025",
     paragraph:
-      "Hier ist besonders die Kleinkindgerechte Ausstattung hervorzuheben die unseren Urlaub sehr bereichert hat. Eine gute Verdunklung der Fenster für den Mittagsschlaf, Kinderbett und Kinderstühle, Spielsachen",
+      "Sehr gepflegte und liebevoll eingerichtete Wohnung mit viel Platz. Die Lage direkt am Wanderweg ist ideal. Gerne kommen wir wieder. Für uns war es der perfekte Ausgangspunkt.",
   },
   {
     pictureSrc: ReviewAvatar1,
@@ -43,7 +43,7 @@ const reviews: Review[] = [
     name: "Otto",
     reviewAt: "14 Februar 2025",
     paragraph:
-      "Das Decken von Elenor ist ein Traum. Der perfekte Bergblick von beiden geräumigen Balkonen und innen eine absolute Wohlfühloase. Hohe Decken mit schönen Holzbalken und gemütliche Möbel.",
+      "Ruhige Lage, viel Platz und eine großartige Aussicht auf die Berge. Alles war sauber und gut ausgestattet. Ein rundum gelungener Aufenthalt. Wir haben nichts vermisst.",
   },
   {
     pictureSrc: ReviewAvatar2,
@@ -51,7 +51,7 @@ const reviews: Review[] = [
     name: "Michael",
     reviewAt: "23 April 2025",
     paragraph:
-      "Hier ist besonders die Kleinkindgerechte Ausstattung hervorzuheben die unseren Urlaub sehr bereichert hat. Eine gute Verdunklung der Fenster für den Mittagsschlaf, Kinderbett und Kinderstühle, Spielsachen",
+      "Perfekt für einen entspannten Urlaub in den Bergen. Helle Räume, schöne Balkone und eine tolle Gastgeberin. Wir haben die Zeit sehr genossen. Gerne jederzeit wieder.",
   },
   {
     pictureSrc: ReviewAvatar1,
@@ -59,10 +59,9 @@ const reviews: Review[] = [
     name: "Alex",
     reviewAt: "30 Juni 2025",
     paragraph:
-      "Das Decken von Elenor ist ein Traum. Der perfekte Bergblick von beiden geräumigen Balkonen und innen eine absolute Wohlfühloase. Hohe Decken mit schönen Holzbalken und gemütliche Möbel.",
+      "Top Lage mit direktem Zugang zur Natur und zu Wanderwegen. Die Wohnung ist modern, ruhig und sehr komfortabel. Absolute Empfehlung von uns. Wir würden sofort wieder buchen.",
   },
 ];
-
 const TOTAL_DOTS = reviews.length;
 
 export default function Reviews() {

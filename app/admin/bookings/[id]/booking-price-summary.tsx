@@ -162,7 +162,7 @@ export default function BookingPriceSummary({
               </TableRow>
             )}
             <TableRow>
-              <TableCell className="font-medium">Reinigungspauschale</TableCell>
+              <TableCell className="font-medium">Endreinigung</TableCell>
               <TableCell className="text-right">
                 €{priceForCleaningEuros}
               </TableCell>
@@ -170,9 +170,7 @@ export default function BookingPriceSummary({
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell className="font-semibold">
-                Vorgeschlagener Preis
-              </TableCell>
+              <TableCell className="font-semibold">Gesamtpreis</TableCell>
               <TableCell className="text-right font-semibold">
                 €{suggestedPriceEuros}
               </TableCell>

@@ -193,8 +193,8 @@ export default function BookingRequest({ prices }: BookingRequestProps) {
       <div className="bg-q-background tablet:px-10 mobile:px-4 mobile:w-full mx-auto mb-5 flex max-w-[1190px] flex-col gap-5">
         <div className="bg-q-review-card-background tablet:w-[576px] tablet:h-fit mobile:w-full mobile:text-left mobile:px-3 h-20 max-w-[1092px] px-6.5 py-6.5 text-center">
           <p className="text-q-text-dark-darkest mobile:text-base/6 text-xl/7 tracking-wide">
-            Wir Freuen uns schon auf ihren Besuch,Wir antworten innerhalb von 24
-            Stunden.
+            Wir freuen uns schon auf Ihren Besuch. Wir antworten innerhalb von
+            24 Stunden.
           </p>
         </div>
         <div className="flex">
@@ -599,8 +599,8 @@ export default function BookingRequest({ prices }: BookingRequestProps) {
                       <TableBody>
                         <TableRow>
                           <TableCell className="font-medium">
-                            {numOfNights}{" "}
-                            {numOfNights === 1 ? "Nacht" : "Nächte"}
+                            Aufenthalt ({numOfNights}{" "}
+                            {numOfNights === 1 ? "Nacht" : "Nächte"})
                           </TableCell>
                           <TableCell className="text-right">
                             €{formatCentsToEuro(nighsTotalPriceEurosOnForntend)}
@@ -618,7 +618,7 @@ export default function BookingRequest({ prices }: BookingRequestProps) {
                         )}
                         <TableRow>
                           <TableCell className="font-medium">
-                            Reinigungspauschale
+                            Endreinigung
                           </TableCell>
                           <TableCell className="text-right">
                             €{priceForCleaningEurosFromHostSettings}
@@ -628,7 +628,7 @@ export default function BookingRequest({ prices }: BookingRequestProps) {
                       <TableFooter>
                         <TableRow>
                           <TableCell className="font-semibold">
-                            Vorgeschlagener Preis
+                            Gesamtpreis
                           </TableCell>
                           <TableCell className="text-right font-semibold">
                             €{formatCentsToEuro(suggestedPriceEurosOnFrontend)}

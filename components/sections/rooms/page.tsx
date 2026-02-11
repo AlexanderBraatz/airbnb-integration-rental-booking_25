@@ -52,7 +52,7 @@ const content: roomType[] = [
     inReverseOrder: false,
     heading: "Essbereich",
     paragraph:
-      "Der großzügige, quadratische Esstisch mit vier bequemen Stühlen lädt zum gemeinsamen Verweilen ein. Für die kleinen Gäste stehen ebenfalls Kinderstühle bereit, so wird auch der Spieleabend zum entspannten Vergnügen. Durch das große Panoramafens",
+      "Der großzügige, quadratische Esstisch mit vier komfortablen Stühlen ist der perfekte Ort für gemeinsame Mahlzeiten. Für unsere kleinen Gäste stehen passende Kinderstühle bereit – so wird jeder Spiele- oder Familienabend entspannt und gemütlich. Das große Panoramafenster sorgt für viel Tageslicht und eine angenehme Atmosphäre.",
     images: [dinnertable2, dinnertable1],
   },
   {
@@ -92,7 +92,7 @@ const content: roomType[] = [
     inReverseOrder: true,
     heading: "Offene\u00A0\u00A0Küche",
     paragraph:
-      "Viel Platz zum Wohlfühlen: Das Bad ist großzügig gestaltet und mit Badewanne, Dusche und Doppelwaschtisch ausgestattet Nach einer langen Wanderung oder einem Skitag lädt es zum Entspannen und Auftanken ein. Auch hier erwartet euch ein komfortables Kingsize-Bett für erholsame Nächte.",
+      "Die moderne, offene Küche ist vollständig ausgestattet und fügt sich harmonisch in den Wohn- und Essbereich ein. Sie bietet alles, was Sie für einen komfortablen und entspannten Urlaub benötigen.",
     images: [kitchen1, kitchen2, kitchen3],
   },
 ];
