@@ -127,7 +127,7 @@ export default function Rooms() {
     >
       <div ref={bigRef} className="flex flex-col items-center">
         <SectionHeading
-          className="bg-q-background mobile:!mb-0 tablet:pt-4 tablet:!mb-20 tablet:static sticky top-12 z-50 !mb-211 pt-1 [&>p]:hidden"
+          className="bg-q-background mobile:!mb-0 tablet:pt-4 tablet:!mb-20 tablet:static sticky top-12 z-50 !mb-211 max-h-[108px] pt-1 [&>p]:hidden"
           heading="Unsere&nbsp;&nbsp;Zimmer"
           paragraph="Die Wohnung ist mit Sorgfalt eingerichtet und bietet ihn alles was sie
             für einen Urlaub brauchen könnten."

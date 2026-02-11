@@ -33,7 +33,7 @@ export default function SectionHeading({
             src={adornmentWithHouse}
             alt="icon"
           />
-          <h3 className="text-q-text-dark-700 font-reem-kufi mobile:text-[40px]/15 mobile:w-full text-6xl/22 tracking-[-6%]">
+          <h3 className="text-q-text-dark-700 font-reem-kufi mobile:text-[40px]/15 mobile:w-full text-center text-6xl/22 tracking-[-6%]">
             {heading}
           </h3>
         </div>
